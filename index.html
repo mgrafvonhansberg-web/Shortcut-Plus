@@ -3460,8 +3460,8 @@ function renderUebersetzer(tab){
     '</div>'+
     '<div id="lvStatus" class="hint" style="text-align:center;min-height:18px;margin-bottom:6px"></div>'+
     group(
-      '<div id="lvHeard" style="font-size:14px;color:var(--muted);margin-bottom:8px;min-height:20px">–</div>'+
-      '<div id="lvOut" style="font-size:17px;font-weight:600;min-height:24px">–</div>'
+      '<div id="lvHeard" style="font-size:14px;color:var(--muted);margin-bottom:8px;min-height:20px">0</div>'+
+      '<div id="lvOut" style="font-size:17px;font-weight:600;min-height:24px">0</div>'
     );
   }
   $('body').innerHTML='<div class="card" style="gap:10px">'+tabs+c+'</div>';
@@ -3889,9 +3889,9 @@ function renderDbMeter(tab){
   var c = '';
   if(dbTab === 'sound'){
     c = groupTitle('Sound level')+group(
-      '<div class="result-hero" id="dbVal" style="font-size:48px">– dB</div>'+
+      '<div class="result-hero" id="dbVal" style="font-size:48px">0 dB</div>'+
       '<div class="tm-bar" style="height:10px;border-radius:5px;margin:8px 0"><i id="dbBar" style="background:var(--btn);width:0%"></i></div>'+
-      '<div class="out-line" style="border:0;padding:4px 0"><span>Peak</span><b id="dbPeak">–</b></div>'+
+      '<div class="out-line" style="border:0;padding:4px 0"><span>Peak</span><b id="dbPeak">0</b></div>'+
       '<div class="hint" id="dbHint" style="text-align:center">Relative level (not calibrated SPL). Start and allow microphone access.</div>'
     )+
     '<div class="bottom-actions">'+
@@ -3910,8 +3910,8 @@ function renderDbMeter(tab){
         '<div class="level-angle" id="levelAngle">0.0°</div>'+
         '<div class="level-hint" id="levelStatus">Tap Start and allow motion access</div>'+
         '<div class="level-axes">'+
-          '<div class="level-axis"><div class="lbl">Pitch (β)</div><div class="val" id="levelBeta">–</div></div>'+
-          '<div class="level-axis"><div class="lbl">Roll (γ)</div><div class="val" id="levelGamma">–</div></div>'+
+          '<div class="level-axis"><div class="lbl">Pitch (β)</div><div class="val" id="levelBeta">0.0°</div></div>'+
+          '<div class="level-axis"><div class="lbl">Roll (γ)</div><div class="val" id="levelGamma">0.0°</div></div>'+
         '</div>'+
       '</div>'+
       '<div class="bottom-actions">'+
@@ -3951,8 +3951,8 @@ function startDbMeter(){
       if(disp>dbMax) dbMax=disp;
       var pct=Math.round(((disp+60)/60)*100);
       var el=$('dbVal'), bar=$('dbBar'), hint=$('dbHint'), peak=$('dbPeak');
-      if(el) el.textContent=(disp>-55?disp.toFixed(1):'–')+' dB';
-      if(peak) peak.textContent=dbMax>-55?dbMax.toFixed(1)+' dB':'–';
+      if(el) el.textContent=(disp>-55?disp.toFixed(1):'0')+' dB';
+      if(peak) peak.textContent=dbMax>-55?dbMax.toFixed(1)+' dB':'0';
       if(bar){bar.style.width=pct+'%'; bar.style.background=pct>80?'var(--danger)':pct>50?'#FF9F0A':'var(--btn)';}
       if(hint){
         if(pct<15) hint.textContent='Quiet / silence';
@@ -3968,12 +3968,18 @@ function startDbMeter(){
 }
 
 /* ---------- Live Interpreter (continuous, hands-free) ---------- */
-var liveRec=null, liveActive=false, liveSide='a', liveReq=0, liveLoop=false;
+var liveRec=null, liveActive=false, liveSide='a', liveReq=0, liveLoop=false, liveSpeaking=false, liveRestartTimer=null;
 function stopLive(){
   liveLoop=false;
   liveActive=false;
-  if(liveRec){try{liveRec.onend=null; liveRec.stop();}catch(e){} liveRec=null;}
-  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  liveSpeaking=false;
+  if(liveRestartTimer){clearTimeout(liveRestartTimer);liveRestartTimer=null;}
+  if(liveRec){
+    try{liveRec.onend=null; liveRec.onerror=null; liveRec.onresult=null; liveRec.stop();}catch(e){}
+    try{liveRec.abort();}catch(e){}
+    liveRec=null;
+  }
+  if(window.speechSynthesis) try{window.speechSynthesis.cancel();}catch(e){}
   var btn=$('lvToggle');
   if(btn){ btn.style.background='var(--btn)'; btn.style.boxShadow='0 4px 14px rgba(0,113,227,.35)'; }
   if($('lvStatus')) $('lvStatus').textContent='';
@@ -3985,103 +3991,182 @@ function liveSetMicActive(on){
   if(on){ btn.style.background='var(--danger)'; btn.style.boxShadow='0 4px 14px rgba(255,59,48,.4)'; }
   else{ btn.style.background='var(--btn)'; btn.style.boxShadow='0 4px 14px rgba(0,113,227,.35)'; }
 }
+function liveScheduleRestart(ms){
+  if(liveRestartTimer){clearTimeout(liveRestartTimer);liveRestartTimer=null;}
+  if(!liveLoop) return;
+  liveRestartTimer=setTimeout(function(){
+    liveRestartTimer=null;
+    if(liveLoop && !liveSpeaking) startLiveListen();
+  }, ms||400);
+}
 function speakLive(text, lang, onEnd){
   if(!window.speechSynthesis||!text){ if(onEnd) onEnd(); return; }
-  window.speechSynthesis.cancel();
+  liveSpeaking=true;
+  try{window.speechSynthesis.cancel();}catch(e){}
   var u=new SpeechSynthesisUtterance(text);
   u.lang=langLocale(lang);
-  u.onend=function(){ if(onEnd) onEnd(); };
-  u.onerror=function(){ if(onEnd) onEnd(); };
-  window.speechSynthesis.speak(u);
+  u.rate=1;
+  var done=false;
+  function finish(){
+    if(done) return;
+    done=true;
+    liveSpeaking=false;
+    if(onEnd) onEnd();
+  }
+  u.onend=finish;
+  u.onerror=finish;
+  // Fallback if onend never fires (some mobile browsers)
+  setTimeout(finish, Math.min(12000, 800+Math.max(1200, text.length*80)));
+  try{window.speechSynthesis.speak(u);}catch(e){finish();}
 }
 function liveTranslateAndSpeak(text, from, to, thenListen){
   var req=++liveReq;
-  if(!text||!text.trim()){ if(thenListen) thenListen(); return; }
+  text=(text||'').trim();
+  if(!text){ if(thenListen) thenListen(); return; }
   if(from===to){
     if($('lvOut')) $('lvOut').textContent=text;
     speakLive(text, to, thenListen);
     return;
   }
   if($('lvOut')) $('lvOut').textContent='…';
-  fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+from+'|'+to)
+  liveSetStatus('Translating…');
+  var url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+encodeURIComponent(from)+'|'+encodeURIComponent(to);
+  fetch(url)
     .then(function(r){return r.json();})
     .then(function(d){
       if(req!==liveReq) return;
-      var res=(d&&d.responseStatus==200&&d.responseData&&d.responseData.translatedText)?d.responseData.translatedText:'';
-      if(res){
+      var res='';
+      if(d&&d.responseData&&d.responseData.translatedText) res=String(d.responseData.translatedText);
+      // Accept even if responseStatus is not strictly 200 (MyMemory sometimes returns 200 with warnings)
+      if(res && res.toUpperCase().indexOf('MYMEMORY WARNING')===-1){
+        // Decode common HTML entities
+        res=res.replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
         if($('lvOut')) $('lvOut').textContent=res;
+        liveSetStatus('');
         speakLive(res, to, thenListen);
       }else{
-        if($('lvOut')) $('lvOut').textContent='–';
-        if(thenListen) thenListen();
+        if($('lvOut')) $('lvOut').textContent=text;
+        liveSetStatus('Translation unavailable – speaking original');
+        speakLive(text, to, thenListen);
       }
     })
     .catch(function(){
-      if(req===liveReq){
-        if($('lvOut')) $('lvOut').textContent='–';
-        if(thenListen) thenListen();
-      }
+      if(req!==liveReq) return;
+      if($('lvOut')) $('lvOut').textContent=text;
+      liveSetStatus('Offline – speaking original');
+      speakLive(text, to, thenListen);
     });
 }
 function startLiveListen(){
-  if(!liveLoop) return;
+  if(!liveLoop || liveSpeaking) return;
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){toast('Speech recognition not supported'); stopLive(); return;}
-  if(liveRec){try{liveRec.onend=null; liveRec.stop();}catch(e){}}
+  // Tear down previous instance cleanly
+  if(liveRec){
+    try{liveRec.onend=null; liveRec.onerror=null; liveRec.onresult=null; liveRec.stop();}catch(e){}
+    try{liveRec.abort();}catch(e){}
+    liveRec=null;
+  }
   if(!P.live) P.live={from:'de',to:'en'};
   var from=liveSide==='a'?P.live.from:P.live.to;
   var to=liveSide==='a'?P.live.to:P.live.from;
   var fromName=LANGS[from]||from;
-  liveRec=new SR();
-  liveRec.lang=langLocale(from);
-  liveRec.interimResults=true;
-  liveRec.continuous=false;
-  liveRec.maxAlternatives=1;
+  var toName=LANGS[to]||to;
+  var rec=new SR();
+  liveRec=rec;
+  rec.lang=langLocale(from);
+  rec.interimResults=true;
+  rec.continuous=false;
+  rec.maxAlternatives=1;
   liveActive=true;
   liveSetMicActive(true);
-  liveSetStatus(fromName+' …');
-  liveRec.onresult=function(ev){
-    var txt='';
+  liveSetStatus('Listening · '+fromName+' → '+toName);
+  var finalTxt='';
+  rec.onresult=function(ev){
+    var interim='';
     for(var i=ev.resultIndex;i<ev.results.length;i++){
-      txt+=ev.results[i][0].transcript;
+      var r=ev.results[i];
+      if(r.isFinal) finalTxt+=(finalTxt?' ':'')+r[0].transcript;
+      else interim+=r[0].transcript;
     }
-    if($('lvHeard')) $('lvHeard').textContent=txt||'–';
-    if(ev.results[ev.results.length-1].isFinal){
+    var show=(finalTxt||interim||'').trim();
+    if($('lvHeard')) $('lvHeard').textContent=show||'0';
+    if(ev.results[ev.results.length-1].isFinal && finalTxt.trim()){
       liveActive=false;
-      liveTranslateAndSpeak(txt, from, to, function(){
+      liveSetStatus('Got it');
+      try{rec.stop();}catch(e){}
+      liveTranslateAndSpeak(finalTxt.trim(), from, to, function(){
         if(!liveLoop) return;
         liveSide=liveSide==='a'?'b':'a';
-        setTimeout(function(){ if(liveLoop) startLiveListen(); }, 300);
+        liveScheduleRestart(500);
       });
     }
   };
-  liveRec.onerror=function(ev){
+  rec.onerror=function(ev){
     liveActive=false;
     if(!liveLoop) return;
-    if(ev&&(ev.error==='no-speech'||ev.error==='aborted')){
-      setTimeout(function(){ if(liveLoop) startLiveListen(); }, 200);
+    var err=ev&&ev.error?ev.error:'';
+    if(err==='not-allowed'||err==='service-not-allowed'){
+      toast('Microphone permission denied');
+      stopLive();
+      liveSetStatus('Permission denied');
       return;
     }
-    setTimeout(function(){ if(liveLoop) startLiveListen(); }, 600);
-  };
-  liveRec.onend=function(){
-    liveActive=false;
-    if(liveLoop && !(window.speechSynthesis&&window.speechSynthesis.speaking)){
-      setTimeout(function(){ if(liveLoop) startLiveListen(); }, 250);
+    if(err==='no-speech'||err==='aborted'){
+      liveScheduleRestart(250);
+      return;
     }
+    if(err==='network'){
+      liveSetStatus('Network error – retrying…');
+      liveScheduleRestart(900);
+      return;
+    }
+    liveSetStatus('Retry…');
+    liveScheduleRestart(700);
   };
-  try{liveRec.start();}catch(e){toast('Microphone unavailable'); stopLive();}
+  rec.onend=function(){
+    liveActive=false;
+    if(!liveLoop) return;
+    // If we already handed off to translate/speak, don't double-restart
+    if(liveSpeaking) return;
+    // If we got a final result, onresult already scheduled restart
+    if(finalTxt.trim()) return;
+    liveScheduleRestart(350);
+  };
+  try{
+    rec.start();
+  }catch(e){
+    liveActive=false;
+    // InvalidStateError if already started – retry shortly
+    liveScheduleRestart(600);
+  }
 }
 function startLiveLoop(){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Speech recognition not supported');return;}
+  if(!SR){toast('Speech recognition not supported in this browser');return;}
+  if(location.protocol==='file:'){toast('Live needs HTTPS or localhost');return;}
   if(!P.live) P.live={from:'de',to:'en'};
+  stopLive(); // clean slate
   liveLoop=true;
   liveSide='a';
   liveSetMicActive(true);
-  if($('lvHeard')) $('lvHeard').textContent='–';
-  if($('lvOut')) $('lvOut').textContent='–';
-  startLiveListen();
+  if($('lvHeard')) $('lvHeard').textContent='0';
+  if($('lvOut')) $('lvOut').textContent='0';
+  liveSetStatus('Starting…');
+  // Warm up mic permission, then start recognition
+  var startRec=function(){ startLiveListen(); };
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({audio:true,video:false}).then(function(stream){
+      try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){}
+      startRec();
+    }).catch(function(){
+      toast('Microphone permission denied');
+      stopLive();
+      liveSetStatus('Permission denied');
+    });
+  }else{
+    startRec();
+  }
 }
 
 /* ---------- Legal notice & Privacy ---------- */
@@ -4245,9 +4330,9 @@ $('body').addEventListener('click',function(e){
       stopDbMeter(true);
       if($('dbToggle')) $('dbToggle').textContent='Start';
       if($('dbLog')) $('dbLog').disabled=true;
-      if($('dbVal')) $('dbVal').textContent='– dB';
+      if($('dbVal')) $('dbVal').textContent='0 dB';
       if($('dbBar')) $('dbBar').style.width='0%';
-      if($('dbPeak')) $('dbPeak').textContent=dbMax>-55?dbMax.toFixed(1)+' dB':'–';
+      if($('dbPeak')) $('dbPeak').textContent=dbMax>-55?dbMax.toFixed(1)+' dB':'0';
     }else startDbMeter();
     return;
   }
@@ -4437,4 +4522,3 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
 </script>
 </body>
 </html>
-F
