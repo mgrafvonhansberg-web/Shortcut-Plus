@@ -1852,7 +1852,9 @@ html[data-theme="dark"] .ruler-edge .ruler-hint{
         <div class="setting-card">
           <span class="lbl">LANGUAGE</span>
           <div id="locStatus" style="font-size:12.5px;color:var(--muted);line-height:1.4;margin-bottom:8px">Language is detected from browser settings (no location needed).</div>
-          <button type="button" class="btn" id="detectLangBtn">Detect language</button>
+          <label for="uiLangSelect" style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;display:block">Preferred language</label>
+          <select id="uiLangSelect" aria-label="Preferred language" style="width:100%;margin-bottom:10px;background:var(--field);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;color:var(--ink)"></select>
+          <button type="button" class="btn ghost" id="detectLangBtn">Detect from browser</button>
         </div>
         <div class="setting-card">
           <span class="lbl">DATA</span>
@@ -2204,6 +2206,12 @@ $('settings').addEventListener('click',function(e){
       try{localStorage.removeItem(KEY);localStorage.removeItem(OLD_KEY);}catch(err){}
       P=defaults(); applyTheme('system'); applySound(); toast('Data cleared'); renderHome(); updateLocStatus();
     }
+  }
+});
+$('settings').addEventListener('change',function(e){
+  if(e.target&&e.target.id==='uiLangSelect'){
+    var lang=e.target.value;
+    if(lang&&LANGS[lang]) applyDetectedLang(lang, 'manual', false);
   }
 });
 
@@ -2885,20 +2893,35 @@ function detectLangFromBrowser(){
   }
   return null;
 }
+function fillUiLangSelect(){
+  var sel=$('uiLangSelect'); if(!sel) return;
+  var cur=P.uiLang||P.locLang||P.trans.from||'en';
+  var keys=Object.keys(LANGS).sort(function(a,b){
+    return String(LANGS[a]).localeCompare(String(LANGS[b]));
+  });
+  var html='';
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i];
+    html+='<option value="'+k+'"'+(k===cur?' selected':'')+'>'+esc(LANGS[k])+' ('+k+')</option>';
+  }
+  sel.innerHTML=html;
+  sel.value=LANGS[cur]?cur:(keys[0]||'en');
+}
 function updateLocStatus(){
   var el=$('locStatus'); if(!el) return;
   if(P.locLang&&LANGS[P.locLang]){
-    el.textContent='Detected: '+(LANGS[P.locLang]||P.locLang)+(P.locCountry?' · source: '+P.locCountry:'')+'. Translator: '+(LANGS[P.trans.from]||P.trans.from)+' → '+(LANGS[P.trans.to]||P.trans.to)+'.';
+    el.textContent='Current: '+(LANGS[P.locLang]||P.locLang)+(P.locCountry?' · '+P.locCountry:'')+'. Translator: '+(LANGS[P.trans.from]||P.trans.from)+' → '+(LANGS[P.trans.to]||P.trans.to)+'.';
   }else if(P.locAsked){
-    el.textContent='No supported language found in browser settings. You can try again.';
+    el.textContent='No language set yet. Choose one below or detect from browser.';
   }else{
-    el.textContent='Language is detected from browser settings (navigator.language) — no location needed.';
+    el.textContent='Choose a language or detect from browser settings (navigator.language).';
   }
+  fillUiLangSelect();
 }
 function applyDetectedLang(lang, sourceLabel, silent){
   if(!lang||!LANGS[lang]) return false;
   P.locLang=lang;
-  P.locCountry=sourceLabel||P.locCountry||'browser';
+  P.locCountry=sourceLabel||P.locCountry||'manual';
   P.uiLang=lang;
   P.locAsked=true;
   // Source = user's language, target = English (or German if already English)
