@@ -1850,9 +1850,9 @@ html[data-theme="dark"] .ruler-edge .ruler-hint{
           <button type="button" class="btn" id="installBtn">Install app</button>
         </div>
         <div class="setting-card">
-          <span class="lbl">LANGUAGE / LOCATION</span>
-          <div id="locStatus" style="font-size:12.5px;color:var(--muted);line-height:1.4;margin-bottom:8px">Detect language from your location and set the translator automatically.</div>
-          <button type="button" class="btn" id="detectLangBtn">Detect from location</button>
+          <span class="lbl">LANGUAGE</span>
+          <div id="locStatus" style="font-size:12.5px;color:var(--muted);line-height:1.4;margin-bottom:8px">Language is detected from browser settings (no location needed).</div>
+          <button type="button" class="btn" id="detectLangBtn">Detect language</button>
         </div>
         <div class="setting-card">
           <span class="lbl">DATA</span>
@@ -2836,37 +2836,72 @@ var LANGS={de:'German',en:'English',fr:'French',es:'Spanish',it:'Italian',pl:'Po
 var LANG_LOCALE={de:'de-DE',en:'en-US',fr:'fr-FR',es:'es-ES',it:'it-IT',pl:'pl-PL',tr:'tr-TR',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR',ar:'ar-SA',hi:'hi-IN',sv:'sv-SE',cs:'cs-CZ',el:'el-GR',hu:'hu-HU',ro:'ro-RO',uk:'uk-UA',vi:'vi-VN',id:'id-ID',th:'th-TH',he:'he-IL',da:'da-DK',fi:'fi-FI',no:'nb-NO',sk:'sk-SK',bg:'bg-BG',hr:'hr-HR',sr:'sr-RS',lt:'lt-LT',lv:'lv-LV',et:'et-EE'};
 function langLocale(code){return LANG_LOCALE[code]||(code+'-'+String(code).toUpperCase());}
 
-/* ---------- Location → language (auto-translate setup) ---------- */
-var COUNTRY_LANG={
-  DE:'de',AT:'de',CH:'de',LI:'de',LU:'de',
-  US:'en',GB:'en',AU:'en',NZ:'en',IE:'en',CA:'en',
-  FR:'fr',BE:'fr',MC:'fr',
-  ES:'es',MX:'es',AR:'es',CO:'es',CL:'es',PE:'es',VE:'es',
-  IT:'it',SM:'it',VA:'it',
-  PL:'pl',TR:'tr',PT:'pt',BR:'pt',NL:'nl',RU:'ru',
-  CN:'zh',TW:'zh',HK:'zh',JP:'ja',KR:'ko',
-  SA:'ar',AE:'ar',EG:'ar',IN:'hi',
-  SE:'sv',CZ:'cs',GR:'el',HU:'hu',RO:'ro',UA:'uk',
-  VN:'vi',ID:'id',TH:'th',IL:'he',DK:'da',FI:'fi',NO:'no',
-  SK:'sk',BG:'bg',HR:'hr',RS:'sr',LT:'lt',LV:'lv',EE:'et'
-};
+/* ---------- Browser metadata → language (auto-translate setup) ---------- */
+function normalizeLangCode(raw){
+  if(!raw) return null;
+  var s=String(raw).trim().toLowerCase().replace('_','-');
+  // full tag e.g. de-de, zh-cn, nb-no
+  if(s.indexOf('-')>-1){
+    var base=s.split('-')[0];
+    if(base==='nb'||base==='nn') base='no';
+    if(base==='iw') base='he';
+    if(base==='in') base='id';
+    if(LANGS[base]) return base;
+    if(LANGS[s]) return s;
+  }
+  if(s==='nb'||s==='nn') s='no';
+  if(s==='iw') s='he';
+  if(s==='in') s='id';
+  return LANGS[s]?s:null;
+}
+function detectLangFromBrowser(){
+  // 1) navigator.languages (priority list from browser / OS)
+  var list=[];
+  try{
+    if(navigator.languages&&navigator.languages.length){
+      for(var i=0;i<navigator.languages.length;i++) list.push(navigator.languages[i]);
+    }
+  }catch(e){}
+  // 2) navigator.language / userLanguage
+  try{
+    if(navigator.language) list.push(navigator.language);
+    if(navigator.userLanguage) list.push(navigator.userLanguage);
+  }catch(e){}
+  // 3) <html lang="…"> if already set by host page / PWA
+  try{
+    var hl=document.documentElement&&document.documentElement.getAttribute('lang');
+    if(hl) list.push(hl);
+  }catch(e){}
+  // 4) Intl resolved locale
+  try{
+    if(typeof Intl!=='undefined'&&Intl.DateTimeFormat){
+      var r=Intl.DateTimeFormat().resolvedOptions();
+      if(r&&r.locale) list.push(r.locale);
+    }
+  }catch(e){}
+  for(var j=0;j<list.length;j++){
+    var code=normalizeLangCode(list[j]);
+    if(code) return {lang:code, source:list[j]};
+  }
+  return null;
+}
 function updateLocStatus(){
   var el=$('locStatus'); if(!el) return;
   if(P.locLang&&LANGS[P.locLang]){
-    el.textContent='Detected: '+(P.locCountry||'?')+' → '+(LANGS[P.locLang]||P.locLang)+'. Translator set to '+(LANGS[P.trans.from]||P.trans.from)+' → '+(LANGS[P.trans.to]||P.trans.to)+'.';
+    el.textContent='Detected: '+(LANGS[P.locLang]||P.locLang)+(P.locCountry?' · source: '+P.locCountry:'')+'. Translator: '+(LANGS[P.trans.from]||P.trans.from)+' → '+(LANGS[P.trans.to]||P.trans.to)+'.';
   }else if(P.locAsked){
-    el.textContent='Location was requested, but language could not be determined. You can try again.';
+    el.textContent='No supported language found in browser settings. You can try again.';
   }else{
-    el.textContent='Detect language from your location and set the translator automatically.';
+    el.textContent='Language is detected from browser settings (navigator.language) — no location needed.';
   }
 }
-function applyDetectedLang(lang, country, silent){
+function applyDetectedLang(lang, sourceLabel, silent){
   if(!lang||!LANGS[lang]) return false;
   P.locLang=lang;
-  P.locCountry=country||P.locCountry||'';
+  P.locCountry=sourceLabel||P.locCountry||'browser';
   P.uiLang=lang;
   P.locAsked=true;
-  // Source = local language, target = English (or German if already English)
+  // Source = user's language, target = English (or German if already English)
   P.trans.from=lang;
   P.trans.to=(lang==='en')?'de':'en';
   P.trans.res='';
@@ -2877,67 +2912,30 @@ function applyDetectedLang(lang, country, silent){
   save();
   updateLocStatus();
   if(!silent){
-    toast('Language: '+(LANGS[lang]||lang)+(country?' ('+country+')':'')+' · Translator ready');
+    toast('Language: '+(LANGS[lang]||lang)+' · Translator ready');
   }
   return true;
 }
-function langFromCountry(cc){
-  if(!cc) return null;
-  return COUNTRY_LANG[String(cc).toUpperCase()]||null;
-}
-function detectLangFromCoords(lat, lon, silent){
-  return fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+encodeURIComponent(lat)+'&lon='+encodeURIComponent(lon)+'&zoom=3&addressdetails=1',{
-    headers:{'Accept':'application/json'}
-  }).then(function(r){return r.json();}).then(function(d){
-    var cc=(d&&d.address&&(d.address.country_code||d.address.countryCode))||'';
-    var lang=langFromCountry(cc);
-    if(lang){ applyDetectedLang(lang, String(cc).toUpperCase(), silent); return true; }
-    throw new Error('no-lang');
-  });
-}
-function detectLangFromIP(silent){
-  return fetch('https://ipapi.co/json/').then(function(r){return r.json();}).then(function(d){
-    var cc=d&&(d.country_code||d.country);
-    var lang=langFromCountry(cc);
-    if(!lang&&d&&d.languages){
-      var first=String(d.languages).split(',')[0].trim().slice(0,2).toLowerCase();
-      if(LANGS[first]) lang=first;
-    }
-    if(lang){ applyDetectedLang(lang, cc?String(cc).toUpperCase():'', silent); return true; }
-    throw new Error('no-lang');
-  });
-}
 function detectLocation(force, silent){
-  if(P.locAsked&&!force) return;
-  P.locAsked=true; save();
-  updateLocStatus();
+  // Name kept for compatibility with the Settings button handler
+  if(P.locAsked&&!force){ updateLocStatus(); return; }
   var btn=$('detectLangBtn');
   if(btn){ btn.disabled=true; btn.textContent='Detecting…'; }
-  function done(ok){
-    if(btn){ btn.disabled=false; btn.textContent='Detect from location'; }
-    updateLocStatus();
-    if(!ok&&!silent) toast('Could not detect language');
+  var found=detectLangFromBrowser();
+  var ok=false;
+  if(found){
+    ok=applyDetectedLang(found.lang, found.source||'browser', silent);
+  }else{
+    P.locAsked=true; save();
   }
-  function fallbackIP(){
-    detectLangFromIP(silent).then(function(){done(true);}).catch(function(){done(false);});
-  }
-  if(!navigator.geolocation){
-    fallbackIP();
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    function(pos){
-      var lat=pos.coords.latitude, lon=pos.coords.longitude;
-      detectLangFromCoords(lat, lon, silent).then(function(){done(true);}).catch(function(){fallbackIP();});
-    },
-    function(){ fallbackIP(); },
-    {enableHighAccuracy:false, timeout:12000, maximumAge:600000}
-  );
+  if(btn){ btn.disabled=false; btn.textContent='Detect language'; }
+  updateLocStatus();
+  if(!ok&&!silent) toast('Could not detect language');
 }
 function maybeAutoDetectLang(){
   if(P.locAsked||P.locLang){ updateLocStatus(); return; }
-  // Ask once after short delay so the home screen is visible first
-  setTimeout(function(){ detectLocation(false, false); }, 900);
+  // Instant, no permission prompt — uses browser metadata only
+  setTimeout(function(){ detectLocation(false, true); }, 400);
 }
 
 function renderTools(tab){
@@ -4026,10 +4024,10 @@ function renderLegal(kind){
     if(!complete) h+='<div class="warn">Placeholders active: Controller details come from the <b>IMPRESSUM</b> constant in the script.</div>';
     h+='<h3>Controller</h3>'+contact+
       '<h3>Local storage</h3><p>Settings, timers, inputs and exchange-rate cache are stored exclusively locally in the browser (localStorage) on your device. There is no account, no tracking and no advertising cookies. Under Settings → Data you can delete everything.</p>'+
-      '<h3>Location (optional)</h3><p>On first start the app may ask for your location (or fall back to an approximate IP-based country) to set the translator language automatically. Coordinates are sent only to OpenStreetMap Nominatim for reverse geocoding and are not stored on our servers. You can re-run detection under Settings → Language / Location. Permission can be denied at any time.</p>'+
+      '<h3>Language detection</h3><p>On first start the preferred language is read from browser metadata only (<code>navigator.language</code> / <code>navigator.languages</code>, HTML <code>lang</code>, and the system locale via <code>Intl</code>). No location permission and no network request are required for this. The result is used to pre-configure the translator. You can re-run detection under Settings → Language.</p>'+
       '<h3>External services</h3><p>When you open the app and use certain features, connections to third parties are established and your IP address is transmitted as a technical necessity:</p>'+
-      '<p>• <b>Google Fonts</b> (fonts.googleapis.com): loading fonts on start.<br>• <b>MyMemory</b> (api.mymemory.translated.net): translator – the entered text and language pair are sent.<br>• <b>QR Server</b> (api.qrserver.com): QR code – the entered text is sent.<br>• <b>Frankfurter</b> (api.frankfurter.app): exchange rates – only the currency pair is requested.<br>• <b>Nominatim / OpenStreetMap</b> (optional): reverse geocoding when you allow location.<br>• <b>ipapi.co</b> (optional fallback): approximate country if GPS is denied.<br>• <b>Barcode</b> is generated offline on your device (Code 128, Code 39, EAN-13) – nothing is sent.</p>'+
-      '<p>Legal basis is Art. 6(1)(f) GDPR (providing the requested function) and, for location, Art. 6(1)(a) GDPR (consent via the browser permission dialog). Services are contacted only when used or when the page loads.</p>'+
+      '<p>• <b>Google Fonts</b> (fonts.googleapis.com): loading fonts on start.<br>• <b>MyMemory</b> (api.mymemory.translated.net): translator – the entered text and language pair are sent.<br>• <b>QR Server</b> (api.qrserver.com): QR code – the entered text is sent.<br>• <b>Frankfurter</b> (api.frankfurter.app): exchange rates – only the currency pair is requested.<br>• <b>Barcode</b> is generated offline on your device (Code 128, Code 39, EAN-13) – nothing is sent.</p>'+
+      '<p>Legal basis is Art. 6(1)(f) GDPR (providing the requested function). Services are contacted only when used or when the page loads.</p>'+
       '<h3>Your rights</h3><p>You have the right of access, rectification, erasure, restriction of processing, data portability and objection, as well as the right to lodge a complaint with a data protection supervisory authority (Art. 15 to 21, 77 GDPR).</p>';
   }
   $('legalBody').innerHTML=h; $('legalBody').scrollTop=0;
