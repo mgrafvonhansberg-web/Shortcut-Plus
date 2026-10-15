@@ -1795,11 +1795,14 @@ html[data-theme="dark"] .ruler-edge .ruler-hint{
 }
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
 </style>
 </head>
 <body>
 <div class="phone-frame">
   <div class="app-container">
+
     <main id="home">
       <div class="home-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM0REIwRkYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDYyRDYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxnPjxwYXRoIGQ9Ik0zNDYgMTkwQzMzNiAxNTIgMzAwIDEzNCAyNTYgMTM0QzIwNiAxMzQgMTcyIDE1OCAxNzIgMTk0QzE3MiAyMzAgMjA0IDI0NCAyNTYgMjU4QzMwOCAyNzIgMzQwIDI4NiAzNDAgMzIyQzM0MCAzNTggMzA2IDM4MCAyNTYgMzgwQzIxMiAzODAgMTc2IDM2MiAxNjYgMzI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjM3MiIgY3k9IjEzMiIgcj0iMjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii45Ii8+PC9nPjwvc3ZnPg==" alt="" width="36" height="36"><h1 style="font-size:20px;font-weight:800;letter-spacing:-.03em">Shortcut Plus</h1></div>
       <div class="tiles" id="tiles"></div>
@@ -1831,7 +1834,7 @@ html[data-theme="dark"] .ruler-edge .ruler-hint{
       <h2 style="font-size:18px;margin:2px 0 8px;letter-spacing:-.02em">Settings</h2>
       <div class="settings-wrap">
         <div class="setting-card">
-          <span class="lbl">APPEARANCE</span>
+          <span class="lbl" data-i18n="set.appearance">APPEARANCE</span>
           <div class="chips">
             <button type="button" class="chip" data-theme-btn="system" aria-pressed="true">System</button>
             <button type="button" class="chip" data-theme-btn="dark" aria-pressed="false">Dark</button>
@@ -1839,38 +1842,37 @@ html[data-theme="dark"] .ruler-edge .ruler-hint{
           </div>
         </div>
         <div class="setting-card">
-          <span class="lbl">SOUND &amp; HAPTICS</span>
+          <span class="lbl" data-i18n="set.sound">SOUND &amp; HAPTICS</span>
           <div class="chips">
             <button type="button" class="chip" data-sound-btn="on" aria-pressed="true">On</button>
             <button type="button" class="chip" data-sound-btn="off" aria-pressed="false">Off</button>
           </div>
         </div>
         <div class="setting-card" id="installCard" hidden>
-          <span class="lbl">INSTALL</span>
+          <span class="lbl" data-i18n="set.install">INSTALL</span>
           <button type="button" class="btn" id="installBtn">Install app</button>
         </div>
         <div class="setting-card">
-          <span class="lbl">LANGUAGE</span>
+          <span class="lbl" data-i18n="set.language">LANGUAGE</span>
           <div id="locStatus" style="font-size:12.5px;color:var(--muted);line-height:1.4;margin-bottom:8px">Language is detected from browser settings (no location needed).</div>
           <label for="uiLangSelect" style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;display:block">Preferred language</label>
-          <select id="uiLangSelect" aria-label="Preferred language" style="width:100%;margin-bottom:10px;background:var(--field);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;color:var(--ink)"></select>
-          <button type="button" class="btn ghost" id="detectLangBtn">Detect from browser</button>
+          <select id="uiLangSelect" aria-label="Preferred language" style="width:100%;background:var(--field);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;color:var(--ink)"></select>
         </div>
         <div class="setting-card">
-          <span class="lbl">DATA</span>
+          <span class="lbl" data-i18n="set.data">DATA</span>
           <button type="button" class="btn ghost" id="resetAll">Delete all saved data</button>
         </div>
         <div class="setting-card">
-          <span class="lbl">LEGAL</span>
+          <span class="lbl" data-i18n="set.legal">LEGAL</span>
           <button type="button" class="btn ghost" id="openImp">Legal notice</button>
           <button type="button" class="btn ghost" id="openPriv">Privacy</button>
         </div>
         <div class="setting-card">
-          <span class="lbl">INFO</span>
+          <span class="lbl" data-i18n="set.info">INFO</span>
           <div style="font-size:12px;color:var(--muted);line-height:1.35">Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).</div>
         </div>
         <div class="setting-card">
-          <span class="lbl">TUTORIAL: SIDE KEY → APP</span>
+          <span class="lbl" data-i18n="set.tutorial">TUTORIAL: SIDE KEY → APP</span>
           <div style="font-size:12.5px;color:var(--ink);line-height:1.45">
             <p style="margin:0 0 8px"><b>1. Side key</b><br>Settings → Advanced features → <b>Side key</b> → Double press → Open app → choose Shortcut (add the web app to Home screen first).</p>
             <p style="margin:0 0 8px"><b>2. Use it</b><br>Double-press the side button to open Shortcut instantly.</p>
@@ -1935,7 +1937,8 @@ function defaults(){
     uiLang:null,
     locAsked:false,
     locCountry:'',
-    locLang:''
+    locLang:'',
+    i18nCache:{}
   };
 }
 var P=defaults();
@@ -2160,7 +2163,7 @@ function renderHome(){
     }else{
       iconHtml='<div class="tile-icon">'+w.icon+'</div>';
     }
-    return '<button class="tile t-'+w.theme+'" type="button" style="--i:'+i+'" data-wid="'+w.id+'">'+iconHtml+'<span><b>'+esc(w.name)+'</b><small>'+esc(w.sub)+'</small></span></button>';
+    return '<button class="tile t-'+w.theme+'" type="button" style="--i:'+i+'" data-wid="'+w.id+'">'+iconHtml+'<span><b>'+esc(widgetName(w.id))+'</b><small>'+esc(widgetSub(w.id))+'</small></span></button>';
   }).join('');
 }
 function setTab(which){
@@ -2169,7 +2172,8 @@ function setTab(which){
 }
 function hideAll(){['home','screen','settings','legal'].forEach(function(i){$(i).hidden=true;});}
 function showHome(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();var tb=document.querySelector('#screen .topbar'); if(tb) tb.style.display=''; $('home').hidden=false;setTab('home');renderHome(); var h=$('home'); if(h){h.classList.remove('fx-up'); void h.offsetWidth; h.classList.add('fx-up');}}
-function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); updateLocStatus(); var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
+
+function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); applyStaticUi(); updateLocStatus(); var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
 function showLegal(kind){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('legal').hidden=false;setTab('settings');renderLegal(kind);}
 function go(id){
   stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();
@@ -2179,7 +2183,7 @@ function go(id){
   P.usage[id]=(P.usage[id]||0)+1;
   save();
   var w=WIDGETS.filter(function(x){return x.id===id;})[0];
-  $('stitle').textContent=w?w.name:'App';
+  $('stitle').textContent=w?widgetName(w.id):t('nav.app');
   if(id==='rechner') renderRechner();
   else if(id==='zufall') renderZufall();
   else if(id==='finanzen') renderFinanzen();
@@ -2196,22 +2200,41 @@ $('tabHome').addEventListener('click',function(){showHome();});
 $('tabSettings').addEventListener('click',function(){showSettings();});
 $('back').addEventListener('click',function(){showHome();});
 $('settings').addEventListener('click',function(e){
-  var t=e.target.closest('[data-theme-btn]'); if(t){applyTheme(t.dataset.themeBtn);return;}
-  var s=e.target.closest('[data-sound-btn]'); if(s){P.sound=s.dataset.soundBtn==='on';save();applySound();return;}
-  if(e.target.closest('#detectLangBtn')){ detectLocation(true, false); return; }
-  if(e.target.closest('#openImp')){showLegal('imp');return;}
-  if(e.target.closest('#openPriv')){showLegal('priv');return;}
+  var themeBtn=e.target.closest('[data-theme-btn]');
+  if(themeBtn){ applyTheme(themeBtn.dataset.themeBtn); return; }
+  var soundBtn=e.target.closest('[data-sound-btn]');
+  if(soundBtn){ P.sound=soundBtn.dataset.soundBtn==='on'; save(); applySound(); return; }
+  if(e.target.closest('#openImp')){ showLegal('imp'); return; }
+  if(e.target.closest('#openPriv')){ showLegal('priv'); return; }
   if(e.target.closest('#resetAll')){
-    if(window.confirm('Really delete all saved data?')){
-      try{localStorage.removeItem(KEY);localStorage.removeItem(OLD_KEY);}catch(err){}
-      P=defaults(); applyTheme('system'); applySound(); toast('Data cleared'); renderHome(); updateLocStatus();
+    var msg='Really delete all saved data?';
+    try{ if(typeof t==='function') msg=t('set.confirm_delete'); }catch(err){}
+    if(!window.confirm(msg)) return;
+    try{
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(OLD_KEY);
+      Object.keys(localStorage).forEach(function(k){
+        if(/^shortcut\./i.test(k)) try{ localStorage.removeItem(k); }catch(x){}
+      });
+    }catch(err){}
+    // Hard reset: reload so everything starts clean (language from browser metadata)
+    try{ location.reload(); }catch(err){
+      P=defaults();
+      applyTheme('system');
+      applySound();
+      applyUiLang();
+      showHome();
+      toast('Data cleared');
     }
+    return;
   }
 });
 $('settings').addEventListener('change',function(e){
   if(e.target&&e.target.id==='uiLangSelect'){
-    var lang=e.target.value;
-    if(lang&&LANGS[lang]) applyDetectedLang(lang, 'manual', false);
+    var lang=String(e.target.value||'').toLowerCase();
+    if(lang){
+      applyDetectedLang(lang, 'manual', false);
+    }
   }
 });
 
@@ -2428,22 +2451,22 @@ var WSIZE=140, WCOLORS=['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEEAD','#D4A5
 function renderZufall(tab){
   zTab=tab||zTab||'rad';
   if(zTab!=='rad'&&zTab!=='coin') zTab='rad';
-  var tabs=segTabs('ztab',[{id:'rad',label:'Wheel',icon:'rad'},{id:'coin',label:'Coin',icon:'coin'}],zTab);
+  var tabs=segTabs('ztab',[{id:'rad',label:t('tab.wheel'),icon:'rad'},{id:'coin',label:t('tab.coin'),icon:'coin'}],zTab);
   var c='';
   if(zTab==='rad'){
     c=group(
       '<div class="stage-block"><div class="wheel-container"><canvas id="wheelCanvas" aria-label="Wheel"></canvas></div>'+
-      '<div class="res-line" id="wheelRes" aria-live="polite">Spin!</div></div>'+
-      '<div class="fld"><label for="wheel-input">Options</label><div class="inp"><input id="wheel-input" type="text" value="'+esc(P.wheelItems)+'" placeholder="e.g. Yes, No, Maybe"></div></div>'
-    )+bottomActions(iconBtn('doSpin','spin','Spin'));
+      '<div class="res-line" id="wheelRes" aria-live="polite">'+t('wheel.spin')+'</div></div>'+
+      '<div class="fld"><label for="wheel-input">'+t('common.options')+'</label><div class="inp"><input id="wheel-input" type="text" value="'+esc(P.wheelItems)+'" placeholder="'+esc(t('wheel.placeholder'))+'"></div></div>'
+    )+bottomActions(iconBtn('doSpin','spin',t('common.spin')));
   }else{
     coinRot=0;
     c=group(
       '<div class="stage-block"><div class="coin-stage"><div class="coin-3d" id="coinEl">'+
       '<div class="coin-face coin-front" style="background-image:url(\''+COIN_KOPF+'\')"></div>'+
       '<div class="coin-face coin-back" style="background-image:url(\''+COIN_ZAHL+'\')"></div></div></div>'+
-      '<div class="res-line" id="coinTxt" aria-live="polite">Ready</div></div>'
-    )+bottomActions(iconBtn('doCoin','flip','Flip'));
+      '<div class="res-line" id="coinTxt" aria-live="polite">'+t('common.ready')+'</div></div>'
+    )+bottomActions(iconBtn('doCoin','flip',t('common.flip')));
   }
   $('body').innerHTML='<div class="card">'+tabs+c+histBlock('zufallHist')+'</div>';
   if(zTab==='rad') drawWheel(wheelOngle);
@@ -2542,7 +2565,7 @@ function chipGroup(attr,vals,sel,labels){
 function curOpts(sel){return CURS.map(function(c){return '<option value="'+c+'"'+(c===sel?' selected':'')+'>'+c+'</option>';}).join('');}
 function renderFinanzen(tab){
   fTab=tab||fTab||'calc';
-  var tabs=segTabs('ftab',[{id:'calc',label:'Percent',icon:'calc'},{id:'split',label:'Split',icon:'split'},{id:'fx',label:'Currency',icon:'fx'}],fTab);
+  var tabs=segTabs('ftab',[{id:'calc',label:t('tab.calc'),icon:'calc'},{id:'split',label:t('tab.split'),icon:'split'},{id:'fx',label:t('tab.fx'),icon:'fx'}],fTab);
   var c='';
   if(fTab==='calc'){
     c=groupTitle('Percentage')+group(
@@ -2844,6 +2867,578 @@ var LANGS={de:'German',en:'English',fr:'French',es:'Spanish',it:'Italian',pl:'Po
 var LANG_LOCALE={de:'de-DE',en:'en-US',fr:'fr-FR',es:'es-ES',it:'it-IT',pl:'pl-PL',tr:'tr-TR',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR',ar:'ar-SA',hi:'hi-IN',sv:'sv-SE',cs:'cs-CZ',el:'el-GR',hu:'hu-HU',ro:'ro-RO',uk:'uk-UA',vi:'vi-VN',id:'id-ID',th:'th-TH',he:'he-IL',da:'da-DK',fi:'fi-FI',no:'nb-NO',sk:'sk-SK',bg:'bg-BG',hr:'hr-HR',sr:'sr-RS',lt:'lt-LT',lv:'lv-LV',et:'et-EE'};
 function langLocale(code){return LANG_LOCALE[code]||(code+'-'+String(code).toUpperCase());}
 
+/* ---------- UI i18n ---------- */
+var UI_EN = {
+  "nav.home": "Home",
+  "nav.settings": "Settings",
+  "nav.back": "Back",
+  "nav.app": "App",
+  "w.rechner": "Calculator",
+  "w.rechner.sub": "Scientific calculator",
+  "w.zeit": "Time",
+  "w.zeit.sub": "Stopwatch · Timer · Date",
+  "w.uebersetzer": "Translate",
+  "w.uebersetzer.sub": "Text · Live interpreter · 40+ languages",
+  "w.einheiten": "Units",
+  "w.einheiten.sub": "Converter · Ruler",
+  "w.finanzen": "Finance",
+  "w.finanzen.sub": "Percent · Tax · Split · Currency",
+  "w.tools": "Codes",
+  "w.tools.sub": "QR · Barcode",
+  "w.zufall": "Random",
+  "w.zufall.sub": "Wheel · Coin flip",
+  "w.dbmeter": "dB Meter",
+  "w.dbmeter.sub": "Sound level · Spirit level",
+  "set.title": "Settings",
+  "set.appearance": "APPEARANCE",
+  "set.system": "System",
+  "set.dark": "Dark",
+  "set.light": "Light",
+  "set.sound": "SOUND & HAPTICS",
+  "set.on": "On",
+  "set.off": "Off",
+  "set.install": "INSTALL",
+  "set.install_btn": "Install app",
+  "set.language": "LANGUAGE",
+  "set.preferred": "Preferred language",
+  "set.detect": "Detect from browser",
+  "set.lang_hint": "Choose a language — all app texts will update.",
+  "set.data": "DATA",
+  "set.delete": "Delete all saved data",
+  "set.legal": "LEGAL",
+  "set.legal_notice": "Legal notice",
+  "set.privacy": "Privacy",
+  "set.info": "INFO",
+  "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).",
+  "set.tutorial": "TUTORIAL: SIDE KEY → APP",
+  "set.data_cleared": "Data cleared",
+  "set.confirm_delete": "Really delete all saved data?",
+  "set.lang_ready": "Language: {0} · UI updated",
+  "set.lang_fail": "Could not detect language",
+  "set.lang_current": "Current: {0}. Translator: {1} → {2}.",
+  "set.lang_none": "No language set yet. Choose one below or detect from browser.",
+  "common.history": "History",
+  "common.start": "Start",
+  "common.stop": "Stop",
+  "common.reset": "Reset",
+  "common.resume": "Resume",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "common.delete": "Delete",
+  "common.edit": "Edit",
+  "common.copy": "Copy",
+  "common.copied": "Copied",
+  "common.copy_fail": "Copy failed",
+  "common.download": "Download",
+  "common.from": "From",
+  "common.to": "To",
+  "common.value": "Value",
+  "common.options": "Options",
+  "common.content": "Content",
+  "common.result": "Result",
+  "common.ready": "Ready",
+  "common.spin": "Spin",
+  "common.flip": "Flip",
+  "common.generate": "Generate new",
+  "common.length": "Length",
+  "common.characters": "characters",
+  "common.minutes": "Minutes",
+  "common.lap": "Lap",
+  "common.laps": "Laps",
+  "common.swap": "Swap",
+  "common.convert": "Convert",
+  "common.log": "Log",
+  "common.speak": "Speak",
+  "common.dictate": "Dictate",
+  "common.translation": "Translation",
+  "common.enter_text": "Enter text",
+  "common.enter_value": "Enter value…",
+  "common.enter_link": "Enter link or text…",
+  "common.no_notes": "No notes.",
+  "common.new_note": "New note",
+  "common.edit_note": "Edit note",
+  "common.save_note": "Save note",
+  "common.save_changes": "Save changes",
+  "common.note_deleted": "Note deleted",
+  "common.please_enter": "Please enter something first",
+  "common.password_copied": "Password copied",
+  "common.strength": "Strength",
+  "common.weak": "Weak",
+  "common.medium": "Medium",
+  "common.strong": "Strong",
+  "common.very_strong": "Very strong",
+  "common.bits": "bits",
+  "common.pw_hint": "Without easily confused characters (l, I, O, 0, 1).",
+  "common.at_least_one": "At least one character type required",
+  "tab.stopwatch": "Stopwatch",
+  "tab.timer": "Timer",
+  "tab.date": "Date",
+  "tab.wheel": "Wheel",
+  "tab.coin": "Coin",
+  "tab.qr": "QR",
+  "tab.barcode": "Barcode",
+  "tab.text": "Text",
+  "tab.live": "Live",
+  "tab.sound": "Sound",
+  "tab.level": "Level",
+  "tab.calc": "Percent",
+  "tab.split": "Split",
+  "tab.fx": "Currency",
+  "tab.len": "Length",
+  "tab.mass": "Mass",
+  "tab.vol": "Volume",
+  "tab.temp": "Temp",
+  "tab.spd": "Speed",
+  "tab.ruler": "Ruler",
+  "calc.deg": "DEG",
+  "calc.rad": "RAD",
+  "zeit.date_range": "Date range",
+  "zeit.weeks": "Weeks",
+  "zeit.calendar": "Calendar",
+  "zeit.weekday": "Weekday of “To”",
+  "zeit.day": "day",
+  "zeit.days": "days",
+  "zeit.to_before": "“To” is before “From”.",
+  "ruler.hint": "Align the edge with the screen edge · scale in cm",
+  "coin.heads": "Heads",
+  "coin.tails": "Tails",
+  "wheel.spin": "Spin!",
+  "wheel.placeholder": "e.g. Yes, No, Maybe",
+  "db.sound_level": "Sound level",
+  "db.peak": "Peak",
+  "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.",
+  "db.quiet": "Quiet / silence",
+  "db.soft": "Soft speech / quiet room",
+  "db.normal": "Normal conversation",
+  "db.loud": "Loud / music nearby",
+  "db.very_loud": "Very loud – protect your hearing",
+  "db.mic_denied": "Microphone permission denied",
+  "db.mic_unsupported": "Microphone not supported",
+  "db.nothing_log": "Nothing to log",
+  "level.title": "Spirit level",
+  "level.tap": "Tap Start and allow motion access",
+  "level.hold": "Level · hold steady",
+  "level.almost": "Almost level",
+  "level.left": "Tilt left",
+  "level.right": "Tilt right",
+  "level.stopped": "Stopped",
+  "level.denied": "Motion permission denied",
+  "level.failed": "Motion permission failed",
+  "level.unsupported": "Orientation sensor not supported",
+  "level.not_supported": "Not supported on this device",
+  "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.",
+  "level.pitch": "Pitch (β)",
+  "level.roll": "Roll (γ)",
+  "level.move": "Move phone to level…",
+  "trans.source": "Source language",
+  "trans.target": "Target language",
+  "trans.person_a": "Person A",
+  "trans.person_b": "Person B",
+  "qr.text_or_link": "Text or link",
+  "fin.percent": "Percent",
+  "fin.tax": "Tax",
+  "fin.split_bill": "Split bill",
+  "fin.currency": "Currency",
+  "unit.align": "Align the edge with the screen edge · scale in cm"
+};
+var UI_DE = {
+  "nav.home": "Start",
+  "nav.settings": "Einstellungen",
+  "nav.back": "Zurück",
+  "nav.app": "App",
+  "w.rechner": "Rechner",
+  "w.rechner.sub": "Wissenschaftlicher Taschenrechner",
+  "w.zeit": "Zeit",
+  "w.zeit.sub": "Stoppuhr · Timer · Datum",
+  "w.uebersetzer": "Übersetzer",
+  "w.uebersetzer.sub": "Text · Live-Dolmetscher · 40+ Sprachen",
+  "w.einheiten": "Einheiten",
+  "w.einheiten.sub": "Umrechner · Lineal",
+  "w.finanzen": "Finanzen",
+  "w.finanzen.sub": "Prozent · Steuer · Teilen · Währung",
+  "w.tools": "Codes",
+  "w.tools.sub": "QR · Barcode",
+  "w.zufall": "Zufall",
+  "w.zufall.sub": "Glücksrad · Münzwurf",
+  "w.dbmeter": "dB-Messgerät",
+  "w.dbmeter.sub": "Lautstärke · Wasserwaage",
+  "set.title": "Einstellungen",
+  "set.appearance": "DARSTELLUNG",
+  "set.system": "System",
+  "set.dark": "Dunkel",
+  "set.light": "Hell",
+  "set.sound": "TON & HAPTIK",
+  "set.on": "An",
+  "set.off": "Aus",
+  "set.install": "INSTALLIEREN",
+  "set.install_btn": "App installieren",
+  "set.language": "SPRACHE",
+  "set.preferred": "Bevorzugte Sprache",
+  "set.detect": "Aus Browser erkennen",
+  "set.lang_hint": "Sprache wählen — alle Texte der App werden angepasst.",
+  "set.data": "DATEN",
+  "set.delete": "Alle gespeicherten Daten löschen",
+  "set.legal": "RECHTLICHES",
+  "set.legal_notice": "Impressum",
+  "set.privacy": "Datenschutz",
+  "set.info": "INFO",
+  "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · größtenteils offline (außer Übersetzer, QR und Wechselkurse).",
+  "set.tutorial": "TUTORIAL: SEITENTASTE → APP",
+  "set.data_cleared": "Daten gelöscht",
+  "set.confirm_delete": "Wirklich alle gespeicherten Daten löschen?",
+  "set.lang_ready": "Sprache: {0} · Oberfläche aktualisiert",
+  "set.lang_fail": "Sprache konnte nicht erkannt werden",
+  "set.lang_current": "Aktuell: {0}. Übersetzer: {1} → {2}.",
+  "set.lang_none": "Noch keine Sprache gesetzt. Unten wählen oder aus dem Browser erkennen.",
+  "common.history": "Verlauf",
+  "common.start": "Start",
+  "common.stop": "Stopp",
+  "common.reset": "Zurücksetzen",
+  "common.resume": "Weiter",
+  "common.save": "Speichern",
+  "common.cancel": "Abbrechen",
+  "common.delete": "Löschen",
+  "common.edit": "Bearbeiten",
+  "common.copy": "Kopieren",
+  "common.copied": "Kopiert",
+  "common.copy_fail": "Kopieren fehlgeschlagen",
+  "common.download": "Download",
+  "common.from": "Von",
+  "common.to": "Nach",
+  "common.value": "Wert",
+  "common.options": "Optionen",
+  "common.content": "Inhalt",
+  "common.result": "Ergebnis",
+  "common.ready": "Bereit",
+  "common.spin": "Drehen",
+  "common.flip": "Werfen",
+  "common.generate": "Neu generieren",
+  "common.length": "Länge",
+  "common.characters": "Zeichen",
+  "common.minutes": "Minuten",
+  "common.lap": "Runde",
+  "common.laps": "Runden",
+  "common.swap": "Tauschen",
+  "common.convert": "Umrechnen",
+  "common.log": "Speichern",
+  "common.speak": "Vorlesen",
+  "common.dictate": "Diktieren",
+  "common.translation": "Übersetzung",
+  "common.enter_text": "Text eingeben",
+  "common.enter_value": "Wert eingeben…",
+  "common.enter_link": "Link oder Text eingeben…",
+  "common.no_notes": "Keine Notizen.",
+  "common.new_note": "Neue Notiz",
+  "common.edit_note": "Notiz bearbeiten",
+  "common.save_note": "Notiz speichern",
+  "common.save_changes": "Änderungen speichern",
+  "common.note_deleted": "Notiz gelöscht",
+  "common.please_enter": "Bitte zuerst etwas eingeben",
+  "common.password_copied": "Passwort kopiert",
+  "common.strength": "Stärke",
+  "common.weak": "Schwach",
+  "common.medium": "Mittel",
+  "common.strong": "Stark",
+  "common.very_strong": "Sehr stark",
+  "common.bits": "Bits",
+  "common.pw_hint": "Ohne leicht verwechselbare Zeichen (l, I, O, 0, 1).",
+  "common.at_least_one": "Mindestens eine Zeichenart erforderlich",
+  "tab.stopwatch": "Stoppuhr",
+  "tab.timer": "Timer",
+  "tab.date": "Datum",
+  "tab.wheel": "Rad",
+  "tab.coin": "Münze",
+  "tab.qr": "QR",
+  "tab.barcode": "Barcode",
+  "tab.text": "Text",
+  "tab.live": "Live",
+  "tab.sound": "Ton",
+  "tab.level": "Waage",
+  "tab.calc": "Prozent",
+  "tab.split": "Teilen",
+  "tab.fx": "Währung",
+  "tab.len": "Länge",
+  "tab.mass": "Masse",
+  "tab.vol": "Volumen",
+  "tab.temp": "Temp.",
+  "tab.spd": "Tempo",
+  "tab.ruler": "Lineal",
+  "calc.deg": "DEG",
+  "calc.rad": "RAD",
+  "zeit.date_range": "Zeitraum",
+  "zeit.weeks": "Wochen",
+  "zeit.calendar": "Kalender",
+  "zeit.weekday": "Wochentag von „Bis“",
+  "zeit.day": "Tag",
+  "zeit.days": "Tage",
+  "zeit.to_before": "„Bis“ liegt vor „Von“.",
+  "ruler.hint": "Kante an den Bildschirmrand legen · Maßstab in cm",
+  "coin.heads": "Kopf",
+  "coin.tails": "Zahl",
+  "wheel.spin": "Drehen!",
+  "wheel.placeholder": "z. B. Ja, Nein, Vielleicht",
+  "db.sound_level": "Lautstärke",
+  "db.peak": "Spitze",
+  "db.hint_start": "Relativer Pegel (nicht kalibriert). Start und Mikrofon erlauben.",
+  "db.quiet": "Leise / Stille",
+  "db.soft": "Leises Sprechen / ruhiger Raum",
+  "db.normal": "Normale Unterhaltung",
+  "db.loud": "Laut / Musik in der Nähe",
+  "db.very_loud": "Sehr laut – Gehör schützen",
+  "db.mic_denied": "Mikrofon-Berechtigung verweigert",
+  "db.mic_unsupported": "Mikrofon nicht unterstützt",
+  "db.nothing_log": "Nichts zu speichern",
+  "level.title": "Wasserwaage",
+  "level.tap": "Start tippen und Bewegungszugriff erlauben",
+  "level.hold": "Waagerecht · ruhig halten",
+  "level.almost": "Fast waagerecht",
+  "level.left": "Nach links neigen",
+  "level.right": "Nach rechts neigen",
+  "level.stopped": "Gestoppt",
+  "level.denied": "Bewegungs-Berechtigung verweigert",
+  "level.failed": "Bewegungs-Berechtigung fehlgeschlagen",
+  "level.unsupported": "Lagesensor nicht unterstützt",
+  "level.not_supported": "Auf diesem Gerät nicht unterstützt",
+  "level.hint": "Handy flach oder aufrecht halten. Grün bei ±1,5°.",
+  "level.pitch": "Neigung (β)",
+  "level.roll": "Rollen (γ)",
+  "level.move": "Handy ausrichten…",
+  "trans.source": "Ausgangssprache",
+  "trans.target": "Zielsprache",
+  "trans.person_a": "Person A",
+  "trans.person_b": "Person B",
+  "qr.text_or_link": "Text oder Link",
+  "fin.percent": "Prozent",
+  "fin.tax": "Steuer",
+  "fin.split_bill": "Rechnung teilen",
+  "fin.currency": "Währung",
+  "unit.align": "Kante an den Bildschirmrand legen · Maßstab in cm"
+};
+var UI_FR = {"nav.home": "Page d'accueil", "nav.settings": "Paramètres", "nav.back": "Retour", "nav.app": "Application", "w.rechner": "Calculateur", "w.rechner.sub": "Calculatrice scientifique", "w.zeit": "Heure", "w.zeit.sub": "Chronomètre · Minuterie · Date", "w.uebersetzer": "Translate", "w.uebersetzer.sub": "Texte · Interprète en direct · Plus de 40 langues", "w.einheiten": "Unités", "w.einheiten.sub": "Convertisseur · Règle", "w.finanzen": "Finance", "w.finanzen.sub": "Pourcentage · Taxe · Fractionnement · Devise", "w.tools": "Codes", "w.tools.sub": "QR/Code-Barre", "w.zufall": "Aléatoire", "w.zufall.sub": "Roue · Pièce retournée", "w.dbmeter": "dB Mètre", "w.dbmeter.sub": "Niveau sonore · Niveau spirituel", "set.title": "Paramètres", "set.appearance": "APPARENCE", "set.system": "Système", "set.dark": "Foncé", "set.light": "Legere", "set.sound": "SON ET HAPTIQUE", "set.on": "Le", "set.off": "Arrêt", "set.install": "INSTALLER", "set.install_btn": "Installer l’App", "set.language": "LANGUE", "set.preferred": "Langue préférée", "set.detect": "Détecter à partir du navigateur", "set.lang_hint": "Choisissez une langue — tous les textes de l'application seront mis à jour.", "set.data": "DONNÉES", "set.delete": "Supprimer toutes les données enregistrées", "set.legal": "ASPECTS JURIDIQUES", "set.legal_notice": "Mentions légales", "set.privacy": "Confidentialité", "set.info": "INFO", "set.info_body": "Raccourci — Codes (QR + code-barres) · Verre liquide · principalement hors ligne (sauf Traduction, QR et taux de change).", "set.tutorial": "TUTORIEL : → APPLICATION SIDE KEY", "set.data_cleared": "Données effacées.", "set.confirm_delete": "Vraiment supprimer toutes les données enregistrées ?", "set.lang_ready": "Langue : {0} · IU mise à jour", "set.lang_fail": "Impossible de détecter la langue", "set.lang_current": "Actuel : {0}. Traducteur : {1} → {2}.", "set.lang_none": "Aucune langue définie pour le moment. Choisissez-en un ci-dessous ou détectez-le à partir du navigateur.", "common.history": "Historique", "common.start": "Début", "common.stop": "Arrêter", "common.reset": "Réinitialiser", "common.resume": "Reprendre", "common.save": "Sauvegarder", "common.cancel": "Annuler", "common.delete": "Effacer", "common.edit": "editer", "common.copy": "Copier", "common.copied": "Copié", "common.copy_fail": "Échec de la copie", "common.download": "Télécharger&#10;", "common.from": "À partir de", "common.to": "A", "common.value": "Valeur", "common.options": "Options", "common.content": "Contenu", "common.result": "Résultat", "common.ready": "Terminé", "common.spin": "Rotation", "common.flip": "Retournement", "common.generate": "Générer une nouvelle clé", "common.length": "Long", "common.characters": "personnages", "common.minutes": "Procès-Verbal", "common.lap": "Lap", "common.laps": "Tours", "common.swap": "Swap", "common.convert": "Convertissez", "common.log": "Journal", "common.speak": "Speak", "common.dictate": "Dicter", "common.translation": "Traduction", "common.enter_text": "Entrer le texte", "common.enter_value": "Entrer une valeur...", "common.enter_link": "Saisir le texte du lien", "common.no_notes": "Aucune note.", "common.new_note": "Nouvelle note", "common.edit_note": "Modifier la note", "common.save_note": "Sauver note", "common.save_changes": "Enregistrer les modifications", "common.note_deleted": "Remarque supprimée", "common.please_enter": "Veuillez d'abord saisir quelque chose", "common.password_copied": "Mot de passe", "common.strength": "Dosage", "common.weak": "Faible", "common.medium": "Moyenne", "common.strong": "Fort", "common.very_strong": "Très fort", "common.bits": "bits", "common.pw_hint": "Sans caractères facilement confus (l, I, O, 0, 1).", "common.at_least_one": "Au moins un type de caractère requis", "tab.stopwatch": "Chronomètre", "tab.timer": "Minuteur", "tab.date": "Date", "tab.wheel": "Roue", "tab.coin": "Pièces", "tab.qr": "QR", "tab.barcode": "Code-barres", "tab.text": "Texte", "tab.live": "Direct", "tab.sound": "Son", "tab.level": "Niveau", "tab.calc": "Pour cent", "tab.split": "Diviser", "tab.fx": "Devise", "tab.len": "Long", "tab.mass": "Moléculaire", "tab.vol": "Volume", "tab.temp": "Temp", "tab.spd": "Vitesse", "tab.ruler": "Règle", "calc.deg": "DEG", "calc.rad": "RAD", "zeit.date_range": "Plage de dates", "zeit.weeks": "Semaines", "zeit.calendar": "Calendrier", "zeit.weekday": "Jour de la semaine du « À »", "zeit.day": "jour", "zeit.days": "jours", "zeit.to_before": "« À » est avant « De ».", "ruler.hint": "Aligner le bord avec le bord de l'écran · échelle en cm", "coin.heads": "Face", "coin.tails": "Résidus", "wheel.spin": "Tourne !", "wheel.placeholder": "par exemple : Oui, Non, Peut-être", "db.sound_level": "Niveau sonore", "db.peak": "Crête", "db.hint_start": "Niveau relatif (SPL non calibré). Démarrez et autorisez l'accès au microphone.", "db.quiet": "Silence / silence", "db.soft": "Discours doux/salle calme", "db.normal": "Conversation normale", "db.loud": "Fort / musique à proximité", "db.very_loud": "Très fort – protégez votre audition", "db.mic_denied": "Autorisation du microphone refusée", "db.mic_unsupported": "Microphone non pris en charge", "db.nothing_log": "Rien à enregistrer", "level.title": "Niveau à bulle", "level.tap": "Appuyez sur Démarrer et autorisez l'accès au mouvement", "level.hold": "Niveau · maintenir stable", "level.almost": "Presque à niveau", "level.left": "Incliner à gauche", "level.right": "Incliner à droite", "level.stopped": "Stoppé", "level.denied": "Autorisation de motion refusée", "level.failed": "Échec de l'autorisation de", "level.unsupported": "Capteur d'orientation non pris en charge", "level.not_supported": "L'application n'est pas supportée par ce dispositif", "level.hint": "Tenez le téléphone à plat ou à la verticale. Vert à ±1,5 ° près.", "level.pitch": "Pitch (β)", "level.roll": "Roulis (γ)", "level.move": "Déplacez le téléphone au niveau...", "trans.source": "Langue originelle", "trans.target": "Langue cible", "trans.person_a": "Personne A", "trans.person_b": "Personne B", "qr.text_or_link": "Texte ou lien", "fin.percent": "Pour cent", "fin.tax": "Fiscalité", "fin.split_bill": "Facture fractionnée", "fin.currency": "Devise", "unit.align": "Aligner le bord avec le bord de l'écran · échelle en cm"};
+var UI_ES = {"nav.home": "Inicio", "nav.settings": "Ajustes", "nav.back": "Atrás", "nav.app": "Aplicación", "w.rechner": "Calculadora", "w.rechner.sub": "Calculadora científica", "w.zeit": "Hora", "w.zeit.sub": "Cronómetro · Temporizador · Fecha", "w.uebersetzer": "Traducir", "w.uebersetzer.sub": "Texto · Intérprete en vivo · Más de 40 idiomas", "w.einheiten": "Unidades", "w.einheiten.sub": "Convertidor · Regla", "w.finanzen": "Finanzas", "w.finanzen.sub": "Porcentaje · Impuesto · Dividir · Moneda", "w.tools": "Códigos", "w.tools.sub": "QR · Código de barras", "w.zufall": "Aleatorio", "w.zufall.sub": "Rueda · Lanzamiento de monedas", "w.dbmeter": "medidor de dB", "w.dbmeter.sub": "Nivel de sonido · Nivel de burbuja", "set.title": "Ajustes", "set.appearance": "APARI ENCIA", "set.system": "Sistema", "set.dark": "Oscuro", "set.light": "Claro", "set.sound": "SONIDO Y HÁPTICA", "set.on": "En/Sobre", "set.off": "Apagado", "set.install": "INSTALAR", "set.install_btn": "Instalación de la aplicación", "set.language": "IDIOMA", "set.preferred": "Idioma preferido", "set.detect": "Detectar desde el navegador", "set.lang_hint": "Elija un idioma: todos los textos de la aplicación se actualizarán.", "set.data": "DATOS", "set.delete": "Eliminar todos los datos guardados", "set.legal": "URIDICA", "set.legal_notice": "Información legal", "set.privacy": "Privacidad", "set.info": "INFO", "set.info_body": "Atajo — Códigos (QR + Código de barras) · Vidrio líquido · En su mayoría sin conexión (excepto Traducir, QR y tipos de cambio).", "set.tutorial": "TUTORIAL: → APLICACIÓN DE TECLAS LATERALES", "set.data_cleared": "Datos de galería borrados", "set.confirm_delete": "¿Realmente eliminar todos los datos guardados?", "set.lang_ready": "Idioma: {0} · UI actualizada", "set.lang_fail": "No se ha podido detectar el idioma", "set.lang_current": "Actual: {0}. Traductor: {1} → {2}.", "set.lang_none": "Aún no se ha establecido ningún idioma. Elija uno a continuación o detecte desde el navegador.", "common.history": "Historia", "common.start": "Comienzo", "common.stop": "Parada", "common.reset": "Restablecimiento", "common.resume": "Reanudar", "common.save": "Guardar", "common.cancel": "Cancelar", "common.delete": "Eliminar", "common.edit": "Editar", "common.copy": "Copy", "common.copied": "Copiado", "common.copy_fail": "Error al Copiar", "common.download": "Descargar", "common.from": "Desde", "common.to": "Hasta", "common.value": "Valor", "common.options": "Opciones", "common.content": "Contenido", "common.result": "Resultado", "common.ready": "Listo", "common.spin": "Girar", "common.flip": "Voltear", "common.generate": "Generar nueva", "common.length": "Longitud", "common.characters": "caracteres", "common.minutes": "Minutos", "common.lap": "Vuelta", "common.laps": "Vueltas", "common.swap": "Intercambiar", "common.convert": "Convertir", "common.log": "Log", "common.speak": "Habla", "common.dictate": "Dictar", "common.translation": "Translation", "common.enter_text": "Introducir texto", "common.enter_value": "Introduzca el valor…", "common.enter_link": "Introducir Texto del Enlace", "common.no_notes": "Sin notas.", "common.new_note": "Nueva nota", "common.edit_note": "Editar nota", "common.save_note": "Guardar nota", "common.save_changes": "Guardar cambios", "common.note_deleted": "Nota eliminada.", "common.please_enter": "Por favor, introduzca algo.", "common.password_copied": "Contraseña copiada", "common.strength": "Resistencia", "common.weak": "Débil", "common.medium": "Medio", "common.strong": "Intensa", "common.very_strong": "Muy sólido", "common.bits": "bits", "common.pw_hint": "Sin caracteres fácilmente confundibles (l, I, O, 0, 1).", "common.at_least_one": "Se requiere al menos un tipo de carácter", "tab.stopwatch": "Cronómetro", "tab.timer": "Timer", "tab.date": "Fecha", "tab.wheel": "Rueda", "tab.coin": "Coin", "tab.qr": "QR", "tab.barcode": "Código de Barras", "tab.text": "Texto", "tab.live": "En directo", "tab.sound": "Sonido", "tab.level": "Nivel", "tab.calc": "Porcentaje", "tab.split": "Split", "tab.fx": "Moneda", "tab.len": "Longitud", "tab.mass": "Masa", "tab.vol": "Volumen", "tab.temp": "Temp.", "tab.spd": "Speed", "tab.ruler": "Regla", "calc.deg": "DEG", "calc.rad": "dosis de radiación absorbida", "zeit.date_range": "Intervalo de fechas", "zeit.weeks": "Semanas", "zeit.calendar": "Calendario", "zeit.weekday": "Día laborable de \"Para\"", "zeit.day": "día", "zeit.days": "días", "zeit.to_before": "\"Para\" es antes de \"De\".", "ruler.hint": "Alinee el borde con el borde de la pantalla · escale en cm", "coin.heads": "Culatas", "coin.tails": "Cruz", "wheel.spin": "España", "wheel.placeholder": "por ejemplo, Sí, No, Tal vez", "db.sound_level": "Sonoridad", "db.peak": "Pico", "db.hint_start": "Nivel relativo (SPL no calibrado). Inicie y permita el acceso al micrófono.", "db.quiet": "Silencio / silencio", "db.soft": "Habla suave/sala tranquila", "db.normal": "Conversación normal", "db.loud": "Fuerte / música cerca", "db.very_loud": "Muy alto: proteja su audición", "db.mic_denied": "Permiso de micrófono denegado", "db.mic_unsupported": "Micrófono no compatible", "db.nothing_log": "No hay nada que registrar", "level.title": "Nivel de burbuja", "level.tap": "Toque Iniciar y permita el acceso de movimiento", "level.hold": "Nivel · mantener estable", "level.almost": "Plana casi a nivel", "level.left": "Inclinar hacia la izquierda", "level.right": "Inclinar hacia la derecha", "level.stopped": "Stopped", "level.denied": "Permiso de movimiento denegado", "level.failed": "Error en el permiso de movimiento", "level.unsupported": "Sensor de orientación no compatible", "level.not_supported": "La aplicación no es compatible con este dispositivo", "level.hint": "Sostenga el teléfono plano o en posición vertical. Verde cuando está dentro de ±1,5°.", "level.pitch": "Paso (β)", "level.roll": "Rollo (γ)", "level.move": "Coloca el teléfono al nivel de los ojos", "trans.source": "Idioma de origen", "trans.target": "Idioma de destino", "trans.person_a": "Persona A", "trans.person_b": "Persona B", "qr.text_or_link": "Texto o enlace", "fin.percent": "Porcentaje", "fin.tax": "Impuestos", "fin.split_bill": "Dividir factura", "fin.currency": "Moneda", "unit.align": "Alinee el borde con el borde de la pantalla · escale en cm"};
+var UI_IT = {"nav.home": "Homepage", "nav.settings": "Impostazioni", "nav.back": "Indietro", "nav.app": "App", "w.rechner": "Calcolatrice", "w.rechner.sub": "Calcolatrice scientifica", "w.zeit": "Tempo", "w.zeit.sub": "Cronometro · Timer · Data", "w.uebersetzer": "Traduci", "w.uebersetzer.sub": "Testo · Interprete dal vivo · Oltre 40 lingue", "w.einheiten": "Unità", "w.einheiten.sub": "Convertitore · Righello", "w.finanzen": "Addetto al settore finanziario", "w.finanzen.sub": "Percentuale · Imposta · Suddivisione · Valuta", "w.tools": "Codici", "w.tools.sub": "QR · Codice a barre", "w.zufall": "Casuale", "w.zufall.sub": "Ruota · Flip moneta", "w.dbmeter": "misuratore dB", "w.dbmeter.sub": "Livello sonoro · Livello alcolico", "set.title": "Impostazioni", "set.appearance": "ASPETTO", "set.system": "Sistema", "set.dark": "Scuro", "set.light": "Di luce.", "set.sound": "SOUND & APTICS", "set.on": "Attivato", "set.off": "Disattivato", "set.install": "INSTALLARE", "set.install_btn": "Installare l'app", "set.language": "LINGUA", "set.preferred": "Lingua preferita", "set.detect": "Rileva dal browser", "set.lang_hint": "Scegli una lingua: tutti i testi dell'app verranno aggiornati.", "set.data": "DATI", "set.delete": "Cancellare i dati salvati?", "set.legal": "INFORMAZIONI LEGALI", "set.legal_notice": "Avvertenze legali", "set.privacy": "Privacy", "set.info": "INFORMAZIONI", "set.info_body": "Scorciatoia — Codici (QR + codice a barre) · Vetro liquido · principalmente offline (tranne Traduci, QR e tassi di cambio).", "set.tutorial": "TUTORIAL: → APP SIDE KEY", "set.data_cleared": "Cancellazione dei dati del carrello", "set.confirm_delete": "Eliminare davvero tutti i dati salvati?", "set.lang_ready": "Lingua: {0} · UI aggiornata", "set.lang_fail": "Impossibile rilevare la lingua", "set.lang_current": "Corrente: {0}. Traduttore: {1} → {2}.", "set.lang_none": "Nessuna lingua ancora impostata. Scegline uno qui sotto o rilevalo dal browser.", "common.history": "Storia", "common.start": "Start", "common.stop": "Stop", "common.reset": "Reset", "common.resume": "Riprendi", "common.save": "Salva", "common.cancel": "Annulla", "common.delete": "Elimina", "common.edit": "Modificare", "common.copy": "Copia", "common.copied": "Copiato", "common.copy_fail": "Errore di copia dei file", "common.download": "Download", "common.from": "Da", "common.to": "A", "common.value": "Valore", "common.options": "Opzioni", "common.content": "Contenuto", "common.result": "Risultato", "common.ready": "Pronto", "common.spin": "Rotazione", "common.flip": "Flip", "common.generate": "Genera nuovo", "common.length": "Lung.", "common.characters": "caratteri", "common.minutes": "Minuti", "common.lap": "Giro", "common.laps": "Giri", "common.swap": "Scambia", "common.convert": "Converti", "common.log": "Storico", "common.speak": "Parlate.", "common.dictate": "Dettatura", "common.translation": "Translation", "common.enter_text": "Inserire il testo", "common.enter_value": "Immettere il valore…", "common.enter_link": "Inserisci link o testo...", "common.no_notes": "Nessuna annotazione.", "common.new_note": "Nuova Nota", "common.edit_note": "Modifica nota", "common.save_note": "Salva la nota", "common.save_changes": "Salva le modifiche", "common.note_deleted": "Nota eliminata", "common.please_enter": "Inserisci prima qualcosa", "common.password_copied": "Password copiata", "common.strength": "Via di somministrazione ", "common.weak": "Debole", "common.medium": "Medio", "common.strong": "Forte", "common.very_strong": "Molto forte", "common.bits": "chiocciole", "common.pw_hint": "Senza caratteri facilmente confondibili (l, I, O, 0, 1).", "common.at_least_one": "È richiesto almeno un tipo di carattere", "tab.stopwatch": "Cronometro", "tab.timer": "Timer", "tab.date": "Data", "tab.wheel": "Gruppo", "tab.coin": "Facendo", "tab.qr": "QR", "tab.barcode": "Codice a barre", "tab.text": "Text", "tab.live": "Live", "tab.sound": "Suono", "tab.level": "Livello", "tab.calc": "Percentuale", "tab.split": "Spacca", "tab.fx": "Valuta", "tab.len": "Lung.", "tab.mass": "Mass", "tab.vol": "Volume", "tab.temp": "Temp.", "tab.spd": "Velocità", "tab.ruler": "Righello", "calc.deg": "Deg", "calc.rad": "RAD", "zeit.date_range": "Intervallo date", "zeit.weeks": "Settimane", "zeit.calendar": "Calendario", "zeit.weekday": "Giorno feriale di \"A\"", "zeit.day": "giornata.", "zeit.days": "giorni", "zeit.to_before": "\"A\" è prima di \"Da\".", "ruler.hint": "Align the edge with the screen edge · scale in cm", "coin.heads": "Testate", "coin.tails": "Code", "wheel.spin": "Gira!", "wheel.placeholder": "e.g. Yes, No, Maybe", "db.sound_level": "Sound level", "db.peak": "Peak", "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.", "db.quiet": "Quiet / silence", "db.soft": "Discorso morbido/stanza silenziosa", "db.normal": "Normal conversation", "db.loud": "Loud / music nearby", "db.very_loud": "Very loud – protect your hearing", "db.mic_denied": "Microphone permission denied", "db.mic_unsupported": "Microphone not supported", "db.nothing_log": "Nothing to log", "level.title": "Spirit level", "level.tap": "Tap Start and allow motion access", "level.hold": "Level · hold steady", "level.almost": "Almost level", "level.left": "Tilt left", "level.right": "Tilt right", "level.stopped": "Stopped", "level.denied": "Motion permission denied", "level.failed": "Motion permission failed", "level.unsupported": "Orientation sensor not supported", "level.not_supported": "Not supported on this device", "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.", "level.pitch": "Pitch (β)", "level.roll": "Roll (γ)", "level.move": "Move phone to level…", "trans.source": "Source language", "trans.target": "Target language", "trans.person_a": "Person A", "trans.person_b": "Person B", "qr.text_or_link": "Text or link", "fin.percent": "Percent", "fin.tax": "Tax", "fin.split_bill": "Split bill", "fin.currency": "Currency", "unit.align": "Align the edge with the screen edge · scale in cm"};
+var UI_PL = {"nav.home": "Home", "nav.settings": "Settings", "nav.back": "Back", "nav.app": "App", "w.rechner": "Calculator", "w.rechner.sub": "Scientific calculator", "w.zeit": "Time", "w.zeit.sub": "Stopwatch · Timer · Date", "w.uebersetzer": "Translate", "w.uebersetzer.sub": "Text · Live interpreter · 40+ languages", "w.einheiten": "Units", "w.einheiten.sub": "Converter · Ruler", "w.finanzen": "Finance", "w.finanzen.sub": "Percent · Tax · Split · Currency", "w.tools": "Codes", "w.tools.sub": "QR · Barcode", "w.zufall": "Random", "w.zufall.sub": "Wheel · Coin flip", "w.dbmeter": "dB Meter", "w.dbmeter.sub": "Sound level · Spirit level", "set.title": "Settings", "set.appearance": "APPEARANCE", "set.system": "System", "set.dark": "Dark", "set.light": "Light", "set.sound": "SOUND & HAPTICS", "set.on": "On", "set.off": "Off", "set.install": "INSTALL", "set.install_btn": "Install app", "set.language": "LANGUAGE", "set.preferred": "Preferred language", "set.detect": "Detect from browser", "set.lang_hint": "Choose a language — all app texts will update.", "set.data": "DATA", "set.delete": "Delete all saved data", "set.legal": "LEGAL", "set.legal_notice": "Legal notice", "set.privacy": "Privacy", "set.info": "INFO", "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).", "set.tutorial": "TUTORIAL: SIDE KEY → APP", "set.data_cleared": "Data cleared", "set.confirm_delete": "Really delete all saved data?", "set.lang_ready": "Language: {0} · UI updated", "set.lang_fail": "Could not detect language", "set.lang_current": "Current: {0}. Translator: {1} → {2}.", "set.lang_none": "No language set yet. Choose one below or detect from browser.", "common.history": "History", "common.start": "Start", "common.stop": "Stop", "common.reset": "Reset", "common.resume": "Resume", "common.save": "Save", "common.cancel": "Cancel", "common.delete": "Delete", "common.edit": "Edit", "common.copy": "Copy", "common.copied": "Copied", "common.copy_fail": "Copy failed", "common.download": "Download", "common.from": "From", "common.to": "To", "common.value": "Value", "common.options": "Options", "common.content": "Content", "common.result": "Result", "common.ready": "Ready", "common.spin": "Spin", "common.flip": "Flip", "common.generate": "Generate new", "common.length": "Length", "common.characters": "characters", "common.minutes": "Minutes", "common.lap": "Lap", "common.laps": "Laps", "common.swap": "Swap", "common.convert": "Convert", "common.log": "Log", "common.speak": "Speak", "common.dictate": "Dictate", "common.translation": "Translation", "common.enter_text": "Enter text", "common.enter_value": "Enter value…", "common.enter_link": "Enter link or text…", "common.no_notes": "No notes.", "common.new_note": "New note", "common.edit_note": "Edit note", "common.save_note": "Save note", "common.save_changes": "Save changes", "common.note_deleted": "Note deleted", "common.please_enter": "Please enter something first", "common.password_copied": "Password copied", "common.strength": "Strength", "common.weak": "Weak", "common.medium": "Medium", "common.strong": "Strong", "common.very_strong": "Very strong", "common.bits": "bits", "common.pw_hint": "Without easily confused characters (l, I, O, 0, 1).", "common.at_least_one": "At least one character type required", "tab.stopwatch": "Stopwatch", "tab.timer": "Timer", "tab.date": "Date", "tab.wheel": "Wheel", "tab.coin": "Coin", "tab.qr": "QR", "tab.barcode": "Barcode", "tab.text": "Text", "tab.live": "Live", "tab.sound": "Sound", "tab.level": "Level", "tab.calc": "Percent", "tab.split": "Split", "tab.fx": "Currency", "tab.len": "Length", "tab.mass": "Mass", "tab.vol": "Volume", "tab.temp": "Temp", "tab.spd": "Speed", "tab.ruler": "Ruler", "calc.deg": "DEG", "calc.rad": "RAD", "zeit.date_range": "Date range", "zeit.weeks": "Weeks", "zeit.calendar": "Calendar", "zeit.weekday": "Weekday of “To”", "zeit.day": "day", "zeit.days": "days", "zeit.to_before": "“To” is before “From”.", "ruler.hint": "Align the edge with the screen edge · scale in cm", "coin.heads": "Heads", "coin.tails": "Tails", "wheel.spin": "Spin!", "wheel.placeholder": "e.g. Yes, No, Maybe", "db.sound_level": "Sound level", "db.peak": "Peak", "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.", "db.quiet": "Quiet / silence", "db.soft": "Soft speech / quiet room", "db.normal": "Normal conversation", "db.loud": "Loud / music nearby", "db.very_loud": "Very loud – protect your hearing", "db.mic_denied": "Microphone permission denied", "db.mic_unsupported": "Microphone not supported", "db.nothing_log": "Nothing to log", "level.title": "Spirit level", "level.tap": "Tap Start and allow motion access", "level.hold": "Level · hold steady", "level.almost": "Almost level", "level.left": "Tilt left", "level.right": "Tilt right", "level.stopped": "Stopped", "level.denied": "Motion permission denied", "level.failed": "Motion permission failed", "level.unsupported": "Orientation sensor not supported", "level.not_supported": "Not supported on this device", "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.", "level.pitch": "Pitch (β)", "level.roll": "Roll (γ)", "level.move": "Move phone to level…", "trans.source": "Source language", "trans.target": "Target language", "trans.person_a": "Person A", "trans.person_b": "Person B", "qr.text_or_link": "Text or link", "fin.percent": "Percent", "fin.tax": "Tax", "fin.split_bill": "Split bill", "fin.currency": "Currency", "unit.align": "Align the edge with the screen edge · scale in cm"};
+var UI_NL = {"nav.home": "Home", "nav.settings": "Settings", "nav.back": "Back", "nav.app": "App", "w.rechner": "Calculator", "w.rechner.sub": "Scientific calculator", "w.zeit": "Time", "w.zeit.sub": "Stopwatch · Timer · Date", "w.uebersetzer": "Translate", "w.uebersetzer.sub": "Text · Live interpreter · 40+ languages", "w.einheiten": "Units", "w.einheiten.sub": "Converter · Ruler", "w.finanzen": "Finance", "w.finanzen.sub": "Percent · Tax · Split · Currency", "w.tools": "Codes", "w.tools.sub": "QR · Barcode", "w.zufall": "Random", "w.zufall.sub": "Wheel · Coin flip", "w.dbmeter": "dB Meter", "w.dbmeter.sub": "Sound level · Spirit level", "set.title": "Settings", "set.appearance": "APPEARANCE", "set.system": "System", "set.dark": "Dark", "set.light": "Light", "set.sound": "SOUND & HAPTICS", "set.on": "On", "set.off": "Off", "set.install": "INSTALL", "set.install_btn": "Install app", "set.language": "LANGUAGE", "set.preferred": "Preferred language", "set.detect": "Detect from browser", "set.lang_hint": "Choose a language — all app texts will update.", "set.data": "DATA", "set.delete": "Delete all saved data", "set.legal": "LEGAL", "set.legal_notice": "Legal notice", "set.privacy": "Privacy", "set.info": "INFO", "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).", "set.tutorial": "TUTORIAL: SIDE KEY → APP", "set.data_cleared": "Data cleared", "set.confirm_delete": "Really delete all saved data?", "set.lang_ready": "Language: {0} · UI updated", "set.lang_fail": "Could not detect language", "set.lang_current": "Current: {0}. Translator: {1} → {2}.", "set.lang_none": "No language set yet. Choose one below or detect from browser.", "common.history": "History", "common.start": "Start", "common.stop": "Stop", "common.reset": "Reset", "common.resume": "Resume", "common.save": "Save", "common.cancel": "Cancel", "common.delete": "Delete", "common.edit": "Edit", "common.copy": "Copy", "common.copied": "Copied", "common.copy_fail": "Copy failed", "common.download": "Download", "common.from": "From", "common.to": "To", "common.value": "Value", "common.options": "Options", "common.content": "Content", "common.result": "Result", "common.ready": "Ready", "common.spin": "Spin", "common.flip": "Flip", "common.generate": "Generate new", "common.length": "Length", "common.characters": "characters", "common.minutes": "Minutes", "common.lap": "Lap", "common.laps": "Laps", "common.swap": "Swap", "common.convert": "Convert", "common.log": "Log", "common.speak": "Speak", "common.dictate": "Dictate", "common.translation": "Translation", "common.enter_text": "Enter text", "common.enter_value": "Enter value…", "common.enter_link": "Enter link or text…", "common.no_notes": "No notes.", "common.new_note": "New note", "common.edit_note": "Edit note", "common.save_note": "Save note", "common.save_changes": "Save changes", "common.note_deleted": "Note deleted", "common.please_enter": "Please enter something first", "common.password_copied": "Password copied", "common.strength": "Strength", "common.weak": "Weak", "common.medium": "Medium", "common.strong": "Strong", "common.very_strong": "Very strong", "common.bits": "bits", "common.pw_hint": "Without easily confused characters (l, I, O, 0, 1).", "common.at_least_one": "At least one character type required", "tab.stopwatch": "Stopwatch", "tab.timer": "Timer", "tab.date": "Date", "tab.wheel": "Wheel", "tab.coin": "Coin", "tab.qr": "QR", "tab.barcode": "Barcode", "tab.text": "Text", "tab.live": "Live", "tab.sound": "Sound", "tab.level": "Level", "tab.calc": "Percent", "tab.split": "Split", "tab.fx": "Currency", "tab.len": "Length", "tab.mass": "Mass", "tab.vol": "Volume", "tab.temp": "Temp", "tab.spd": "Speed", "tab.ruler": "Ruler", "calc.deg": "DEG", "calc.rad": "RAD", "zeit.date_range": "Date range", "zeit.weeks": "Weeks", "zeit.calendar": "Calendar", "zeit.weekday": "Weekday of “To”", "zeit.day": "day", "zeit.days": "days", "zeit.to_before": "“To” is before “From”.", "ruler.hint": "Align the edge with the screen edge · scale in cm", "coin.heads": "Heads", "coin.tails": "Tails", "wheel.spin": "Spin!", "wheel.placeholder": "e.g. Yes, No, Maybe", "db.sound_level": "Sound level", "db.peak": "Peak", "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.", "db.quiet": "Quiet / silence", "db.soft": "Soft speech / quiet room", "db.normal": "Normal conversation", "db.loud": "Loud / music nearby", "db.very_loud": "Very loud – protect your hearing", "db.mic_denied": "Microphone permission denied", "db.mic_unsupported": "Microphone not supported", "db.nothing_log": "Nothing to log", "level.title": "Spirit level", "level.tap": "Tap Start and allow motion access", "level.hold": "Level · hold steady", "level.almost": "Almost level", "level.left": "Tilt left", "level.right": "Tilt right", "level.stopped": "Stopped", "level.denied": "Motion permission denied", "level.failed": "Motion permission failed", "level.unsupported": "Orientation sensor not supported", "level.not_supported": "Not supported on this device", "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.", "level.pitch": "Pitch (β)", "level.roll": "Roll (γ)", "level.move": "Move phone to level…", "trans.source": "Source language", "trans.target": "Target language", "trans.person_a": "Person A", "trans.person_b": "Person B", "qr.text_or_link": "Text or link", "fin.percent": "Percent", "fin.tax": "Tax", "fin.split_bill": "Split bill", "fin.currency": "Currency", "unit.align": "Align the edge with the screen edge · scale in cm"};
+var UI_PT = {"nav.home": "Home", "nav.settings": "Settings", "nav.back": "Back", "nav.app": "App", "w.rechner": "Calculator", "w.rechner.sub": "Scientific calculator", "w.zeit": "Time", "w.zeit.sub": "Stopwatch · Timer · Date", "w.uebersetzer": "Translate", "w.uebersetzer.sub": "Text · Live interpreter · 40+ languages", "w.einheiten": "Units", "w.einheiten.sub": "Converter · Ruler", "w.finanzen": "Finance", "w.finanzen.sub": "Percent · Tax · Split · Currency", "w.tools": "Codes", "w.tools.sub": "QR · Barcode", "w.zufall": "Random", "w.zufall.sub": "Wheel · Coin flip", "w.dbmeter": "dB Meter", "w.dbmeter.sub": "Sound level · Spirit level", "set.title": "Settings", "set.appearance": "APPEARANCE", "set.system": "System", "set.dark": "Dark", "set.light": "Light", "set.sound": "SOUND & HAPTICS", "set.on": "On", "set.off": "Off", "set.install": "INSTALL", "set.install_btn": "Install app", "set.language": "LANGUAGE", "set.preferred": "Preferred language", "set.detect": "Detect from browser", "set.lang_hint": "Choose a language — all app texts will update.", "set.data": "DATA", "set.delete": "Delete all saved data", "set.legal": "LEGAL", "set.legal_notice": "Legal notice", "set.privacy": "Privacy", "set.info": "INFO", "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).", "set.tutorial": "TUTORIAL: SIDE KEY → APP", "set.data_cleared": "Data cleared", "set.confirm_delete": "Really delete all saved data?", "set.lang_ready": "Language: {0} · UI updated", "set.lang_fail": "Could not detect language", "set.lang_current": "Current: {0}. Translator: {1} → {2}.", "set.lang_none": "No language set yet. Choose one below or detect from browser.", "common.history": "History", "common.start": "Start", "common.stop": "Stop", "common.reset": "Reset", "common.resume": "Resume", "common.save": "Save", "common.cancel": "Cancel", "common.delete": "Delete", "common.edit": "Edit", "common.copy": "Copy", "common.copied": "Copied", "common.copy_fail": "Copy failed", "common.download": "Download", "common.from": "From", "common.to": "To", "common.value": "Value", "common.options": "Options", "common.content": "Content", "common.result": "Result", "common.ready": "Ready", "common.spin": "Spin", "common.flip": "Flip", "common.generate": "Generate new", "common.length": "Length", "common.characters": "characters", "common.minutes": "Minutes", "common.lap": "Lap", "common.laps": "Laps", "common.swap": "Swap", "common.convert": "Convert", "common.log": "Log", "common.speak": "Speak", "common.dictate": "Dictate", "common.translation": "Translation", "common.enter_text": "Enter text", "common.enter_value": "Enter value…", "common.enter_link": "Enter link or text…", "common.no_notes": "No notes.", "common.new_note": "New note", "common.edit_note": "Edit note", "common.save_note": "Save note", "common.save_changes": "Save changes", "common.note_deleted": "Note deleted", "common.please_enter": "Please enter something first", "common.password_copied": "Password copied", "common.strength": "Strength", "common.weak": "Weak", "common.medium": "Medium", "common.strong": "Strong", "common.very_strong": "Very strong", "common.bits": "bits", "common.pw_hint": "Without easily confused characters (l, I, O, 0, 1).", "common.at_least_one": "At least one character type required", "tab.stopwatch": "Stopwatch", "tab.timer": "Timer", "tab.date": "Date", "tab.wheel": "Wheel", "tab.coin": "Coin", "tab.qr": "QR", "tab.barcode": "Barcode", "tab.text": "Text", "tab.live": "Live", "tab.sound": "Sound", "tab.level": "Level", "tab.calc": "Percent", "tab.split": "Split", "tab.fx": "Currency", "tab.len": "Length", "tab.mass": "Mass", "tab.vol": "Volume", "tab.temp": "Temp", "tab.spd": "Speed", "tab.ruler": "Ruler", "calc.deg": "DEG", "calc.rad": "RAD", "zeit.date_range": "Date range", "zeit.weeks": "Weeks", "zeit.calendar": "Calendar", "zeit.weekday": "Weekday of “To”", "zeit.day": "day", "zeit.days": "days", "zeit.to_before": "“To” is before “From”.", "ruler.hint": "Align the edge with the screen edge · scale in cm", "coin.heads": "Heads", "coin.tails": "Tails", "wheel.spin": "Spin!", "wheel.placeholder": "e.g. Yes, No, Maybe", "db.sound_level": "Sound level", "db.peak": "Peak", "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.", "db.quiet": "Quiet / silence", "db.soft": "Soft speech / quiet room", "db.normal": "Normal conversation", "db.loud": "Loud / music nearby", "db.very_loud": "Very loud – protect your hearing", "db.mic_denied": "Microphone permission denied", "db.mic_unsupported": "Microphone not supported", "db.nothing_log": "Nothing to log", "level.title": "Spirit level", "level.tap": "Tap Start and allow motion access", "level.hold": "Level · hold steady", "level.almost": "Almost level", "level.left": "Tilt left", "level.right": "Tilt right", "level.stopped": "Stopped", "level.denied": "Motion permission denied", "level.failed": "Motion permission failed", "level.unsupported": "Orientation sensor not supported", "level.not_supported": "Not supported on this device", "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.", "level.pitch": "Pitch (β)", "level.roll": "Roll (γ)", "level.move": "Move phone to level…", "trans.source": "Source language", "trans.target": "Target language", "trans.person_a": "Person A", "trans.person_b": "Person B", "qr.text_or_link": "Text or link", "fin.percent": "Percent", "fin.tax": "Tax", "fin.split_bill": "Split bill", "fin.currency": "Currency", "unit.align": "Align the edge with the screen edge · scale in cm"};
+var UI_TR = {"nav.home": "Home", "nav.settings": "Settings", "nav.back": "Back", "nav.app": "App", "w.rechner": "Calculator", "w.rechner.sub": "Scientific calculator", "w.zeit": "Time", "w.zeit.sub": "Stopwatch · Timer · Date", "w.uebersetzer": "Translate", "w.uebersetzer.sub": "Text · Live interpreter · 40+ languages", "w.einheiten": "Units", "w.einheiten.sub": "Converter · Ruler", "w.finanzen": "Finance", "w.finanzen.sub": "Percent · Tax · Split · Currency", "w.tools": "Codes", "w.tools.sub": "QR · Barcode", "w.zufall": "Random", "w.zufall.sub": "Wheel · Coin flip", "w.dbmeter": "dB Meter", "w.dbmeter.sub": "Sound level · Spirit level", "set.title": "Settings", "set.appearance": "APPEARANCE", "set.system": "System", "set.dark": "Dark", "set.light": "Light", "set.sound": "SOUND & HAPTICS", "set.on": "On", "set.off": "Off", "set.install": "INSTALL", "set.install_btn": "Install app", "set.language": "LANGUAGE", "set.preferred": "Preferred language", "set.detect": "Detect from browser", "set.lang_hint": "Choose a language — all app texts will update.", "set.data": "DATA", "set.delete": "Delete all saved data", "set.legal": "LEGAL", "set.legal_notice": "Legal notice", "set.privacy": "Privacy", "set.info": "INFO", "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).", "set.tutorial": "TUTORIAL: SIDE KEY → APP", "set.data_cleared": "Data cleared", "set.confirm_delete": "Really delete all saved data?", "set.lang_ready": "Language: {0} · UI updated", "set.lang_fail": "Could not detect language", "set.lang_current": "Current: {0}. Translator: {1} → {2}.", "set.lang_none": "No language set yet. Choose one below or detect from browser.", "common.history": "History", "common.start": "Start", "common.stop": "Stop", "common.reset": "Reset", "common.resume": "Resume", "common.save": "Save", "common.cancel": "Cancel", "common.delete": "Delete", "common.edit": "Edit", "common.copy": "Copy", "common.copied": "Copied", "common.copy_fail": "Copy failed", "common.download": "Download", "common.from": "From", "common.to": "To", "common.value": "Value", "common.options": "Options", "common.content": "Content", "common.result": "Result", "common.ready": "Ready", "common.spin": "Spin", "common.flip": "Flip", "common.generate": "Generate new", "common.length": "Length", "common.characters": "characters", "common.minutes": "Minutes", "common.lap": "Lap", "common.laps": "Laps", "common.swap": "Swap", "common.convert": "Convert", "common.log": "Log", "common.speak": "Speak", "common.dictate": "Dictate", "common.translation": "Translation", "common.enter_text": "Enter text", "common.enter_value": "Enter value…", "common.enter_link": "Enter link or text…", "common.no_notes": "No notes.", "common.new_note": "New note", "common.edit_note": "Edit note", "common.save_note": "Save note", "common.save_changes": "Save changes", "common.note_deleted": "Note deleted", "common.please_enter": "Please enter something first", "common.password_copied": "Password copied", "common.strength": "Strength", "common.weak": "Weak", "common.medium": "Medium", "common.strong": "Strong", "common.very_strong": "Very strong", "common.bits": "bits", "common.pw_hint": "Without easily confused characters (l, I, O, 0, 1).", "common.at_least_one": "At least one character type required", "tab.stopwatch": "Stopwatch", "tab.timer": "Timer", "tab.date": "Date", "tab.wheel": "Wheel", "tab.coin": "Coin", "tab.qr": "QR", "tab.barcode": "Barcode", "tab.text": "Text", "tab.live": "Live", "tab.sound": "Sound", "tab.level": "Level", "tab.calc": "Percent", "tab.split": "Split", "tab.fx": "Currency", "tab.len": "Length", "tab.mass": "Mass", "tab.vol": "Volume", "tab.temp": "Temp", "tab.spd": "Speed", "tab.ruler": "Ruler", "calc.deg": "DEG", "calc.rad": "RAD", "zeit.date_range": "Date range", "zeit.weeks": "Weeks", "zeit.calendar": "Calendar", "zeit.weekday": "Weekday of “To”", "zeit.day": "day", "zeit.days": "days", "zeit.to_before": "“To” is before “From”.", "ruler.hint": "Align the edge with the screen edge · scale in cm", "coin.heads": "Heads", "coin.tails": "Tails", "wheel.spin": "Spin!", "wheel.placeholder": "e.g. Yes, No, Maybe", "db.sound_level": "Sound level", "db.peak": "Peak", "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.", "db.quiet": "Quiet / silence", "db.soft": "Soft speech / quiet room", "db.normal": "Normal conversation", "db.loud": "Loud / music nearby", "db.very_loud": "Very loud – protect your hearing", "db.mic_denied": "Microphone permission denied", "db.mic_unsupported": "Microphone not supported", "db.nothing_log": "Nothing to log", "level.title": "Spirit level", "level.tap": "Tap Start and allow motion access", "level.hold": "Level · hold steady", "level.almost": "Almost level", "level.left": "Tilt left", "level.right": "Tilt right", "level.stopped": "Stopped", "level.denied": "Motion permission denied", "level.failed": "Motion permission failed", "level.unsupported": "Orientation sensor not supported", "level.not_supported": "Not supported on this device", "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.", "level.pitch": "Pitch (β)", "level.roll": "Roll (γ)", "level.move": "Move phone to level…", "trans.source": "Source language", "trans.target": "Target language", "trans.person_a": "Person A", "trans.person_b": "Person B", "qr.text_or_link": "Text or link", "fin.percent": "Percent", "fin.tax": "Tax", "fin.split_bill": "Split bill", "fin.currency": "Currency", "unit.align": "Align the edge with the screen edge · scale in cm"};
+var UI_RU = {"nav.home": "Home", "nav.settings": "Settings", "nav.back": "Back", "nav.app": "App", "w.rechner": "Calculator", "w.rechner.sub": "Scientific calculator", "w.zeit": "Time", "w.zeit.sub": "Stopwatch · Timer · Date", "w.uebersetzer": "Translate", "w.uebersetzer.sub": "Text · Live interpreter · 40+ languages", "w.einheiten": "Units", "w.einheiten.sub": "Converter · Ruler", "w.finanzen": "Finance", "w.finanzen.sub": "Percent · Tax · Split · Currency", "w.tools": "Codes", "w.tools.sub": "QR · Barcode", "w.zufall": "Random", "w.zufall.sub": "Wheel · Coin flip", "w.dbmeter": "dB Meter", "w.dbmeter.sub": "Sound level · Spirit level", "set.title": "Settings", "set.appearance": "APPEARANCE", "set.system": "System", "set.dark": "Dark", "set.light": "Light", "set.sound": "SOUND & HAPTICS", "set.on": "On", "set.off": "Off", "set.install": "INSTALL", "set.install_btn": "Install app", "set.language": "LANGUAGE", "set.preferred": "Preferred language", "set.detect": "Detect from browser", "set.lang_hint": "Choose a language — all app texts will update.", "set.data": "DATA", "set.delete": "Delete all saved data", "set.legal": "LEGAL", "set.legal_notice": "Legal notice", "set.privacy": "Privacy", "set.info": "INFO", "set.info_body": "Shortcut — Codes (QR + Barcode) · Liquid Glass · mostly offline (except Translate, QR, and exchange rates).", "set.tutorial": "TUTORIAL: SIDE KEY → APP", "set.data_cleared": "Data cleared", "set.confirm_delete": "Really delete all saved data?", "set.lang_ready": "Language: {0} · UI updated", "set.lang_fail": "Could not detect language", "set.lang_current": "Current: {0}. Translator: {1} → {2}.", "set.lang_none": "No language set yet. Choose one below or detect from browser.", "common.history": "History", "common.start": "Start", "common.stop": "Stop", "common.reset": "Reset", "common.resume": "Resume", "common.save": "Save", "common.cancel": "Cancel", "common.delete": "Delete", "common.edit": "Edit", "common.copy": "Copy", "common.copied": "Copied", "common.copy_fail": "Copy failed", "common.download": "Download", "common.from": "From", "common.to": "To", "common.value": "Value", "common.options": "Options", "common.content": "Content", "common.result": "Result", "common.ready": "Ready", "common.spin": "Spin", "common.flip": "Flip", "common.generate": "Generate new", "common.length": "Length", "common.characters": "characters", "common.minutes": "Minutes", "common.lap": "Lap", "common.laps": "Laps", "common.swap": "Swap", "common.convert": "Convert", "common.log": "Log", "common.speak": "Speak", "common.dictate": "Dictate", "common.translation": "Translation", "common.enter_text": "Enter text", "common.enter_value": "Enter value…", "common.enter_link": "Enter link or text…", "common.no_notes": "No notes.", "common.new_note": "New note", "common.edit_note": "Edit note", "common.save_note": "Save note", "common.save_changes": "Save changes", "common.note_deleted": "Note deleted", "common.please_enter": "Please enter something first", "common.password_copied": "Password copied", "common.strength": "Strength", "common.weak": "Weak", "common.medium": "Medium", "common.strong": "Strong", "common.very_strong": "Very strong", "common.bits": "bits", "common.pw_hint": "Without easily confused characters (l, I, O, 0, 1).", "common.at_least_one": "At least one character type required", "tab.stopwatch": "Stopwatch", "tab.timer": "Timer", "tab.date": "Date", "tab.wheel": "Wheel", "tab.coin": "Coin", "tab.qr": "QR", "tab.barcode": "Barcode", "tab.text": "Text", "tab.live": "Live", "tab.sound": "Sound", "tab.level": "Level", "tab.calc": "Percent", "tab.split": "Split", "tab.fx": "Currency", "tab.len": "Length", "tab.mass": "Mass", "tab.vol": "Volume", "tab.temp": "Temp", "tab.spd": "Speed", "tab.ruler": "Ruler", "calc.deg": "DEG", "calc.rad": "RAD", "zeit.date_range": "Date range", "zeit.weeks": "Weeks", "zeit.calendar": "Calendar", "zeit.weekday": "Weekday of “To”", "zeit.day": "day", "zeit.days": "days", "zeit.to_before": "“To” is before “From”.", "ruler.hint": "Align the edge with the screen edge · scale in cm", "coin.heads": "Heads", "coin.tails": "Tails", "wheel.spin": "Spin!", "wheel.placeholder": "e.g. Yes, No, Maybe", "db.sound_level": "Sound level", "db.peak": "Peak", "db.hint_start": "Relative level (not calibrated SPL). Start and allow microphone access.", "db.quiet": "Quiet / silence", "db.soft": "Soft speech / quiet room", "db.normal": "Normal conversation", "db.loud": "Loud / music nearby", "db.very_loud": "Very loud – protect your hearing", "db.mic_denied": "Microphone permission denied", "db.mic_unsupported": "Microphone not supported", "db.nothing_log": "Nothing to log", "level.title": "Spirit level", "level.tap": "Tap Start and allow motion access", "level.hold": "Level · hold steady", "level.almost": "Almost level", "level.left": "Tilt left", "level.right": "Tilt right", "level.stopped": "Stopped", "level.denied": "Motion permission denied", "level.failed": "Motion permission failed", "level.unsupported": "Orientation sensor not supported", "level.not_supported": "Not supported on this device", "level.hint": "Hold the phone flat or upright. Green when within ±1.5°.", "level.pitch": "Pitch (β)", "level.roll": "Roll (γ)", "level.move": "Move phone to level…", "trans.source": "Source language", "trans.target": "Target language", "trans.person_a": "Person A", "trans.person_b": "Person B", "qr.text_or_link": "Text or link", "fin.percent": "Percent", "fin.tax": "Tax", "fin.split_bill": "Split bill", "fin.currency": "Currency", "unit.align": "Align the edge with the screen edge · scale in cm"};
+var UI_PACKS = { en: UI_EN, de: UI_DE, fr: UI_FR, es: UI_ES, it: UI_IT, pl: UI_PL, nl: UI_NL, pt: UI_PT, tr: UI_TR, ru: UI_RU };
+
+function currentUiLang(){
+  var l = (P && (P.uiLang || P.locLang)) || 'en';
+  l = String(l).toLowerCase().slice(0, 2);
+  if(l === 'nb' || l === 'nn') l = 'no';
+  return l || 'en';
+}
+/** English source text → translated text for current UI language (text-by-text engine) */
+function tr(enText){
+  enText = String(enText == null ? '' : enText);
+  if(!enText) return enText;
+  var lang = currentUiLang();
+  if(lang === 'en') return enText;
+  // Built-in pack by English value (DE etc.)
+  try{
+    if(UI_PACKS[lang]){
+      var pack = UI_PACKS[lang];
+      for(var k in UI_EN){
+        if(UI_EN[k] === enText && pack[k] != null) return pack[k];
+      }
+    }
+  }catch(e){}
+  // Cache by exact English string
+  try{
+    if(P && P.i18nCache && P.i18nCache[lang] && P.i18nCache[lang][enText] != null)
+      return P.i18nCache[lang][enText];
+  }catch(e){}
+  return enText;
+}
+function t(key){
+  var en = (UI_EN && UI_EN[key] != null) ? UI_EN[key] : key;
+  var lang = currentUiLang();
+  // Prefer keyed pack (de, …)
+  if(UI_PACKS[lang] && UI_PACKS[lang][key] != null) return UI_PACKS[lang][key];
+  try{
+    if(P && P.i18nCache && P.i18nCache[lang]){
+      if(P.i18nCache[lang][key] != null) return P.i18nCache[lang][key];
+      if(P.i18nCache[lang][en] != null) return P.i18nCache[lang][en];
+    }
+  }catch(e){}
+  return en;
+}
+function tfmt(key){
+  var s = t(key);
+  for(var i=1;i<arguments.length;i++){
+    s = s.replace(new RegExp('\\{'+(i-1)+'\\}','g'), String(arguments[i]));
+  }
+  return s;
+}
+function widgetName(id){ return t('w.'+id); }
+function widgetSub(id){ return t('w.'+id+'.sub'); }
+function applyStaticUi(){
+  try{
+    var th=$('tabHome'), ts=$('tabSettings');
+    if(th){ var svg=th.querySelector('svg'); th.innerHTML=''; if(svg) th.appendChild(svg); th.appendChild(document.createTextNode(t('nav.home'))); }
+    if(ts){ var svg2=ts.querySelector('svg'); ts.innerHTML=''; if(svg2) ts.appendChild(svg2); ts.appendChild(document.createTextNode(t('nav.settings'))); }
+  }catch(e){}
+  try{
+    var h2=document.querySelector('#settings > h2');
+    if(h2) h2.textContent=t('set.title');
+    document.querySelectorAll('#settings .setting-card .lbl[data-i18n]').forEach(function(lbl){
+      lbl.textContent=t(lbl.getAttribute('data-i18n'));
+    });
+    var mapBtn={
+      'installBtn':'set.install_btn',
+      'resetAll':'set.delete',
+      'openImp':'set.legal_notice',
+      'openPriv':'set.privacy'
+    };
+    Object.keys(mapBtn).forEach(function(id){
+      var el=$(id); if(el) el.textContent=t(mapBtn[id]);
+    });
+    var pref=document.querySelector('label[for="uiLangSelect"]');
+    if(pref) pref.textContent=t('set.preferred');
+    document.querySelectorAll('#settings .setting-card').forEach(function(c){
+      var l=c.querySelector('.lbl');
+      if(l && l.getAttribute('data-i18n')==='set.info'){
+        var body=c.querySelector('div[style]');
+        if(body && !body.querySelector('p')) body.textContent=t('set.info_body');
+      }
+    });
+    document.querySelectorAll('[data-theme-btn]').forEach(function(b){
+      var m={system:'set.system',dark:'set.dark',light:'set.light'};
+      if(m[b.dataset.themeBtn]) b.textContent=t(m[b.dataset.themeBtn]);
+    });
+    document.querySelectorAll('[data-sound-btn]').forEach(function(b){
+      b.textContent=t(b.dataset.soundBtn==='on'?'set.on':'set.off');
+    });
+  }catch(e){}
+  try{
+    document.querySelectorAll('.back').forEach(function(b){ b.setAttribute('aria-label', t('nav.back')); });
+  }catch(e){}
+}
+function applyUiLang(){
+  applyStaticUi();
+  try{ updateLocStatus(); }catch(e){}
+  try{
+    if(!$('home').hidden) renderHome();
+    else if(!$('settings').hidden){ /* static */ }
+    else if(!$('screen').hidden && cur){
+      var id=cur;
+      var w=WIDGETS.filter(function(x){return x.id===id;})[0];
+      if($('stitle')) $('stitle').textContent=w?widgetName(w.id):t('nav.app');
+      if(id==='rechner') renderRechner();
+      else if(id==='zufall') renderZufall(typeof zTab!=='undefined'?zTab:undefined);
+      else if(id==='finanzen') renderFinanzen(typeof fTab!=='undefined'?fTab:undefined);
+      else if(id==='tools') renderTools(typeof tTab!=='undefined'?tTab:undefined);
+      else if(id==='einheiten') renderEinheiten(P.unit&&P.unit.cat);
+      else if(id==='uebersetzer') renderUebersetzer(typeof trTab!=='undefined'?trTab:undefined);
+      else if(id==='zeit') renderZeit(typeof yTab!=='undefined'?yTab:undefined);
+      else if(id==='dbmeter') renderDbMeter(typeof dbTab!=='undefined'?dbTab:undefined);
+    }
+  }catch(e){ console && console.warn && console.warn('applyUiLang', e); }
+  // Second pass: translate any remaining English text nodes in the live UI
+  try{ translateDomTexts(document.querySelector('.phone-frame')); }catch(e){}
+}
+var _trBusy=false, _trQueue=null;
+function translateOne(en, lang){
+  return fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(en)+'&langpair=en|'+encodeURIComponent(lang))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var res=(d && d.responseStatus==200 && d.responseData && d.responseData.translatedText)
+        ? d.responseData.translatedText : en;
+      // MyMemory sometimes returns "MYMEMORY WARNING..." — keep original then
+      if(/^MYMEMORY/i.test(res) || /QUOTA|LIMIT/i.test(res)) res = en;
+      return res;
+    })
+    .catch(function(){ return en; });
+}
+/** Translate all English UI strings into `lang` and cache them, then refresh UI */
+function ensureLangPack(lang, done){
+  lang = String(lang||'en').toLowerCase().slice(0,2);
+  if(!lang || lang==='en'){ if(done) done(true); return; }
+  // Built-in packs: instant
+  if(UI_PACKS[lang]){ if(done) done(true); return; }
+  if(!P.i18nCache) P.i18nCache={};
+  if(!P.i18nCache[lang]) P.i18nCache[lang]={};
+  var items=[], seen={};
+  Object.keys(UI_EN).forEach(function(k){
+    var en=UI_EN[k];
+    if(!en) return;
+    if(P.i18nCache[lang][k]!=null || P.i18nCache[lang][en]!=null) return;
+    if(seen[en]) return;
+    seen[en]=1;
+    items.push({key:k, en:en});
+  });
+  if(!items.length){ if(done) done(true); return; }
+  var status=$('locStatus');
+  if(status) status.textContent='Translating…';
+  // Parallel batches of 40 — typically finishes well under 1s on a good connection
+  var CHUNK=40, idx=0;
+  function runChunk(){
+    if(idx>=items.length){
+      save();
+      if(done) done(true);
+      return;
+    }
+    var slice=items.slice(idx, idx+CHUNK);
+    idx+=CHUNK;
+    Promise.all(slice.map(function(item){
+      return translateOne(item.en, lang).then(function(res){
+        P.i18nCache[lang][item.key]=res;
+        P.i18nCache[lang][item.en]=res;
+      });
+    })).then(function(){
+      if(status) status.textContent='Translating… '+Math.min(idx,items.length)+'/'+items.length;
+      runChunk();
+    }).catch(function(){ runChunk(); });
+  }
+  runChunk();
+}
+
+/** Walk DOM text nodes and replace known English UI phrases with translations */
+function translateDomTexts(root){
+  if(!root || currentUiLang()==='en') return;
+  var lang=currentUiLang();
+  var map={};
+  // Build reverse map English → translated from pack + cache
+  Object.keys(UI_EN).forEach(function(k){
+    var en=UI_EN[k], trs=t(k);
+    if(en && trs && en!==trs) map[en]=trs;
+  });
+  try{
+    if(P.i18nCache && P.i18nCache[lang]){
+      Object.keys(P.i18nCache[lang]).forEach(function(k){
+        var v=P.i18nCache[lang][k];
+        if(v && UI_EN[k]) map[UI_EN[k]]=v;
+        else if(v && k.length>1 && k.charAt(0)!=='w' && k.indexOf('.')===-1) map[k]=v;
+      });
+    }
+  }catch(e){}
+  var walker=document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  var node, list=[];
+  while((node=walker.nextNode())){
+    var p=node.parentElement;
+    if(!p) continue;
+    var tag=p.tagName;
+    if(tag==='SCRIPT'||tag==='STYLE'||tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||tag==='OPTION') continue;
+    if(p.closest && (p.closest('#uiLangSelect')||p.closest('option'))) continue;
+    var raw=node.nodeValue;
+    if(!raw || !raw.trim()) continue;
+    var trim=raw.trim();
+    if(map[trim]){
+      list.push({node:node, from:trim, to:map[trim], raw:raw});
+    }
+  }
+  list.forEach(function(it){
+    it.node.nodeValue = it.raw.replace(it.from, it.to);
+  });
+  // placeholders
+  root.querySelectorAll('[placeholder]').forEach(function(el){
+    var ph=el.getAttribute('placeholder');
+    if(ph && map[ph]) el.setAttribute('placeholder', map[ph]);
+  });
+}
+
 /* ---------- Browser metadata → language (auto-translate setup) ---------- */
 function normalizeLangCode(raw){
   if(!raw) return null;
@@ -2893,6 +3488,8 @@ function detectLangFromBrowser(){
   }
   return null;
 }
+
+
 function fillUiLangSelect(){
   var sel=$('uiLangSelect'); if(!sel) return;
   var cur=P.uiLang||P.locLang||P.trans.from||'en';
@@ -2910,21 +3507,23 @@ function fillUiLangSelect(){
 function updateLocStatus(){
   var el=$('locStatus'); if(!el) return;
   if(P.locLang&&LANGS[P.locLang]){
-    el.textContent='Current: '+(LANGS[P.locLang]||P.locLang)+(P.locCountry?' · '+P.locCountry:'')+'. Translator: '+(LANGS[P.trans.from]||P.trans.from)+' → '+(LANGS[P.trans.to]||P.trans.to)+'.';
+    el.textContent=tfmt('set.lang_current', (LANGS[P.locLang]||P.locLang)+(P.locCountry?' · '+P.locCountry:''), LANGS[P.trans.from]||P.trans.from, LANGS[P.trans.to]||P.trans.to);
   }else if(P.locAsked){
-    el.textContent='No language set yet. Choose one below or detect from browser.';
+    el.textContent=t('set.lang_none');
   }else{
-    el.textContent='Choose a language or detect from browser settings (navigator.language).';
+    el.textContent=t('set.lang_hint');
   }
   fillUiLangSelect();
 }
 function applyDetectedLang(lang, sourceLabel, silent){
-  if(!lang||!LANGS[lang]) return false;
+  if(!lang) return false;
+  lang = String(lang).toLowerCase().slice(0,2);
+  if(lang==='nb'||lang==='nn') lang='no';
+  if(!LANGS[lang] && !UI_EN) return false;
   P.locLang=lang;
   P.locCountry=sourceLabel||P.locCountry||'manual';
   P.uiLang=lang;
   P.locAsked=true;
-  // Source = user's language, target = English (or German if already English)
   P.trans.from=lang;
   P.trans.to=(lang==='en')?'de':'en';
   P.trans.res='';
@@ -2933,32 +3532,34 @@ function applyDetectedLang(lang, sourceLabel, silent){
   P.live.to=P.trans.to;
   try{ document.documentElement.lang=lang; }catch(e){}
   save();
-  updateLocStatus();
+  // Immediately refresh with whatever we already have (built-in pack or cache)
+  applyUiLang();
   if(!silent){
-    toast('Language: '+(LANGS[lang]||lang)+' · Translator ready');
+    try{ toast(tfmt('set.lang_ready', (LANGS[lang]||lang))); }catch(e){ toast('Language: '+lang); }
   }
+  // For languages without a built-in pack: translate English UI strings one-by-one
+  ensureLangPack(lang, function(){
+    applyUiLang();
+    try{ fillUiLangSelect(); updateLocStatus(); }catch(e){}
+  });
   return true;
 }
 function detectLocation(force, silent){
-  // Name kept for compatibility with the Settings button handler
-  if(P.locAsked&&!force){ updateLocStatus(); return; }
-  var btn=$('detectLangBtn');
-  if(btn){ btn.disabled=true; btn.textContent='Detecting…'; }
-  var found=detectLangFromBrowser();
-  var ok=false;
+  if(P.locAsked && !force){ updateLocStatus(); return; }
+  var found = detectLangFromBrowser();
   if(found){
-    ok=applyDetectedLang(found.lang, found.source||'browser', silent);
-  }else{
-    P.locAsked=true; save();
+    applyDetectedLang(found.lang, found.source || 'browser', silent !== false);
+  } else {
+    P.locAsked = true;
+    if(!P.uiLang){ P.uiLang = 'en'; P.locLang = 'en'; }
+    save();
+    applyUiLang();
   }
-  if(btn){ btn.disabled=false; btn.textContent='Detect language'; }
   updateLocStatus();
-  if(!ok&&!silent) toast('Could not detect language');
 }
 function maybeAutoDetectLang(){
-  if(P.locAsked||P.locLang){ updateLocStatus(); return; }
-  // Instant, no permission prompt — uses browser metadata only
-  setTimeout(function(){ detectLocation(false, true); }, 400);
+  if(P.uiLang || P.locLang){ updateLocStatus(); applyUiLang(); return; }
+  setTimeout(function(){ detectLocation(false, true); }, 300);
 }
 
 function renderTools(tab){
@@ -2966,13 +3567,13 @@ function renderTools(tab){
   if(tTab!=='qr'&&tTab!=='barcode') tTab='qr';
   if(!P.bc) P.bc={text:'',fmt:'code128'};
   var tabs=segTabs('ttab',[
-    {id:'qr',label:'QR',icon:'qr'},
-    {id:'barcode',label:'Barcode',icon:'barcode'}
+    {id:'qr',label:t('tab.qr'),icon:'qr'},
+    {id:'barcode',label:t('tab.barcode'),icon:'barcode'}
   ],tTab);
   var c='';
   if(tTab==='qr'){
-    c=groupTitle('Content')+group(
-      '<div class="fld"><label for="qr-input">Text or link</label><div class="inp"><input id="qr-input" type="text" maxlength="500" value="'+esc(P.qr.text)+'" placeholder="Enter link or text…"></div></div>'+
+    c=groupTitle(t('common.content'))+group(
+      '<div class="fld"><label for="qr-input">'+t('qr.text_or_link')+'</label><div class="inp"><input id="qr-input" type="text" maxlength="500" value="'+esc(P.qr.text)+'" placeholder="'+esc(t('common.enter_link'))+'"></div></div>'+
       '<div class="qr-box" id="qrImg"></div>'
     )+bottomActions(iconBtn('qrDl','download','Download','ghost'))+histBlock('qrHist');
   }else{
@@ -3376,7 +3977,7 @@ function renderUebersetzer(tab){
         '</div>'+
       '</div>'+
       '<div class="gt-box target">'+
-        '<div class="gt-result'+(hasRes?'':' placeholder')+'" id="transOut" aria-live="polite">'+(hasRes?esc(t.res):'Translation')+'</div>'+
+        '<div class="gt-result'+(hasRes?'':' placeholder')+'" id="transOut" aria-live="polite">'+(hasRes?esc(t.res):((UI_PACKS[currentUiLang()]&&UI_PACKS[currentUiLang()]['common.translation'])||UI_EN['common.translation']||'Translation'))+'</div>'+
         '<div class="gt-actions">'+
           '<button type="button" class="gt-ico" id="trSpeak" aria-label="Speak">'+spkSvg+'</button>'+
           '<button type="button" class="gt-ico" id="trCopy" aria-label="Copy">'+copySvg+'</button>'+
@@ -3389,9 +3990,9 @@ function renderUebersetzer(tab){
     var micIcon='<svg viewBox="0 0 24 24" width="28" height="28" style="display:block;margin:0 auto"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
     c=group(
       '<div class="row">'+
-        '<div class="fld" style="flex:1"><label for="lv-from">Person A</label><select id="lv-from">'+opts(P.live.from)+'</select></div>'+
+        '<div class="fld" style="flex:1"><label for="lv-from">'+t('trans.person_a')+'</label><select id="lv-from">'+opts(P.live.from)+'</select></div>'+
         '<button type="button" class="mini" id="lvSwap" aria-label="Swap">⇄</button>'+
-        '<div class="fld" style="flex:1"><label for="lv-to">Person B</label><select id="lv-to">'+opts(P.live.to)+'</select></div>'+
+        '<div class="fld" style="flex:1"><label for="lv-to">'+t('trans.person_b')+'</label><select id="lv-to">'+opts(P.live.to)+'</select></div>'+
       '</div>'
     )+
     '<div style="display:flex;justify-content:center;padding:16px 0 8px">'+
@@ -3414,8 +4015,8 @@ function renderEinheiten(tab){
   var U=P.unit; if(tab) U.cat=tab;
   if(!UNITS[U.cat]&&U.cat!=='ruler') U.cat='len';
   U.sel=U.sel||{};
-  var names={}; Object.keys(UNITS).forEach(function(k){names[k]=UNITS[k].name;});
-  names.ruler='Ruler';
+  var names={}; Object.keys(UNITS).forEach(function(k){names[k]=t('tab.'+k)||UNITS[k].name;});
+  names.ruler=t('tab.ruler');
   var uIcons={len:'len',mass:'mass',vol:'vol',temp:'temp',spd:'spd',ruler:'ruler'};
   if(U.cat==='ruler'){
     $('body').innerHTML='';
@@ -3424,7 +4025,7 @@ function renderEinheiten(tab){
     edge.innerHTML='<div class="ruler-topbar"><button type="button" class="back" id="rulerBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>'+
       '<div style="flex:1;overflow-x:auto">'+tabsHtml('utab',names,'ruler',uIcons)+'</div></div>'+
       '<div class="ruler-stage"><canvas id="rulerCanvas" class="ruler-canvas"></canvas></div>'+
-      '<p class="ruler-hint">Align the edge with the screen edge · scale in cm</p>';
+      '<p class="ruler-hint">'+t('ruler.hint')+'</p>';
     $('body').appendChild(edge);
     var tb=document.querySelector('#screen .topbar'); if(tb) tb.style.display='none';
     drawRuler();
@@ -3436,11 +4037,11 @@ function renderEinheiten(tab){
   if(!s||!defs[s[0]]||!defs[s[1]]){s=U.sel[cat]=UNIT_DEF[cat].slice();}
   function opts(sel){return Object.keys(defs).map(function(k){return '<option value="'+k+'"'+(k===sel?' selected':'')+'>'+esc(defs[k][0])+'</option>';}).join('');}
   $('body').innerHTML='<div class="card">'+tabsHtml('utab',names,cat,uIcons)+
-    groupTitle('Convert')+group(
-      '<div class="fld"><label for="u-val">Value</label><div class="inp"><input id="u-val" type="text" inputmode="decimal" autocomplete="off" value="'+esc(U.val)+'" placeholder="Enter value…"></div></div>'+
-      '<div class="row"><div class="fld" style="flex:1"><label for="u-from">From</label><select id="u-from">'+opts(s[0])+'</select></div>'+
+    groupTitle(t('common.convert'))+group(
+      '<div class="fld"><label for="u-val">'+t('common.value')+'</label><div class="inp"><input id="u-val" type="text" inputmode="decimal" autocomplete="off" value="'+esc(U.val)+'" placeholder="'+esc(t('common.enter_value'))+'"></div></div>'+
+      '<div class="row"><div class="fld" style="flex:1"><label for="u-from">'+t('common.from')+'</label><select id="u-from">'+opts(s[0])+'</select></div>'+
       '<button type="button" class="mini" id="uSwap" aria-label="Swap units">⇄</button>'+
-      '<div class="fld" style="flex:1"><label for="u-to">To</label><select id="u-to">'+opts(s[1])+'</select></div></div>'+
+      '<div class="fld" style="flex:1"><label for="u-to">'+t('common.to')+'</label><select id="u-to">'+opts(s[1])+'</select></div></div>'+
       '<div class="out" id="uOut" aria-live="polite"></div><div class="hint" id="uInfo"></div>'
     )+histBlock('unitHist')+'</div>';
   updateUnit();
@@ -3525,9 +4126,9 @@ function renderNotizen(){
   var list=P.notes.map(function(n){
     return '<div class="tm'+(n.id===lastNote?' new':'')+'"><div style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px">'+esc(n.text)+'</div><div class="tm-head" style="margin-top:6px"><span class="hint">'+esc(fmtDate(n.t))+'</span><span class="tm-act"><button type="button" class="mini" data-ne="'+n.id+'">Edit</button><button type="button" class="mini" data-nd="'+n.id+'">Delete</button></span></div></div>';
   }).join('');
-  $('body').innerHTML='<div class="card"><div class="fld"><label for="n-text">'+(editing?'Edit note':'New note')+'</label><textarea id="n-text" rows="3" maxlength="2000" placeholder="Write something…">'+esc(editing?editing.text:'')+'</textarea></div>'+
-    '<div class="row c"><button class="btn" type="button" id="nAdd">'+(editing?'Save changes':'Save note')+'</button>'+(editing?'<button class="btn ghost" type="button" id="nCancel" style="width:auto;white-space:nowrap">Cancel</button>':'')+'</div>'+
-    '<div style="flex:1 1 80px;min-height:80px">'+(list||'<p class="hint" style="text-align:center;margin-top:8px">No notes.</p>')+'</div></div>';
+  $('body').innerHTML='<div class="card"><div class="fld"><label for="n-text">'+(editing?t('common.edit_note'):t('common.new_note'))+'</label><textarea id="n-text" rows="3" maxlength="2000" placeholder="…">'+esc(editing?editing.text:'')+'</textarea></div>'+
+    '<div class="row c"><button class="btn" type="button" id="nAdd">'+(editing?t('common.save_changes'):t('common.save_note'))+'</button>'+(editing?'<button class="btn ghost" type="button" id="nCancel" style="width:auto;white-space:nowrap">'+t('common.cancel')+'</button>':'')+'</div>'+
+    '<div style="flex:1 1 80px;min-height:80px">'+(list||'<p class="hint" style="text-align:center;margin-top:8px">'+t('common.no_notes')+'</p>')+'</div></div>';
   lastNote=null;
 }
 
@@ -3548,18 +4149,18 @@ function renderPasswort(){
   var o=P.pw;
   function chip(k,l){return '<button type="button" class="chip" data-pwc="'+k+'" aria-pressed="'+(!!o[k])+'">'+l+'</button>';}
   $('body').innerHTML='<div class="card"><div class="pw-out" id="pwOut" aria-live="polite"></div><div class="tm-bar" style="margin:0"><i id="pwBar"></i></div><div class="hint" id="pwStr"></div>'+
-    '<div class="fld"><label for="pw-len">Length: <b id="pwLenV">'+o.len+'</b> characters</label><input type="range" id="pw-len" min="8" max="64" value="'+o.len+'"></div>'+
+    '<div class="fld"><label for="pw-len">'+t('common.length')+': <b id="pwLenV">'+o.len+'</b> '+t('common.characters')+'</label><input type="range" id="pw-len" min="8" max="64" value="'+o.len+'"></div>'+
     '<div class="chips" role="group" aria-label="Character types">'+chip('lower','a–z')+chip('upper','A–Z')+chip('num','0–9')+chip('sym','#$%')+'</div>'+
-    '<div class="hint">Without easily confused characters (l, I, O, 0, 1).</div>'+
-    '<div class="row c"><button class="btn" type="button" id="pwGen">Generate new</button><button class="btn ghost" type="button" id="pwCopy">Copy</button></div></div>';
+    '<div class="hint">'+t('common.pw_hint')+'</div>'+
+    '<div class="row c"><button class="btn" type="button" id="pwGen">'+t('common.generate')+'</button><button class="btn ghost" type="button" id="pwCopy">'+t('common.copy')+'</button></div></div>';
   updatePw(false);
 }
 function updatePw(animate){
   var out=$('pwOut'); if(!out) return;
   out.textContent=pwCur;
-  var lbl,col; if(pwBits<40){lbl='Weak';col='var(--danger)';}else if(pwBits<60){lbl='Medium';col='#FF9F0A';}else if(pwBits<80){lbl='Strong';col='#30B0C7';}else{lbl='Very strong';col='#34C759';}
+  var lbl,col; if(pwBits<40){lbl=t('common.weak');col='var(--danger)';}else if(pwBits<60){lbl=t('common.medium');col='#FF9F0A';}else if(pwBits<80){lbl=t('common.strong');col='#30B0C7';}else{lbl=t('common.very_strong');col='#34C759';}
   var bar=$('pwBar'); if(bar){bar.style.width=Math.min(100,pwBits)+'%';bar.style.background=col;}
-  $('pwStr').textContent='Strength: '+lbl+' (approx. '+Math.round(pwBits)+' bits)';
+  $('pwStr').textContent=t('common.strength')+': '+lbl+' (≈ '+Math.round(pwBits)+' '+t('common.bits')+')';
   if(animate) pop(out,'pop');
 }
 
@@ -3575,30 +4176,30 @@ function renderZeit(tab){
   yTab=tab||yTab||'stop';
   if(yTab!=='stop'&&yTab!=='timer'&&yTab!=='date') yTab='stop';
   var tabs=segTabs('ytab',[
-    {id:'stop',label:'Stopwatch',icon:'stop'},
-    {id:'timer',label:'Timer',icon:'timer'},
-    {id:'date',label:'Date',icon:'date'}
+    {id:'stop',label:t('tab.stopwatch'),icon:'stop'},
+    {id:'timer',label:t('tab.timer'),icon:'timer'},
+    {id:'date',label:t('tab.date'),icon:'date'}
   ],yTab);
   var c='';
   if(yTab==='stop'){
     var laps=swLaps.slice().reverse().map(function(l,i){
       var n=swLaps.length-i;
-      return '<div class="lap"><span>Lap '+n+'</span><span>+'+fmtSw(l.d)+'</span><span>'+fmtSw(l.t)+'</span></div>';
+      return '<div class="lap"><span>'+t('common.lap')+' '+n+'</span><span>+'+fmtSw(l.d)+'</span><span>'+fmtSw(l.t)+'</span></div>';
     }).join('');
     c=group(
       '<div class="sw" id="swDisp" aria-live="off">'+fmtSw(swNow())+'</div>'+
       '<div class="sw-pad" style="grid-template-columns:1fr 1fr 1fr">'+
-        '<button type="button" class="ghost-k" id="swLap" style="border-radius:10px"'+(swRun?'':' disabled')+'>Lap</button>'+
-        '<button type="button" class="op" id="swGo" style="border-radius:10px">'+(swRun?'Stop':(swAcc>0?'Resume':'Start'))+'</button>'+
-        '<button type="button" class="ghost-k" id="swReset" style="border-radius:10px">Reset</button>'+
+        '<button type="button" class="ghost-k" id="swLap" style="border-radius:10px"'+(swRun?'':' disabled')+'>'+t('common.lap')+'</button>'+
+        '<button type="button" class="op" id="swGo" style="border-radius:10px">'+(swRun?t('common.stop'):(swAcc>0?t('common.resume'):t('common.start')))+'</button>'+
+        '<button type="button" class="ghost-k" id="swReset" style="border-radius:10px">'+t('common.reset')+'</button>'+
       '</div>'
-    )+(laps?groupTitle('Laps')+group(laps):'');
+    )+(laps?groupTitle(t('common.laps'))+group(laps):'');
   }else if(yTab==='timer'){
     var show=tmDigits||'0';
     c='<div class="card-calc" style="display:flex;flex-direction:column;gap:8px;flex:1;min-height:0">'+
       '<div style="text-align:center;padding:8px 0 0">'+
         '<div class="tm-disp" id="tmDisp">'+esc(show)+'</div>'+
-        '<div class="tm-unit">Minutes</div>'+
+        '<div class="tm-unit">'+t('common.minutes')+'</div>'+
       '</div>'+
       '<div class="tm-pad" style="flex:1;grid-auto-rows:1fr;min-height:220px">'+
         [1,2,3,4,5,6,7,8,9].map(function(n){return '<button type="button" data-tm="'+n+'">'+n+'</button>';}).join('')+
@@ -3606,14 +4207,14 @@ function renderZeit(tab){
         '<button type="button" data-tm="0">0</button>'+
         '<button type="button" class="op" data-tm="go">Start</button>'+
       '</div>'+
-      groupTitle('History')+'<div id="tmList"></div>'+
+      groupTitle(t('common.history'))+'<div id="tmList"></div>'+
     '</div>';
   }else{
     if(!P.dd.a) P.dd.a=todayIso(); if(!P.dd.b) P.dd.b=todayIso();
-    c=groupTitle('Date range')+group(
+    c=groupTitle(t('zeit.date_range'))+group(
       '<div class="row"><div class="fld" style="flex:1"><label for="d-a">From</label><div class="inp"><input id="d-a" type="date" value="'+esc(P.dd.a)+'"></div></div>'+
-      '<div class="fld" style="flex:1"><label for="d-b">To</label><div class="inp"><input id="d-b" type="date" value="'+esc(P.dd.b)+'"></div></div></div>'
-    )+groupTitle('Result')+group('<div id="dOut" aria-live="polite"></div>')+histBlock('dateHist');
+      '<div class="fld" style="flex:1"><label for="d-b">'+t('common.to')+'</label><div class="inp"><input id="d-b" type="date" value="'+esc(P.dd.b)+'"></div></div></div>'
+    )+groupTitle(t('common.result'))+group('<div id="dOut" aria-live="polite"></div>')+histBlock('dateHist');
   }
   $('body').innerHTML='<div class="card"'+(yTab==='timer'?' style="display:flex;flex-direction:column;min-height:100%"':'')+'>'+tabs+c+'</div>';
   if(yTab==='date'){updateDates();renderHistList('dateHist');}
@@ -3630,11 +4231,11 @@ function updateDates(){
   if(d<0){m--;d+=new Date(Date.UTC(d2.getUTCFullYear(),d2.getUTCMonth(),0)).getUTCDate();}
   if(m<0){y--;m+=12;}
   var wd=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(b).getUTCDay()];
-  el.innerHTML='<div class="out" style="margin:6px 0">'+abs.toLocaleString('en-US')+(abs===1?' day':' days')+'</div>'+
-    '<div class="out-line"><span>Weeks</span><b>'+Math.floor(abs/7)+' w + '+abs%7+' d</b></div>'+
-    '<div class="out-line"><span>Calendar</span><b>'+y+' y, '+m+' m, '+d+' d</b></div>'+
-    '<div class="out-line"><span>Weekday of “To”</span><b>'+wd+'</b></div>'+
-    (days<0?'<div class="hint">“To” is before “From”.</div>':'');
+  el.innerHTML='<div class="out" style="margin:6px 0">'+abs.toLocaleString()+' '+(abs===1?t('zeit.day'):t('zeit.days'))+'</div>'+
+    '<div class="out-line"><span>'+t('zeit.weeks')+'</span><b>'+Math.floor(abs/7)+' w + '+abs%7+' d</b></div>'+
+    '<div class="out-line"><span>'+t('zeit.calendar')+'</span><b>'+y+' y, '+m+' m, '+d+' d</b></div>'+
+    '<div class="out-line"><span>'+t('zeit.weekday')+'</span><b>'+wd+'</b></div>'+
+    (days<0?'<div class="hint">'+t('zeit.to_before')+'</div>':'');
   pop(el.firstChild,'bump');
 }
 function saveDateHist(){
@@ -3691,7 +4292,7 @@ $('body').addEventListener('click',function(e){
   if(el.closest('#swReset')){swRun=false;swAcc=0;swStart=0;swLaps=[];renderZeit('stop');return;}
   if(el.closest('#nAdd')){
     var txt=($('n-text').value||'').trim();
-    if(!txt){toast('Please enter something first');return;}
+    if(!txt){toast(t('common.please_enter'));return;}
     if(nEdit){
       var n=P.notes.filter(function(x){return x.id===nEdit;})[0];
       if(n){n.text=txt;n.t=Date.now();lastNote=n.id;}
@@ -3707,17 +4308,17 @@ $('body').addEventListener('click',function(e){
   if((t=el.closest('[data-nd]'))){
     P.notes=P.notes.filter(function(x){return x.id!==t.dataset.nd;});
     if(nEdit===t.dataset.nd) nEdit=null;
-    save();toast('Note deleted');renderNotizen();return;
+    save();toast(t('common.note_deleted'));renderNotizen();return;
   }
   if(el.closest('#pwGen')){genPw();updatePw(true);return;}
   if(el.closest('#pwCopy')){
-    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(pwCur).then(function(){toast('Password copied');},function(){toast('Copy failed');});
-    else toast('Copy failed');
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(pwCur).then(function(){toast(t('common.password_copied'));},function(){toast(t('common.copy_fail'));});
+    else toast(t('common.copy_fail'));
     return;
   }
   if((t=el.closest('[data-pwc]'))){
     var k=t.dataset.pwc, o=P.pw, active=['lower','upper','num','sym'].filter(function(x){return o[x];});
-    if(o[k]&&active.length===1){toast('At least one character type required');return;}
+    if(o[k]&&active.length===1){toast(t('common.at_least_one'));return;}
     o[k]=!o[k]; save(); genPw(); renderPasswort(); pop('pwOut');return;
   }
 });
@@ -3783,9 +4384,9 @@ function updateLevelUI(beta, gamma){
   if(gx) gx.textContent = (gamma>=0?'+':'') + gamma.toFixed(1) + '°';
   var st = $('levelStatus');
   if(st){
-    if(Math.abs(tilt) < 1.5) st.textContent = 'Level · hold steady';
-    else if(Math.abs(tilt) < 5) st.textContent = 'Almost level';
-    else st.textContent = tilt > 0 ? 'Tilt left' : 'Tilt right';
+    if(Math.abs(tilt) < 1.5) st.textContent = t('level.hold');
+    else if(Math.abs(tilt) < 5) st.textContent = t('level.almost');
+    else st.textContent = tilt > 0 ? t('level.left') : t('level.right');
   }
 }
 
@@ -3800,18 +4401,18 @@ function startLevel(){
   function bind(){
     window.addEventListener('deviceorientation', levelHandler, true);
     levelListening = true;
-    if($('levelStatus')) $('levelStatus').textContent = 'Move phone to level…';
+    if($('levelStatus')) $('levelStatus').textContent = t('level.move');
   }
   if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
     DeviceOrientationEvent.requestPermission().then(function(state){
       if(state === 'granted') bind();
-      else { toast('Motion permission denied'); if($('levelStatus')) $('levelStatus').textContent = 'Permission denied'; }
-    }).catch(function(){ toast('Motion permission failed'); });
+      else { toast(t('level.denied')); if($('levelStatus')) $('levelStatus').textContent = t('level.denied'); }
+    }).catch(function(){ toast(t('level.failed')); });
   } else if('DeviceOrientationEvent' in window){
     bind();
   } else {
-    toast('Orientation sensor not supported');
-    if($('levelStatus')) $('levelStatus').textContent = 'Not supported on this device';
+    toast(t('level.unsupported'));
+    if($('levelStatus')) $('levelStatus').textContent = t('level.not_supported');
   }
 }
 
@@ -3822,24 +4423,24 @@ function renderDbMeter(tab){
   dbTab = tab || dbTab || 'sound';
   if(dbTab !== 'sound' && dbTab !== 'level') dbTab = 'sound';
   var tabs = segTabs('dbtab',[
-    {id:'sound',label:'Sound',icon:'db'},
-    {id:'level',label:'Level',icon:'level'}
+    {id:'sound',label:t('tab.sound'),icon:'db'},
+    {id:'level',label:t('tab.level'),icon:'level'}
   ], dbTab);
   var c = '';
   if(dbTab === 'sound'){
-    c = groupTitle('Sound level')+group(
+    c = groupTitle(t('db.sound_level'))+group(
       '<div class="result-hero" id="dbVal" style="font-size:48px">– dB</div>'+
       '<div class="tm-bar" style="height:10px;border-radius:5px;margin:8px 0"><i id="dbBar" style="background:var(--btn);width:0%"></i></div>'+
-      '<div class="out-line" style="border:0;padding:4px 0"><span>Peak</span><b id="dbPeak">–</b></div>'+
-      '<div class="hint" id="dbHint" style="text-align:center">Relative level (not calibrated SPL). Start and allow microphone access.</div>'
+      '<div class="out-line" style="border:0;padding:4px 0"><span>'+t('db.peak')+'</span><b id="dbPeak">–</b></div>'+
+      '<div class="hint" id="dbHint" style="text-align:center">'+t('db.hint_start')+'</div>'
     )+
     '<div class="bottom-actions">'+
-      '<div class="row c"><button type="button" class="btn" id="dbToggle" style="flex:1">Start</button>'+
-      '<button type="button" class="btn ghost" id="dbLog" style="flex:1" disabled>Log</button></div>'+
+      '<div class="row c"><button type="button" class="btn" id="dbToggle" style="flex:1">'+t('common.start')+'</button>'+
+      '<button type="button" class="btn ghost" id="dbLog" style="flex:1" disabled>'+t('common.log')+'</button></div>'+
     '</div>'+
     histBlock('dbHist');
   } else {
-    c = groupTitle('Spirit level')+
+    c = groupTitle(t('level.title'))+
       '<div class="level-stage">'+
         '<div class="level-bubble-wrap">'+
           '<div class="level-center-zone"></div>'+
@@ -3847,23 +4448,23 @@ function renderDbMeter(tab){
           '<div class="level-bubble" id="levelBubble"></div>'+
         '</div>'+
         '<div class="level-angle" id="levelAngle">0.0°</div>'+
-        '<div class="level-hint" id="levelStatus">Tap Start and allow motion access</div>'+
+        '<div class="level-hint" id="levelStatus">'+t('level.tap')+'</div>'+
         '<div class="level-axes">'+
-          '<div class="level-axis"><div class="lbl">Pitch (β)</div><div class="val" id="levelBeta">–</div></div>'+
-          '<div class="level-axis"><div class="lbl">Roll (γ)</div><div class="val" id="levelGamma">–</div></div>'+
+          '<div class="level-axis"><div class="lbl">'+t('level.pitch')+'</div><div class="val" id="levelBeta">–</div></div>'+
+          '<div class="level-axis"><div class="lbl">'+t('level.roll')+'</div><div class="val" id="levelGamma">–</div></div>'+
         '</div>'+
       '</div>'+
       '<div class="bottom-actions">'+
-        '<button type="button" class="btn" id="levelToggle">Start</button>'+
+        '<button type="button" class="btn" id="levelToggle">'+t('common.start')+'</button>'+
       '</div>'+
-      '<p class="hint" style="text-align:center">Hold the phone flat or upright. Green when within ±1.5°.</p>';
+      '<p class="hint" style="text-align:center">'+t('level.hint')+'</p>';
   }
   $('body').innerHTML='<div class="card">'+tabs+c+'</div>';
   if(dbTab === 'sound') renderHistList('dbHist');
 }
 function startDbMeter(){
   if(dbRunning) return;
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Microphone not supported');return;}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast(t('db.mic_unsupported'));return;}
   navigator.mediaDevices.getUserMedia({audio:true,video:false}).then(function(stream){
     dbStream=stream;
     var AC=window.AudioContext||window.webkitAudioContext;
@@ -3875,7 +4476,7 @@ function startDbMeter(){
     src.connect(dbAnalyser);
     dbRunning=true;
     dbMax=-60; dbCurrent=-60; dbStartedAt=Date.now();
-    if($('dbToggle')) $('dbToggle').textContent='Stop';
+    if($('dbToggle')) $('dbToggle').textContent=t('common.stop');
     if($('dbLog')) $('dbLog').disabled=false;
     var data=new Uint8Array(dbAnalyser.fftSize);
     function tick(){
@@ -3894,16 +4495,16 @@ function startDbMeter(){
       if(peak) peak.textContent=dbMax>-55?dbMax.toFixed(1)+' dB':'–';
       if(bar){bar.style.width=pct+'%'; bar.style.background=pct>80?'var(--danger)':pct>50?'#FF9F0A':'var(--btn)';}
       if(hint){
-        if(pct<15) hint.textContent='Quiet / silence';
-        else if(pct<40) hint.textContent='Soft speech / quiet room';
-        else if(pct<65) hint.textContent='Normal conversation';
-        else if(pct<85) hint.textContent='Loud / music nearby';
-        else hint.textContent='Very loud – protect your hearing';
+        if(pct<15) hint.textContent=t('db.quiet');
+        else if(pct<40) hint.textContent=t('db.soft');
+        else if(pct<65) hint.textContent=t('db.normal');
+        else if(pct<85) hint.textContent=t('db.loud');
+        else hint.textContent=t('db.very_loud');
       }
       dbRaf=requestAnimationFrame(tick);
     }
     tick();
-  }).catch(function(){toast('Microphone permission denied'); if($('dbToggle')) $('dbToggle').textContent='Start';});
+  }).catch(function(){toast(t('db.mic_denied')); if($('dbToggle')) $('dbToggle').textContent=t('common.start');});
 }
 
 /* ---------- Live Interpreter (continuous, hands-free) ---------- */
@@ -4164,8 +4765,8 @@ $('body').addEventListener('click',function(e){
   if(el.closest('#trSpeak')){speakTranslation();return;}
   if(el.closest('#trCopy')){
     if(!P.trans.res){toast('No translation yet');return;}
-    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(P.trans.res).then(function(){toast('Copied');},function(){toast('Copy failed');});
-    else toast('Copy failed');
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(P.trans.res).then(function(){toast(t('common.copied'));},function(){toast(t('common.copy_fail'));});
+    else toast(t('common.copy_fail'));
     return;
   }
   /* new tools */
@@ -4175,15 +4776,15 @@ $('body').addEventListener('click',function(e){
     fxIn(ni>=oi?'right':'left'); renderDbMeter(t.dataset.dbtab); return;
   }
   if(el.closest('#levelToggle')){
-    if(levelListening){ stopLevel(); if($('levelToggle')) $('levelToggle').textContent='Start'; if($('levelStatus')) $('levelStatus').textContent='Stopped'; }
-    else { startLevel(); if($('levelToggle')) $('levelToggle').textContent='Stop'; }
+    if(levelListening){ stopLevel(); if($('levelToggle')) $('levelToggle').textContent=t('common.start'); if($('levelStatus')) $('levelStatus').textContent=t('level.stopped'); }
+    else { startLevel(); if($('levelToggle')) $('levelToggle').textContent=t('common.stop'); }
     return;
   }
 
   if(el.closest('#dbToggle')){
     if(dbRunning){
       stopDbMeter(true);
-      if($('dbToggle')) $('dbToggle').textContent='Start';
+      if($('dbToggle')) $('dbToggle').textContent=t('common.start');
       if($('dbLog')) $('dbLog').disabled=true;
       if($('dbVal')) $('dbVal').textContent='– dB';
       if($('dbBar')) $('dbBar').style.width='0%';
@@ -4192,7 +4793,7 @@ $('body').addEventListener('click',function(e){
     return;
   }
   if(el.closest('#dbLog')){
-    if(!dbRunning||dbCurrent<=-55){toast('Nothing to log');return;}
+    if(!dbRunning||dbCurrent<=-55){toast(t('db.nothing_log'));return;}
     var label=dbCurrent>-15?'Very loud':dbCurrent>-25?'Loud':dbCurrent>-40?'Normal':dbCurrent>-50?'Soft':'Quiet';
     pushHistNow('dbHist', dbCurrent.toFixed(1)+' dB', label+' · snapshot', dbCurrent.toFixed(1)+' dB');
     renderHistList('dbHist');
@@ -4346,9 +4947,12 @@ bindSwipe(document.querySelector('footer'),function(delta){
   switchFooter(delta);
 });
 
-load(); applyTheme(P.theme); applySound(); renderHome();
+
+load(); applyTheme(P.theme); applySound();
 if(P.uiLang){ try{ document.documentElement.lang=P.uiLang; }catch(e){} }
+applyUiLang();
 updateLocStatus();
+showHome();
 maybeAutoDetectLang();
 try{
   var qOpen=new URLSearchParams(location.search).get('open');
