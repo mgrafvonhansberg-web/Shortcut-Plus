@@ -15,6 +15,31 @@
 <meta name="apple-mobile-web-app-title" content="Shortcut">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Shortcut Plus</title>
+<script>
+/* Early design apply (before paint) */
+(function(){
+  try{
+    var test=localStorage.getItem('designTestMode');
+    var ov=localStorage.getItem('platformOverride');
+    var design=null;
+    if(test==='ios'||test==='android') design=test;
+    else if(ov==='ios'||ov==='android') design=ov;
+    else{
+      var ua=navigator.userAgent||'';
+      var plat=(navigator.userAgentData&&navigator.userAgentData.platform)||navigator.platform||'';
+      var isIPadOS= /iPad|Macintosh/i.test(ua) && navigator.maxTouchPoints>1;
+      var isIOS= /iPhone|iPod/i.test(ua) || (isIPadOS && /iPad/i.test(ua));
+      if(!isIOS && isIPadOS) isIOS=true;
+      if(/iPhone|iPod/i.test(ua)) design='ios';
+      else if(isIPadOS||/iPad/i.test(ua)) design='ios';
+      else design='android';
+    }
+    document.documentElement.setAttribute('data-design', design);
+  }catch(e){
+    document.documentElement.setAttribute('data-design','android');
+  }
+})();
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -271,36 +296,51 @@ mark.ph{background:rgba(255,204,0,.3);color:inherit;border-radius:4px;padding:0 
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* ---------- Liquid Glass (iOS-style) ---------- */
+/* ---------- Hybrid Glass: iOS Liquid Glass + Samsung One UI ---------- */
 :root{
-  --glass:rgba(255,255,255,.42);
-  --glass-strong:rgba(255,255,255,.62);
-  --glass-border:rgba(255,255,255,.55);
-  --glass-shadow:0 8px 32px rgba(0,0,0,.06), 0 1px 0 rgba(255,255,255,.65) inset, 0 -1px 0 rgba(0,0,0,.04) inset;
-  --blur:32px;
-  /* One consistent radius = home tiles / widgets */
-  --radius:20px;
-  --radius-lg:20px;
-  --radius-md:20px;
-  --radius-sm:20px;
+  /* Slightly more opaque than pure liquid glass = Samsung readability */
+  --glass:rgba(255,255,255,.52);
+  --glass-strong:rgba(255,255,255,.72);
+  --glass-border:rgba(255,255,255,.48);
+  /* Soft depth (Samsung) + bright inset rim (Liquid Glass) */
+  --glass-shadow:
+    0 10px 40px rgba(15,40,80,.08),
+    0 2px 8px rgba(0,0,0,.04),
+    0 1px 0 rgba(255,255,255,.75) inset,
+    0 -1px 0 rgba(0,0,0,.03) inset;
+  --blur:40px;
+  --radius:24px;
+  --radius-lg:26px;
+  --radius-md:22px;
+  --radius-sm:16px;
+  --samsung-glow:rgba(80,140,255,.18);
+  --samsung-glow-2:rgba(160,100,255,.12);
 }
 html[data-theme="dark"]{
-  --glass:rgba(44,44,46,.48);
-  --glass-strong:rgba(58,58,60,.62);
-  --glass-border:rgba(255,255,255,.14);
-  --glass-shadow:0 8px 36px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.12) inset, 0 -1px 0 rgba(0,0,0,.25) inset;
+  --glass:rgba(36,38,46,.55);
+  --glass-strong:rgba(48,50,60,.72);
+  --glass-border:rgba(255,255,255,.12);
+  --glass-shadow:
+    0 12px 44px rgba(0,0,0,.5),
+    0 2px 10px rgba(0,0,0,.35),
+    0 1px 0 rgba(255,255,255,.1) inset,
+    0 -1px 0 rgba(0,0,0,.3) inset;
+  --samsung-glow:rgba(60,120,255,.22);
+  --samsung-glow-2:rgba(140,80,255,.14);
 }
 .phone-frame{
   background:
-    radial-gradient(120% 80% at 10% -10%, rgba(120,180,255,.22), transparent 50%),
-    radial-gradient(90% 70% at 95% 5%, rgba(180,140,255,.14), transparent 45%),
-    linear-gradient(165deg, #eef0f5 0%, var(--phone-bg) 42%, #e4e7ee 100%);
+    radial-gradient(130% 90% at 8% -8%, var(--samsung-glow), transparent 52%),
+    radial-gradient(100% 80% at 96% 0%, var(--samsung-glow-2), transparent 48%),
+    radial-gradient(70% 50% at 50% 100%, rgba(120,200,255,.08), transparent 55%),
+    linear-gradient(168deg, #f2f4f9 0%, var(--phone-bg) 40%, #e8ebf2 100%);
 }
 html[data-theme="dark"] .phone-frame{
   background:
-    radial-gradient(120% 80% at 10% -10%, rgba(40,100,220,.28), transparent 50%),
-    radial-gradient(90% 70% at 95% 5%, rgba(120,60,200,.18), transparent 45%),
-    linear-gradient(165deg, #161618 0%, var(--phone-bg) 45%, #0a0a0c 100%);
+    radial-gradient(130% 90% at 8% -8%, var(--samsung-glow), transparent 52%),
+    radial-gradient(100% 80% at 96% 0%, var(--samsung-glow-2), transparent 48%),
+    radial-gradient(70% 50% at 50% 110%, rgba(40,80,180,.12), transparent 55%),
+    linear-gradient(168deg, #14151a 0%, var(--phone-bg) 42%, #08090c 100%);
 }
 .card,.setting-card{
   background:var(--glass-strong) !important;
@@ -1366,6 +1406,436 @@ html[data-theme="dark"] .barcode-box{
   border:1px solid var(--glass-border) !important;
   box-shadow:var(--glass-shadow) !important;
 }
+
+/* ---------- Hybrid Glass polish (Liquid Glass × Samsung One UI) ---------- */
+:root{
+  --radius:24px;
+  --radius-lg:26px;
+  --radius-md:22px;
+  --radius-sm:16px;
+}
+/* Samsung-style soft ambient cards with liquid rim light */
+.group,.setting-card{
+  background:var(--glass-strong) !important;
+  -webkit-backdrop-filter:blur(var(--blur)) saturate(1.65) !important;
+  backdrop-filter:blur(var(--blur)) saturate(1.65) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:var(--radius-md) !important;
+  box-shadow:var(--glass-shadow) !important;
+}
+/* Tiles: colored frost + soft outer glow (Samsung widgets) + inset rim (Apple) */
+.tile{
+  border-radius:var(--radius-lg) !important;
+  -webkit-backdrop-filter:blur(28px) saturate(1.65) !important;
+  backdrop-filter:blur(28px) saturate(1.65) !important;
+  border:1px solid rgba(255,255,255,.45) !important;
+  box-shadow:
+    0 8px 28px rgba(20,50,100,.07),
+    0 2px 6px rgba(0,0,0,.04),
+    0 1px 0 rgba(255,255,255,.55) inset !important;
+}
+html[data-theme="dark"] .tile{
+  border:1px solid rgba(255,255,255,.1) !important;
+  box-shadow:
+    0 10px 32px rgba(0,0,0,.4),
+    0 1px 0 rgba(255,255,255,.08) inset !important;
+}
+/* Floating nav: Samsung capsule + liquid blur */
+footer{
+  left:50% !important;
+  right:auto !important;
+  transform:translateX(-50%);
+  width:calc(100% - 24px) !important;
+  max-width:400px !important;
+  bottom:calc(10px + env(safe-area-inset-bottom)) !important;
+  padding:10px 12px !important;
+  background:var(--glass-strong) !important;
+  -webkit-backdrop-filter:blur(56px) saturate(2) !important;
+  backdrop-filter:blur(56px) saturate(2) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:28px !important; /* Samsung-ish soft capsule, not full pill */
+  box-shadow:
+    0 12px 40px rgba(20,40,90,.14),
+    0 2px 8px rgba(0,0,0,.06),
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 -1px 0 rgba(0,0,0,.04) inset !important;
+}
+html[data-theme="dark"] footer{
+  border-radius:28px !important;
+  box-shadow:
+    0 14px 48px rgba(0,0,0,.55),
+    0 1px 0 rgba(255,255,255,.1) inset !important;
+}
+.f-tab{
+  border-radius:20px !important;
+  padding:10px 16px !important;
+}
+.f-tab.active{
+  background:rgba(0,113,227,.14) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset;
+}
+html[data-theme="dark"] .f-tab.active{
+  background:rgba(10,132,255,.22) !important;
+}
+/* Inputs / panels: frosted Samsung fields + liquid border */
+.inp,.fld>select,.fld>textarea,.pw-out,.calc-disp,.gt-langs,.gt-box,.tm,.qr-box{
+  background:var(--glass) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.45) !important;
+  backdrop-filter:blur(20px) saturate(1.45) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:var(--radius-sm) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.45) inset, 0 4px 16px rgba(15,40,80,.04);
+}
+html[data-theme="dark"] .inp,
+html[data-theme="dark"] .fld>select,
+html[data-theme="dark"] .fld>textarea,
+html[data-theme="dark"] .pw-out,
+html[data-theme="dark"] .calc-disp,
+html[data-theme="dark"] .gt-langs,
+html[data-theme="dark"] .gt-box,
+html[data-theme="dark"] .tm{
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 6px 20px rgba(0,0,0,.25);
+}
+/* Segmented control: soft Samsung track */
+.seg-bar{
+  background:rgba(118,118,128,.14) !important;
+  -webkit-backdrop-filter:blur(24px) saturate(1.5) !important;
+  backdrop-filter:blur(24px) saturate(1.5) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:18px !important;
+  padding:3px !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset;
+}
+.seg-btn{border-radius:15px !important;}
+.seg-btn[aria-selected="true"]{
+  background:var(--glass-strong) !important;
+  -webkit-backdrop-filter:blur(16px) !important;
+  backdrop-filter:blur(16px) !important;
+  box-shadow:0 2px 10px rgba(20,40,90,.1), 0 0.5px 0 rgba(255,255,255,.55) inset !important;
+}
+/* Buttons: primary solid, ghosts frosted */
+.btn{
+  border-radius:16px !important;
+  box-shadow:0 4px 14px rgba(0,113,227,.22);
+}
+.btn.ghost,.mini,.back{
+  background:var(--glass) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.4) !important;
+  backdrop-filter:blur(16px) saturate(1.4) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:14px !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.45) inset;
+}
+.btn.ghost{box-shadow:0 1px 0 rgba(255,255,255,.45) inset, 0 2px 8px rgba(15,40,80,.04);}
+/* Calc / pads: soft glass keys */
+.calc-grid button,.sw-pad button,.tm-pad button{
+  background:var(--glass-strong) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.4) !important;
+  backdrop-filter:blur(18px) saturate(1.4) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:16px !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 2px 8px rgba(15,40,80,.04);
+}
+.calc-grid button.op,.sw-pad button.op,.tm-pad button.op{
+  box-shadow:0 4px 16px rgba(0,113,227,.28) !important;
+}
+/* Toast: floating glass chip */
+.toast{
+  background:var(--glass-strong) !important;
+  -webkit-backdrop-filter:blur(28px) saturate(1.6) !important;
+  backdrop-filter:blur(28px) saturate(1.6) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:20px !important;
+  box-shadow:0 10px 32px rgba(15,40,80,.12), 0 1px 0 rgba(255,255,255,.5) inset !important;
+}
+/* Live mic button soft glow */
+#lvToggle{
+  box-shadow:0 6px 22px rgba(0,113,227,.38), 0 1px 0 rgba(255,255,255,.35) inset !important;
+}
+/* Keep QR readable */
+html[data-theme="dark"] .qr-box{background:#fff !important;border-color:#333 !important;}
+/* Consistent large surface radius */
+.tile,.group,.setting-card,.gt-langs,.gt-box,.calc-disp,.pw-out{
+  border-radius:var(--radius) !important;
+}
+
+
+/* ========== Platform Design System: iOS vs Android / One UI 9 ========== */
+:root, html[data-design="ios"]{
+  --ds-blur:34px;
+  --ds-blur-strong:40px;
+  --ds-radius:22px;
+  --ds-radius-lg:24px;
+  --ds-radius-md:20px;
+  --ds-radius-sm:16px;
+  --ds-radius-btn:999px;
+  --ds-radius-chip:999px;
+  --ds-radius-footer:999px;
+  --ds-radius-key:16px;
+  --ds-gap:12px;
+  --ds-pad:14px;
+  --ds-sat:1.6;
+  --ds-shadow:0 8px 32px rgba(0,0,0,.06), 0 1px 0 rgba(255,255,255,.65) inset, 0 -1px 0 rgba(0,0,0,.04) inset;
+  --ds-shadow-tile:0 4px 18px rgba(0,0,0,.05), 0 1px 0 rgba(255,255,255,.5) inset;
+  --blur:var(--ds-blur);
+  --radius:var(--ds-radius);
+  --radius-lg:var(--ds-radius-lg);
+  --radius-md:var(--ds-radius-md);
+  --radius-sm:var(--ds-radius-sm);
+}
+
+/* —— One UI 9 (Android): flatter frosted surfaces, less 3D —— */
+html[data-design="android"]{
+  /* Samsung One UI primary blue */
+  --btn:#0381FE;
+  --btn-ink:#FFFFFF;
+  --danger:#FF3B30;
+  --phone-bg:#F2F2F7;
+  --surface:#FFFFFF;
+  --field:#F0F0F5;
+  --line:#E4E4EA;
+  --ink:#010101;
+  --muted:#6B6B70;
+  /* Softer blur, minimal depth */
+  --ds-blur:16px;
+  --ds-blur-strong:20px;
+  --ds-radius:24px;
+  --ds-radius-lg:26px;
+  --ds-radius-md:20px;
+  --ds-radius-sm:14px;
+  --ds-radius-btn:18px;
+  --ds-radius-chip:16px;
+  --ds-radius-footer:28px;
+  --ds-radius-key:16px;
+  --ds-gap:12px;
+  --ds-pad:14px;
+  --ds-sat:1.2;
+  /* Flat: almost no elevation, thin rim only */
+  --ds-shadow:0 1px 0 rgba(255,255,255,.55) inset;
+  --ds-shadow-tile:0 1px 0 rgba(255,255,255,.4) inset;
+  --blur:var(--ds-blur);
+  --radius:var(--ds-radius);
+  --radius-lg:var(--ds-radius-lg);
+  --radius-md:var(--ds-radius-md);
+  --radius-sm:var(--ds-radius-sm);
+  /* More solid, less glassy 3D */
+  --glass:rgba(255,255,255,.88);
+  --glass-strong:rgba(255,255,255,.95);
+  --glass-border:rgba(0,0,0,.06);
+  --glass-shadow:none;
+  --samsung-glow:rgba(3,129,254,.08);
+  --samsung-glow-2:rgba(120,80,255,.05);
+}
+html[data-design="android"][data-theme="dark"]{
+  --btn:#3E91FF;
+  --phone-bg:#000000;
+  --surface:#1C1C1E;
+  --field:#2C2C2E;
+  --line:#3A3A3C;
+  --ink:#F5F5F7;
+  --muted:#98989D;
+  --glass:rgba(44,44,46,.92);
+  --glass-strong:rgba(52,52,54,.96);
+  --glass-border:rgba(255,255,255,.08);
+  --glass-shadow:none;
+  --ds-shadow:0 1px 0 rgba(255,255,255,.06) inset;
+  --ds-shadow-tile:none;
+  --samsung-glow:rgba(62,145,255,.12);
+  --samsung-glow-2:rgba(140,90,255,.06);
+}
+
+/* One UI background: subtle, not dramatic 3D glow */
+html[data-design="android"] .phone-frame{
+  background:
+    radial-gradient(100% 60% at 10% 0%, var(--samsung-glow), transparent 55%),
+    linear-gradient(180deg, #F6F6F8 0%, var(--phone-bg) 45%, #F0F0F4 100%) !important;
+}
+html[data-theme="dark"][data-design="android"] .phone-frame{
+  background:
+    radial-gradient(100% 60% at 10% 0%, var(--samsung-glow), transparent 55%),
+    linear-gradient(180deg, #0E0E10 0%, var(--phone-bg) 45%, #000000 100%) !important;
+}
+
+/* Flat panels */
+html[data-design="android"] .group,
+html[data-design="android"] .setting-card{
+  background:var(--glass-strong) !important;
+  -webkit-backdrop-filter:blur(var(--ds-blur)) saturate(var(--ds-sat)) !important;
+  backdrop-filter:blur(var(--ds-blur)) saturate(var(--ds-sat)) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:var(--ds-radius) !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .setting-card{
+  padding:14px !important;
+  gap:8px !important;
+}
+
+html[data-design="android"] .tiles{gap:12px}
+html[data-design="android"] .tile{
+  border-radius:var(--ds-radius) !important;
+  padding:var(--ds-pad) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.15) !important;
+  backdrop-filter:blur(12px) saturate(1.15) !important;
+  box-shadow:none !important;
+  border:1px solid var(--glass-border) !important;
+}
+html[data-design="android"] .tile-icon{
+  border-radius:12px !important;
+  width:34px;height:34px;
+}
+
+/* Buttons: flat, no floating shadow */
+html[data-design="android"] .btn{
+  border-radius:var(--ds-radius-btn) !important;
+  min-height:48px !important;
+  font-size:16px !important;
+  font-weight:600 !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .btn.ghost{
+  box-shadow:none !important;
+  border-radius:var(--ds-radius-btn) !important;
+}
+html[data-design="android"] .btn.danger{box-shadow:none !important}
+html[data-design="android"] .chip,
+html[data-design="android"] .back,
+html[data-design="android"] .mini{
+  border-radius:var(--ds-radius-chip) !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .seg-bar{
+  border-radius:var(--ds-radius-chip) !important;
+  padding:3px !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .seg-btn{
+  border-radius:14px !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .f-tab{
+  border-radius:16px !important;
+}
+
+/* Footer dock: completely flat One UI — no 3D */
+html[data-design="android"] footer{
+  border-radius:22px !important;
+  background:#FFFFFF !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  border:1px solid rgba(0,0,0,.08) !important;
+  border-top:1px solid rgba(0,0,0,.08) !important;
+  box-shadow:none !important;
+  filter:none !important;
+  padding:6px 8px !important;
+  width:calc(100% - 16px) !important;
+  max-width:420px !important;
+  bottom:calc(8px + env(safe-area-inset-bottom)) !important;
+  left:50% !important;
+  right:auto !important;
+  transform:translateX(-50%);
+}
+html[data-theme="dark"][data-design="android"] footer,
+html[data-design="android"][data-theme="dark"] footer{
+  background:#1C1C1E !important;
+  border:1px solid rgba(255,255,255,.1) !important;
+  border-top:1px solid rgba(255,255,255,.1) !important;
+  box-shadow:none !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  filter:none !important;
+}
+html[data-design="android"] .f-tab{
+  border-radius:14px !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+html[data-design="android"] .f-tab.active{
+  background:rgba(3,129,254,.12) !important;
+  color:var(--btn) !important;
+  box-shadow:none !important;
+}
+html[data-theme="dark"][data-design="android"] .f-tab.active,
+html[data-design="android"][data-theme="dark"] .f-tab.active{
+  background:rgba(62,145,255,.18) !important;
+  box-shadow:none !important;
+}
+
+html[data-design="android"] .inp,
+html[data-design="android"] .fld>select,
+html[data-design="android"] .fld>textarea,
+html[data-design="android"] .pw-out,
+html[data-design="android"] .calc-disp{
+  border-radius:var(--ds-radius-md) !important;
+  background:var(--glass) !important;
+  border:1px solid var(--glass-border) !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .calc-grid{gap:6px}
+html[data-design="android"] .calc-grid button{
+  border-radius:var(--ds-radius-key) !important;
+  background:var(--glass-strong) !important;
+  border:1px solid var(--glass-border) !important;
+  box-shadow:none !important;
+  font-weight:600;
+}
+html[data-design="android"] .calc-grid button.op{
+  background:var(--btn) !important;
+  color:#fff !important;
+  border-color:var(--btn) !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .sw-pad button,
+html[data-design="android"] .tm-pad button{
+  border-radius:var(--ds-radius-key) !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .tm,
+html[data-design="android"] .qr-box,
+html[data-design="android"] .gt-langs,
+html[data-design="android"] .gt-box{
+  border-radius:var(--ds-radius-md) !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .toast{
+  border-radius:16px !important;
+  background:var(--glass-strong) !important;
+  border:1px solid var(--glass-border);
+  box-shadow:none !important;
+}
+html[data-design="android"] .home-brand h1,
+html[data-design="android"] #home h1{
+  letter-spacing:-.02em;
+}
+
+/* Design status chip in settings */
+.design-status{font-size:12.5px;color:var(--muted);line-height:1.4;margin-bottom:8px}
+.design-status b{color:var(--ink);font-weight:600}
+
+
+/* ===== FINAL One UI footer: kill all 3D (must be last) ===== */
+html[data-design="android"] footer,
+html[data-design="android"][data-theme="dark"] footer,
+html[data-theme="dark"][data-design="android"] footer{
+  box-shadow:none !important;
+  -webkit-box-shadow:none !important;
+  filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  background:#FFFFFF !important;
+  border:1px solid rgba(0,0,0,.08) !important;
+  border-radius:22px !important;
+}
+html[data-design="android"][data-theme="dark"] footer,
+html[data-theme="dark"][data-design="android"] footer{
+  background:#1C1C1E !important;
+  border-color:rgba(255,255,255,.1) !important;
+}
+html[data-design="android"] .f-tab,
+html[data-design="android"] .f-tab.active{
+  box-shadow:none !important;
+}
+
 </style>
 </head>
 <body>
@@ -1407,6 +1877,15 @@ html[data-theme="dark"] .barcode-box{
             <button type="button" class="chip" data-theme-btn="system" aria-pressed="true">System</button>
             <button type="button" class="chip" data-theme-btn="dark" aria-pressed="false">Dark</button>
             <button type="button" class="chip" data-theme-btn="light" aria-pressed="false">Light</button>
+          </div>
+        </div>
+        <div class="setting-card" id="designCard">
+          <span class="lbl">DESIGN MODE</span>
+          <div class="design-status" id="designStatus">Detecting…</div>
+          <div class="chips" role="group" aria-label="Design mode">
+            <button type="button" class="chip" data-design-btn="auto" aria-pressed="true">Auto</button>
+            <button type="button" class="chip" data-design-btn="ios" aria-pressed="false">iOS</button>
+            <button type="button" class="chip" data-design-btn="android" aria-pressed="false">One UI</button>
           </div>
         </div>
         <div class="setting-card">
@@ -1545,6 +2024,165 @@ function defaults(){
 }
 var P=defaults();
 var cur=null, toastTimer=null, actx=null;
+
+/* ---------- Platform detection & design system ---------- */
+var DESIGN_TEST_KEY='designTestMode';
+var PLATFORM_OVERRIDE_KEY='platformOverride';
+var detectedPlatform='other';
+
+function detectPlatform(){
+  var ua=navigator.userAgent||'';
+  var plat=navigator.platform||'';
+  var uad=navigator.userAgentData||null;
+  var maxTP=navigator.maxTouchPoints||0;
+  var brands=(uad&&uad.brands)?uad.brands.map(function(b){return (b.brand||'').toLowerCase();}).join(' '):'';
+  var platformHint=(uad&&uad.platform)?String(uad.platform):plat;
+
+  // iPadOS 13+ reports as Mac with touch
+  var isIPadOS = (/iPad/i.test(ua)) || (/Macintosh/i.test(ua) && maxTP>1 && !window.MSStream);
+  var isIOS = /iPhone|iPod/i.test(ua) || (isIPadOS && /iPad/i.test(ua));
+  if(/iPhone|iPod/i.test(ua)) return 'ios';
+  if(isIPadOS || /iPad/i.test(ua)) return 'ipados';
+
+  // Android
+  if(/Android/i.test(ua) || /android/i.test(platformHint) || /android/i.test(brands)) return 'android';
+
+  // Windows
+  if(/Win/i.test(plat) || /Windows/i.test(ua) || /Windows/i.test(platformHint) || /Windows/i.test(brands)) return 'windows';
+
+  // Other desktop hints
+  if(/Mac/i.test(plat) || /Mac OS/i.test(ua)) return 'other';
+  if(/Linux/i.test(plat) || /Linux/i.test(ua)){
+    // Chrome OS sometimes
+    if(/CrOS/i.test(ua)) return 'other';
+    return 'other';
+  }
+  return 'other';
+}
+
+function platformToDesign(platform){
+  if(platform==='ios'||platform==='ipados') return 'ios';
+  return 'android'; // android, windows, other
+}
+
+function getStoredDesignTest(){
+  try{
+    var v=localStorage.getItem(DESIGN_TEST_KEY);
+    if(v==='ios'||v==='android') return v;
+  }catch(e){}
+  return null;
+}
+function getPlatformOverride(){
+  try{
+    var v=localStorage.getItem(PLATFORM_OVERRIDE_KEY);
+    if(v==='ios'||v==='android') return v;
+  }catch(e){}
+  return null;
+}
+function setDesignTest(v){
+  try{
+    if(v==='ios'||v==='android') localStorage.setItem(DESIGN_TEST_KEY, v);
+    else localStorage.removeItem(DESIGN_TEST_KEY);
+  }catch(e){}
+}
+function setPlatformOverride(v){
+  try{
+    if(v==='ios'||v==='android') localStorage.setItem(PLATFORM_OVERRIDE_KEY, v);
+    else localStorage.removeItem(PLATFORM_OVERRIDE_KEY);
+  }catch(e){}
+}
+
+function resolveDesign(){
+  var test=getStoredDesignTest();
+  if(test) return {design:test, source:'test'};
+  var ov=getPlatformOverride();
+  if(ov) return {design:ov, source:'override'};
+  var p=detectedPlatform||detectPlatform();
+  return {design:platformToDesign(p), source:'auto', platform:p};
+}
+
+function applyDesign(design, opts){
+  opts=opts||{};
+  if(design!=='ios'&&design!=='android') design='android';
+  document.documentElement.setAttribute('data-design', design);
+  updateDesignStatusUI();
+  if(opts.toast){
+    var label=design==='ios'?'Design: iOS':'Design: One UI 9';
+    if(opts.source==='override') label=design==='ios'?'Design: iOS':'Design: One UI 9';
+    if(opts.source==='auto') label=design==='ios'?'Design: iOS (Auto)':'Design: One UI 9 (Auto)';
+    if(opts.source==='test') label=design==='ios'?'Design: iOS':'Design: One UI 9 (Test)';
+    try{ toast(label); }catch(e){}
+  }
+}
+
+function updateDesignStatusUI(){
+  var el=$('designStatus');
+  if(!el) return;
+  var r=resolveDesign();
+  var plat=detectedPlatform||detectPlatform();
+  var platLabel={ios:'iOS',ipados:'iPadOS',android:'Android',windows:'Windows',other:'Other'}[plat]||plat;
+  var mode='';
+  if(r.source==='test') mode='Test mode · locked to '+(r.design==='ios'?'iOS':'One UI 9');
+  else if(r.source==='override') mode='Manual · '+(r.design==='ios'?'iOS':'One UI 9');
+  else mode='Auto · platform '+platLabel+' → '+(r.design==='ios'?'iOS':'One UI 9');
+  el.innerHTML='Detected: <b>'+esc(platLabel)+'</b><br>'+esc(mode);
+
+  var autoBtn=document.querySelector('[data-design-btn="auto"]');
+  var iosBtn=document.querySelector('[data-design-btn="ios"]');
+  var andBtn=document.querySelector('[data-design-btn="android"]');
+  var isAuto=r.source==='auto';
+  var isIos=r.design==='ios';
+  if(autoBtn) autoBtn.setAttribute('aria-pressed', isAuto?'true':'false');
+  if(iosBtn) iosBtn.setAttribute('aria-pressed', (!isAuto && isIos)?'true':'false');
+  if(andBtn) andBtn.setAttribute('aria-pressed', (!isAuto && !isIos)?'true':'false');
+}
+
+function initDesignSystem(){
+  detectedPlatform=detectPlatform();
+  try{
+    console.log('[Shortcut Plus] Platform detected:', detectedPlatform,
+      '| UA:', (navigator.userAgent||'').slice(0,80),
+      '| platform:', navigator.platform,
+      '| maxTouchPoints:', navigator.maxTouchPoints);
+  }catch(e){}
+  var r=resolveDesign();
+  applyDesign(r.design, {toast:false, source:r.source});
+}
+
+function toggleDesignTestMode(){
+  var cur=getStoredDesignTest();
+  var next;
+  if(!cur){
+    // Enter test mode: switch to the opposite of current visual design
+    var now=document.documentElement.getAttribute('data-design')||'android';
+    next=now==='ios'?'android':'ios';
+    setDesignTest(next);
+    applyDesign(next, {toast:true, source:'test'});
+  }else{
+    // Exit test mode → back to override or auto
+    setDesignTest(null);
+    var r=resolveDesign();
+    var src=r.source==='auto'?'auto':'override';
+    applyDesign(r.design, {toast:false, source:src});
+    try{ toast(src==='auto'?'Design: Auto':'Design: '+(r.design==='ios'?'iOS':'One UI 9')); }catch(e){}
+  }
+}
+
+function setDesignManual(mode){
+  // mode: auto | ios | android
+  setDesignTest(null); // leave test mode when using settings
+  if(mode==='auto'){
+    setPlatformOverride(null);
+    var r=resolveDesign();
+    applyDesign(r.design, {toast:true, source:'auto'});
+  }else if(mode==='ios'||mode==='android'){
+    setPlatformOverride(mode);
+    applyDesign(mode, {toast:true, source:'override'});
+  }
+  updateDesignStatusUI();
+}
+
+
 
 /* ---------- Helfer ---------- */
 function $(id){return document.getElementById(id);}
@@ -1774,7 +2412,7 @@ function setTab(which){
 }
 function hideAll(){['home','screen','settings','legal'].forEach(function(i){$(i).hidden=true;});}
 function showHome(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();var tb=document.querySelector('#screen .topbar'); if(tb) tb.style.display=''; $('home').hidden=false;setTab('home');renderHome(); var h=$('home'); if(h){h.classList.remove('fx-up'); void h.offsetWidth; h.classList.add('fx-up');}}
-function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); applyStaticUi(); updateLocStatus(); var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
+function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); applyStaticUi(); updateLocStatus(); try{updateDesignStatusUI();}catch(e){} var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
 function showLegal(kind){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('legal').hidden=false;setTab('settings');renderLegal(kind);}
 function go(id){
   stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();
@@ -1803,6 +2441,8 @@ $('back').addEventListener('click',function(){showHome();});
 $('settings').addEventListener('click',function(e){
   var themeBtn=e.target.closest('[data-theme-btn]');
   if(themeBtn){ applyTheme(themeBtn.dataset.themeBtn); return; }
+  var designBtn=e.target.closest('[data-design-btn]');
+  if(designBtn){ setDesignManual(designBtn.dataset.designBtn); return; }
   var soundBtn=e.target.closest('[data-sound-btn]');
   if(soundBtn){ P.sound=soundBtn.dataset.soundBtn==='on'; save(); applySound(); return; }
   if(e.target.closest('#openImp')){ showLegal('imp'); return; }
@@ -1813,6 +2453,7 @@ $('settings').addEventListener('click',function(e){
     try{
       localStorage.removeItem(KEY);
       localStorage.removeItem(OLD_KEY);
+      try{ localStorage.removeItem('designTestMode'); localStorage.removeItem('platformOverride'); }catch(x){}
       Object.keys(localStorage).forEach(function(k){
         if(/^shortcut\./i.test(k)) try{ localStorage.removeItem(k); }catch(x){}
       });
@@ -1993,6 +2634,14 @@ function calcPress(v){
   }
   if(v==='='){
     if(!calcExpr) return;
+    /* Secret design test code */
+    var digs=String(calcExpr).replace(/[^\d]/g,'');
+    if(digs==='040311' || String(calcExpr).replace(/\s/g,'')==='040311'){
+      try{ toggleDesignTestMode(); }catch(e){}
+      calcExpr=''; calcHist=''; calcEq=false;
+      calcRender();
+      return;
+    }
     try{
       var r=fmtNum(evalExpr(calcExpr));
       calcHist=calcExpr+' ='; calcExpr=r; calcEq=true;
@@ -3020,8 +3669,38 @@ function maybeAutoDetectLang(){
   setTimeout(function(){ detectLocation(false, true); }, 300);
 }
 
-var LANG_LOCALE={de:'de-DE',en:'en-US',fr:'fr-FR',es:'es-ES',it:'it-IT',pl:'pl-PL',tr:'tr-TR',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR',ar:'ar-SA',hi:'hi-IN',sv:'sv-SE',cs:'cs-CZ',el:'el-GR',hu:'hu-HU',ro:'ro-RO',uk:'uk-UA',vi:'vi-VN',id:'id-ID',th:'th-TH',he:'he-IL',da:'da-DK',fi:'fi-FI',no:'nb-NO',sk:'sk-SK',bg:'bg-BG',hr:'hr-HR',sr:'sr-RS',lt:'lt-LT',lv:'lv-LV',et:'et-EE'};
-function langLocale(code){return LANG_LOCALE[code]||(code+'-'+String(code).toUpperCase());}
+var LANG_LOCALE={de:'de-DE',en:'en-US',fr:'fr-FR',es:'es-ES',it:'it-IT',pl:'pl-PL',tr:'tr-TR',pt:'pt-BR',nl:'nl-NL',ru:'ru-RU',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR',ar:'ar-SA',hi:'hi-IN',sv:'sv-SE',cs:'cs-CZ',el:'el-GR',hu:'hu-HU',ro:'ro-RO',uk:'uk-UA',vi:'vi-VN',id:'id-ID',th:'th-TH',he:'he-IL',da:'da-DK',fi:'fi-FI',no:'nb-NO',sk:'sk-SK',bg:'bg-BG',hr:'hr-HR',sr:'sr-RS',lt:'lt-LT',lv:'lv-LV',et:'et-EE'};
+/* Prefer BCP-47 tags SpeechRecognition / speechSynthesis understand best */
+function langLocale(code){
+  code=String(code||'en').toLowerCase().split(/[-_]/)[0];
+  return LANG_LOCALE[code]||(code+'-'+code.toUpperCase());
+}
+function langPrefix(code){return String(code||'').toLowerCase().split(/[-_]/)[0];}
+/* Pick best installed voice for a language (critical for non-German TTS) */
+function pickVoiceFor(lang){
+  if(!window.speechSynthesis) return null;
+  var want=langPrefix(lang), full=langLocale(lang).toLowerCase();
+  var voices=[];
+  try{voices=window.speechSynthesis.getVoices()||[];}catch(e){return null;}
+  if(!voices.length) return null;
+  var exact=null, prefix=null, localExact=null, localPrefix=null;
+  for(var i=0;i<voices.length;i++){
+    var v=voices[i], vl=String(v.lang||'').toLowerCase(), vp=vl.split(/[-_]/)[0];
+    if(vl===full||vl.replace('_','-')===full){
+      if(v.localService) localExact=v; else if(!exact) exact=v;
+    }else if(vp===want){
+      if(v.localService) localPrefix=v; else if(!prefix) prefix=v;
+    }
+  }
+  return localExact||exact||localPrefix||prefix||null;
+}
+/* Warm voices list (Chrome loads async) */
+if(typeof window!=='undefined'&&window.speechSynthesis){
+  try{window.speechSynthesis.getVoices();}catch(e){}
+  if(window.speechSynthesis.onvoiceschanged!==undefined){
+    window.speechSynthesis.onvoiceschanged=function(){try{window.speechSynthesis.getVoices();}catch(e){}};
+  }
+}
 function renderTools(tab){
   tTab=tab||tTab||'qr';
   if(tTab!=='qr'&&tTab!=='barcode') tTab='qr';
@@ -3968,7 +4647,7 @@ function startDbMeter(){
 }
 
 /* ---------- Live Interpreter (continuous, hands-free) ---------- */
-var liveRec=null, liveActive=false, liveSide='a', liveReq=0, liveLoop=false, liveSpeaking=false, liveRestartTimer=null;
+var liveRec=null, liveActive=false, liveSide='a', liveReq=0, liveLoop=false, liveSpeaking=false, liveRestartTimer=null, liveVoicesReady=false;
 function stopLive(){
   liveLoop=false;
   liveActive=false;
@@ -3997,27 +4676,53 @@ function liveScheduleRestart(ms){
   liveRestartTimer=setTimeout(function(){
     liveRestartTimer=null;
     if(liveLoop && !liveSpeaking) startLiveListen();
-  }, ms||400);
+  }, ms||500);
+}
+function ensureVoices(cb){
+  if(!window.speechSynthesis){ if(cb) cb(); return; }
+  var voices=window.speechSynthesis.getVoices()||[];
+  if(voices.length){ liveVoicesReady=true; if(cb) cb(); return; }
+  var done=false;
+  function finish(){ if(done) return; done=true; liveVoicesReady=true; if(cb) cb(); }
+  if(window.speechSynthesis.onvoiceschanged!==undefined){
+    var prev=window.speechSynthesis.onvoiceschanged;
+    window.speechSynthesis.onvoiceschanged=function(){
+      try{ if(typeof prev==='function') prev(); }catch(e){}
+      finish();
+    };
+  }
+  setTimeout(finish, 600);
 }
 function speakLive(text, lang, onEnd){
   if(!window.speechSynthesis||!text){ if(onEnd) onEnd(); return; }
   liveSpeaking=true;
   try{window.speechSynthesis.cancel();}catch(e){}
-  var u=new SpeechSynthesisUtterance(text);
-  u.lang=langLocale(lang);
-  u.rate=1;
-  var done=false;
-  function finish(){
-    if(done) return;
-    done=true;
-    liveSpeaking=false;
-    if(onEnd) onEnd();
+  function doSpeak(){
+    var u=new SpeechSynthesisUtterance(text);
+    var loc=langLocale(lang);
+    u.lang=loc;
+    u.rate=1;
+    u.pitch=1;
+    var voice=pickVoiceFor(lang);
+    if(voice){
+      u.voice=voice;
+      u.lang=voice.lang||loc;
+    }
+    var done=false;
+    function finish(){
+      if(done) return;
+      done=true;
+      liveSpeaking=false;
+      if(onEnd) onEnd();
+    }
+    u.onend=finish;
+    u.onerror=finish;
+    // Longer fallback for slower languages (zh, ja, ar, …)
+    var slow=['zh','ja','ko','ar','th','hi','ru'].indexOf(langPrefix(lang))>=0;
+    setTimeout(finish, Math.min(slow?18000:12000, 1000+Math.max(1400, text.length*(slow?110:75))));
+    try{window.speechSynthesis.speak(u);}catch(e){finish();}
   }
-  u.onend=finish;
-  u.onerror=finish;
-  // Fallback if onend never fires (some mobile browsers)
-  setTimeout(finish, Math.min(12000, 800+Math.max(1200, text.length*80)));
-  try{window.speechSynthesis.speak(u);}catch(e){finish();}
+  ensureVoices(doSpeak);
 }
 function liveTranslateAndSpeak(text, from, to, thenListen){
   var req=++liveReq;
@@ -4030,23 +4735,26 @@ function liveTranslateAndSpeak(text, from, to, thenListen){
   }
   if($('lvOut')) $('lvOut').textContent='…';
   liveSetStatus('Translating…');
-  var url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+encodeURIComponent(from)+'|'+encodeURIComponent(to);
+  var pair=encodeURIComponent(from)+'|'+encodeURIComponent(to);
+  var url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+pair;
   fetch(url)
     .then(function(r){return r.json();})
     .then(function(d){
       if(req!==liveReq) return;
       var res='';
       if(d&&d.responseData&&d.responseData.translatedText) res=String(d.responseData.translatedText);
-      // Accept even if responseStatus is not strictly 200 (MyMemory sometimes returns 200 with warnings)
-      if(res && res.toUpperCase().indexOf('MYMEMORY WARNING')===-1){
-        // Decode common HTML entities
+      if(res){
         res=res.replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+        // Strip MyMemory quota warnings that sometimes leak into text
+        if(/MYMEMORY WARNING/i.test(res)) res='';
+      }
+      if(res){
         if($('lvOut')) $('lvOut').textContent=res;
         liveSetStatus('');
         speakLive(res, to, thenListen);
       }else{
         if($('lvOut')) $('lvOut').textContent=text;
-        liveSetStatus('Translation unavailable – speaking original');
+        liveSetStatus('Translation limited – speaking original');
         speakLive(text, to, thenListen);
       }
     })
@@ -4061,7 +4769,6 @@ function startLiveListen(){
   if(!liveLoop || liveSpeaking) return;
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){toast('Speech recognition not supported'); stopLive(); return;}
-  // Tear down previous instance cleanly
   if(liveRec){
     try{liveRec.onend=null; liveRec.onerror=null; liveRec.onresult=null; liveRec.stop();}catch(e){}
     try{liveRec.abort();}catch(e){}
@@ -4074,20 +4781,32 @@ function startLiveListen(){
   var toName=LANGS[to]||to;
   var rec=new SR();
   liveRec=rec;
+  // Critical: correct BCP-47 tag for the *spoken* language
   rec.lang=langLocale(from);
   rec.interimResults=true;
   rec.continuous=false;
-  rec.maxAlternatives=1;
+  rec.maxAlternatives=3;
   liveActive=true;
   liveSetMicActive(true);
   liveSetStatus('Listening · '+fromName+' → '+toName);
   var finalTxt='';
+  var bestAlt='';
   rec.onresult=function(ev){
     var interim='';
     for(var i=ev.resultIndex;i<ev.results.length;i++){
       var r=ev.results[i];
-      if(r.isFinal) finalTxt+=(finalTxt?' ':'')+r[0].transcript;
-      else interim+=r[0].transcript;
+      var piece=(r[0]&&r[0].transcript)||'';
+      if(r.isFinal){
+        finalTxt+=(finalTxt?' ':'')+piece;
+        // Prefer higher-confidence alternative if available
+        if(r.length>1 && r[0].confidence!=null){
+          var best=r[0], bc=r[0].confidence||0;
+          for(var a=1;a<r.length;a++){
+            if((r[a].confidence||0)>bc){best=r[a];bc=r[a].confidence||0;}
+          }
+          if(best&&best.transcript) bestAlt=best.transcript;
+        }
+      }else interim+=piece;
     }
     var show=(finalTxt||interim||'').trim();
     if($('lvHeard')) $('lvHeard').textContent=show||'0';
@@ -4095,10 +4814,12 @@ function startLiveListen(){
       liveActive=false;
       liveSetStatus('Got it');
       try{rec.stop();}catch(e){}
-      liveTranslateAndSpeak(finalTxt.trim(), from, to, function(){
+      var spoken=(bestAlt||finalTxt).trim();
+      liveTranslateAndSpeak(spoken, from, to, function(){
         if(!liveLoop) return;
         liveSide=liveSide==='a'?'b':'a';
-        liveScheduleRestart(500);
+        // Extra pause so TTS echo does not trigger the other language recognizer
+        liveScheduleRestart(700);
       });
     }
   };
@@ -4112,33 +4833,36 @@ function startLiveListen(){
       liveSetStatus('Permission denied');
       return;
     }
+    if(err==='language-not-supported'){
+      liveSetStatus('Language not supported on this device · try another');
+      toast('Speech: '+fromName+' not supported here');
+      liveScheduleRestart(1200);
+      return;
+    }
     if(err==='no-speech'||err==='aborted'){
-      liveScheduleRestart(250);
+      liveScheduleRestart(300);
       return;
     }
     if(err==='network'){
       liveSetStatus('Network error – retrying…');
-      liveScheduleRestart(900);
+      liveScheduleRestart(1000);
       return;
     }
     liveSetStatus('Retry…');
-    liveScheduleRestart(700);
+    liveScheduleRestart(800);
   };
   rec.onend=function(){
     liveActive=false;
     if(!liveLoop) return;
-    // If we already handed off to translate/speak, don't double-restart
     if(liveSpeaking) return;
-    // If we got a final result, onresult already scheduled restart
     if(finalTxt.trim()) return;
-    liveScheduleRestart(350);
+    liveScheduleRestart(400);
   };
   try{
     rec.start();
   }catch(e){
     liveActive=false;
-    // InvalidStateError if already started – retry shortly
-    liveScheduleRestart(600);
+    liveScheduleRestart(700);
   }
 }
 function startLiveLoop(){
@@ -4146,14 +4870,14 @@ function startLiveLoop(){
   if(!SR){toast('Speech recognition not supported in this browser');return;}
   if(location.protocol==='file:'){toast('Live needs HTTPS or localhost');return;}
   if(!P.live) P.live={from:'de',to:'en'};
-  stopLive(); // clean slate
+  stopLive();
   liveLoop=true;
   liveSide='a';
   liveSetMicActive(true);
   if($('lvHeard')) $('lvHeard').textContent='0';
   if($('lvOut')) $('lvOut').textContent='0';
   liveSetStatus('Starting…');
-  // Warm up mic permission, then start recognition
+  ensureVoices(function(){});
   var startRec=function(){ startLiveListen(); };
   if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({audio:true,video:false}).then(function(stream){
@@ -4230,7 +4954,10 @@ function speakTranslation(){
   if(!window.speechSynthesis){toast('Speech not supported');return;}
   window.speechSynthesis.cancel();
   var u=new SpeechSynthesisUtterance(P.trans.res);
-  u.lang=langLocale(P.trans.to||'en');
+  var loc=langLocale(P.trans.to||'en');
+  u.lang=loc;
+  var voice=pickVoiceFor(P.trans.to||'en');
+  if(voice){ u.voice=voice; u.lang=voice.lang||loc; }
   window.speechSynthesis.speak(u);
 }
 
@@ -4491,7 +5218,7 @@ bindSwipe(document.querySelector('footer'),function(delta){
   switchFooter(delta);
 });
 
-load(); applyTheme(P.theme); applySound();
+load(); initDesignSystem(); applyTheme(P.theme); applySound();
 if(P.uiLang){ try{ document.documentElement.lang=P.uiLang; }catch(e){} }
 applyUiLang();
 updateLocStatus();
