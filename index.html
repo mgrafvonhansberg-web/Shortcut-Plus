@@ -1943,6 +1943,13 @@ html[data-design="android"] .tm-pad button{
 }
 
 
+
+/* When a tool is open: no footer, reclaim bottom space */
+.app-container.tool-open{
+  padding-bottom:max(12px, env(safe-area-inset-bottom)) !important;
+}
+footer[hidden], footer.tool-hidden{display:none !important;}
+
 </style>
 </head>
 <body>
@@ -2110,7 +2117,7 @@ function tutorialBlocks(){
   return {
     apple:[
       {t:'iPhone: Back Tap', s:'Settings → Accessibility → Touch → <b>Back Tap</b> → Choose Double Tap or Triple Tap → Select your Shortcut or App.', u:'Tap two or three times on the back of your iPhone.'},
-      {t:'iPhone: Action Button (iPhone 15 Pro / 16 / 17 / 18 Series)', s:'Settings → <b>Action Button</b> → Swipe to <b>Shortcut</b> (or Camera, Flashlight, etc.) → Select your preferred function or app.', u:'Press and hold the Action Button on the left side of the phone.'}
+      {t:'iPhone: Action Button (iPhone 15 Pro / 16 Series)', s:'Settings → <b>Action Button</b> → Swipe to <b>Shortcut</b> (or Camera, Flashlight, etc.) → Select your preferred function or app.', u:'Press and hold the Action Button on the left side of the phone.'}
     ],
     samsung:[
       {t:'Samsung Galaxy: Side Key / Power Button', s:'Settings → Advanced features → <b>Side key</b> → Enable "Double press" → Select <b>Open app</b> and choose your desired app.', u:'Press the Power button twice quickly.'}
@@ -2532,12 +2539,23 @@ function setTab(which){
   $('tabSettings').className='f-tab'+(which==='settings'?' active':'');
 }
 function hideAll(){['home','screen','settings','legal'].forEach(function(i){$(i).hidden=true;});}
-function showHome(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();var tb=document.querySelector('#screen .topbar'); if(tb) tb.style.display=''; $('home').hidden=false;setTab('home');renderHome(); var h=$('home'); if(h){h.classList.remove('fx-up'); void h.offsetWidth; h.classList.add('fx-up');}}
-function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); applyStaticUi(); updateLocStatus(); try{updateDesignStatusUI();}catch(e){} try{renderTutorial();}catch(e){} var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
-function showLegal(kind){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('legal').hidden=false;setTab('settings');renderLegal(kind);}
+function setFooterVisible(on){
+  var f=document.querySelector('footer');
+  if(!f) return;
+  f.hidden=!on;
+  f.style.display=on?'':'none';
+  var ac=document.querySelector('.app-container');
+  if(ac){
+    if(on) ac.classList.remove('tool-open');
+    else ac.classList.add('tool-open');
+  }
+}
+function showHome(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();var tb=document.querySelector('#screen .topbar'); if(tb) tb.style.display=''; $('home').hidden=false;setTab('home');setFooterVisible(true);renderHome(); var h=$('home'); if(h){h.classList.remove('fx-up'); void h.offsetWidth; h.classList.add('fx-up');}}
+function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings');setFooterVisible(true); applyStaticUi(); updateLocStatus(); try{updateDesignStatusUI();}catch(e){} try{renderTutorial();}catch(e){} var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
+function showLegal(kind){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('legal').hidden=false;setTab('settings');setFooterVisible(false);renderLegal(kind);}
 function go(id){
   stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();
-  hideAll();$('screen').hidden=false;setTab('');
+  hideAll();$('screen').hidden=false;setTab('');setFooterVisible(false);
   cur=id;
   if(!P.usage||typeof P.usage!=='object') P.usage={};
   P.usage[id]=(P.usage[id]||0)+1;
