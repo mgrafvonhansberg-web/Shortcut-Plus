@@ -1599,14 +1599,14 @@ html[data-design="android"]{
   /* Softer blur, minimal depth */
   --ds-blur:16px;
   --ds-blur-strong:20px;
-  --ds-radius:24px;
-  --ds-radius-lg:26px;
-  --ds-radius-md:20px;
-  --ds-radius-sm:14px;
-  --ds-radius-btn:18px;
-  --ds-radius-chip:16px;
-  --ds-radius-footer:28px;
-  --ds-radius-key:16px;
+  --ds-radius:26px;
+  --ds-radius-lg:28px;
+  --ds-radius-md:22px;
+  --ds-radius-sm:16px;
+  --ds-radius-btn:999px;
+  --ds-radius-chip:999px;
+  --ds-radius-footer:999px;
+  --ds-radius-key:18px;
   --ds-gap:12px;
   --ds-pad:14px;
   --ds-sat:1.2;
@@ -1681,8 +1681,8 @@ html[data-design="android"] .tile{
   border:1px solid var(--glass-border) !important;
 }
 html[data-design="android"] .tile-icon{
-  border-radius:12px !important;
-  width:34px;height:34px;
+  border-radius:14px !important;
+  width:36px;height:36px;
 }
 
 /* Buttons: flat, no floating shadow */
@@ -1710,11 +1710,11 @@ html[data-design="android"] .seg-bar{
   box-shadow:none !important;
 }
 html[data-design="android"] .seg-btn{
-  border-radius:14px !important;
+  border-radius:999px !important;
   box-shadow:none !important;
 }
 html[data-design="android"] .f-tab{
-  border-radius:16px !important;
+  border-radius:999px !important;
 }
 
 /* Footer dock: completely flat One UI — no 3D */
@@ -1798,7 +1798,7 @@ html[data-design="android"] .gt-box{
   box-shadow:none !important;
 }
 html[data-design="android"] .toast{
-  border-radius:16px !important;
+  border-radius:999px !important;
   background:var(--glass-strong) !important;
   border:1px solid var(--glass-border);
   box-shadow:none !important;
@@ -1813,28 +1813,55 @@ html[data-design="android"] #home h1{
 .design-status b{color:var(--ink);font-weight:600}
 
 
-/* ===== FINAL One UI footer: kill all 3D (must be last) ===== */
+/* ===== FINAL One UI footer + bars: full pill (L/R curves meet), flat ===== */
 html[data-design="android"] footer,
 html[data-design="android"][data-theme="dark"] footer,
 html[data-theme="dark"][data-design="android"] footer{
   box-shadow:none !important;
   -webkit-box-shadow:none !important;
   filter:none !important;
-  -webkit-backdrop-filter:none !important;
-  backdrop-filter:none !important;
-  background:#FFFFFF !important;
-  border:1px solid rgba(0,0,0,.08) !important;
-  border-radius:22px !important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.25) !important;
+  backdrop-filter:blur(20px) saturate(1.25) !important;
+  background:var(--glass-strong) !important;
+  border:1px solid var(--glass-border) !important;
+  border-radius:999px !important;
 }
 html[data-design="android"][data-theme="dark"] footer,
 html[data-theme="dark"][data-design="android"] footer{
-  background:#1C1C1E !important;
-  border-color:rgba(255,255,255,.1) !important;
+  background:var(--glass-strong) !important;
+  border-color:var(--glass-border) !important;
 }
 html[data-design="android"] .f-tab,
 html[data-design="android"] .f-tab.active{
   box-shadow:none !important;
+  border-radius:999px !important;
 }
+/* Full pill controls */
+html[data-design="android"] .btn,
+html[data-design="android"] .btn.ghost,
+html[data-design="android"] .chip,
+html[data-design="android"] .back,
+html[data-design="android"] .mini,
+html[data-design="android"] .seg-bar,
+html[data-design="android"] .seg-btn,
+html[data-design="android"] .toast{
+  border-radius:999px !important;
+}
+/* Language select + inputs in settings: full pill */
+html[data-design="android"] #uiLangSelect,
+html[data-design="android"] .setting-card select,
+html[data-design="android"] .setting-card .inp,
+html[data-design="ios"] #uiLangSelect,
+html[data-design="ios"] .setting-card select{
+  border-radius:999px !important;
+}
+/* Segmented bars + chips already full pill; keep cards moderate */
+html[data-design="android"] .calc-grid button,
+html[data-design="android"] .sw-pad button,
+html[data-design="android"] .tm-pad button{
+  border-radius:999px !important;
+}
+
 
 </style>
 </head>
@@ -1903,7 +1930,7 @@ html[data-design="android"] .f-tab.active{
           <span class="lbl" data-i18n="set.language">LANGUAGE</span>
           <div id="locStatus" style="font-size:12.5px;color:var(--muted);line-height:1.4;margin-bottom:8px">Language is detected from browser settings (no location needed).</div>
           <label for="uiLangSelect" style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;display:block">Preferred language</label>
-          <select id="uiLangSelect" aria-label="Preferred language" style="width:100%;background:var(--field);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;color:var(--ink)"></select>
+          <select id="uiLangSelect" aria-label="Preferred language" style="width:100%;background:var(--field);border:1.5px solid var(--line);border-radius:999px;padding:10px 14px;font-size:15px;font-family:inherit;color:var(--ink)"></select>
         </div>
         <div class="setting-card">
           <span class="lbl" data-i18n="set.data">DATA</span>
@@ -1918,46 +1945,9 @@ html[data-design="android"] .f-tab.active{
           <span class="lbl" data-i18n="set.info">INFO</span>
           <div style="font-size:12px;color:var(--muted);line-height:1.35">Shortcut Plus Calculator, timer, QR codes, translator and more – all in one app..</div>
         </div>
-     <div class="setting-card">
-  <span class="lbl">TUTORIAL: SHORTCUTS & QUICK ACCESS</span>
-  <div style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;flex-direction:column;gap:12px;">
-
-    <!-- 1. iPhone: Back Tap -->
-    <div>
-      <p style="margin:0 0 4px"><b>1. iPhone: Back Tap</b></p>
-      <p style="margin:0 0 4px"><b>Setup:</b> Settings → Accessibility → Touch → <b>Back Tap</b> → Choose Double Tap or Triple Tap → Select your Shortcut or App.</p>
-      <p style="margin:0"><b>Usage:</b> Tap two or three times on the back of your iPhone.</p>
-    </div>
-
-    <!-- 2. iPhone: Action Button -->
-    <div>
-      <p style="margin:0 0 4px"><b>2. iPhone: Action Button (iPhone 15 Pro / 16 Series)</b></p>
-      <p style="margin:0 0 4px"><b>Setup:</b> Settings → <b>Action Button</b> → Swipe to <b>Shortcut</b> (or Camera, Flashlight, etc.) → Select your preferred function or app.</p>
-      <p style="margin:0"><b>Usage:</b> Press and hold the Action Button on the left side of the phone.</p>
-    </div>
-
-    <!-- 3. Samsung: Side Button -->
-    <div>
-      <p style="margin:0 0 4px"><b>3. Samsung Galaxy: Side Key / Power Button</b></p>
-      <p style="margin:0 0 4px"><b>Setup:</b> Settings → Advanced features → <b>Side key</b> → Enable "Double press" → Select <b>Open app</b> and choose your desired app.</p>
-      <p style="margin:0"><b>Usage:</b> Press the Power button twice quickly.</p>
-    </div>
-
-    <!-- 4. Google Pixel: Quick Tap -->
-    <div>
-      <p style="margin:0 0 4px"><b>4. Google Pixel: Quick Tap</b></p>
-      <p style="margin:0 0 4px"><b>Setup:</b> Settings → System → Gestures → <b>Quick Tap to start actions</b> → Enable it and select an action or app.</p>
-      <p style="margin:0"><b>Usage:</b> Double-tap the back of your Pixel smartphone.</p>
-    </div>
-
-    <!-- 5. Motorola: Moto Gestures & Power Touch -->
-    <div>
-      <p style="margin:0 0 4px"><b>5. Motorola: Quick Launch & Moto Gestures</b></p>
-      <p style="margin:0 0 4px"><b>Setup:</b> Open <b>Moto App</b> → Gestures → Enable <b>Quick Launch / Power Touch</b> (double-tap back or side sensor) or physical gestures (Chop for Torch, Twist for Camera).</p>
-      <p style="margin:0"><b>Usage:</b> Double-tap the back/fingerprint sensor or chop/twist the phone.</p>
-    </div>
-
-  </div>
+     <div class="setting-card" id="tutorialCard">
+  <span class="lbl" id="tutorialTitle">TUTORIAL: SHORTCUTS &amp; QUICK ACCESS</span>
+  <div id="tutorialBody" style="font-size:12.5px;color:var(--ink);line-height:1.45;display:flex;flex-direction:column;gap:12px;"></div>
 </div>
         </div>
       </div>
@@ -2029,6 +2019,65 @@ var cur=null, toastTimer=null, actx=null;
 var DESIGN_TEST_KEY='designTestMode';
 var PLATFORM_OVERRIDE_KEY='platformOverride';
 var detectedPlatform='other';
+
+
+function detectBrand(){
+  var ua=navigator.userAgent||'';
+  var plat=detectedPlatform||detectPlatform();
+  if(plat==='ios'||plat==='ipados') return 'apple';
+  if(/Samsung|SM-[A-Z0-9]|Galaxy/i.test(ua)) return 'samsung';
+  if(/Pixel|Google/i.test(ua) && /Android/i.test(ua)) return 'google';
+  if(/Motorola|Moto[\s\-]/i.test(ua)) return 'motorola';
+  if(/Huawei|Honor/i.test(ua)) return 'other';
+  if(/Xiaomi|Redmi|POCO/i.test(ua)) return 'other';
+  if(/OnePlus|OP[A-Z0-9]{3,}/i.test(ua)) return 'other';
+  if(/Android/i.test(ua)) return 'android_generic';
+  return 'other';
+}
+
+function tutorialBlocks(){
+  return {
+    apple:[
+      {t:'iPhone: Back Tap', s:'Settings → Accessibility → Touch → <b>Back Tap</b> → Choose Double Tap or Triple Tap → Select your Shortcut or App.', u:'Tap two or three times on the back of your iPhone.'},
+      {t:'iPhone: Action Button (iPhone 15 Pro / 16 Series)', s:'Settings → <b>Action Button</b> → Swipe to <b>Shortcut</b> (or Camera, Flashlight, etc.) → Select your preferred function or app.', u:'Press and hold the Action Button on the left side of the phone.'}
+    ],
+    samsung:[
+      {t:'Samsung Galaxy: Side Key / Power Button', s:'Settings → Advanced features → <b>Side key</b> → Enable "Double press" → Select <b>Open app</b> and choose your desired app.', u:'Press the Power button twice quickly.'}
+    ],
+    google:[
+      {t:'Google Pixel: Quick Tap', s:'Settings → System → Gestures → <b>Quick Tap to start actions</b> → Enable it and select an action or app.', u:'Double-tap the back of your Pixel smartphone.'}
+    ],
+    motorola:[
+      {t:'Motorola: Quick Launch & Moto Gestures', s:'Open <b>Moto App</b> → Gestures → Enable <b>Quick Launch / Power Touch</b> (double-tap back or side sensor) or physical gestures (Chop for Torch, Twist for Camera).', u:'Double-tap the back/fingerprint sensor or chop/twist the phone.'}
+    ]
+  };
+}
+
+function renderTutorial(){
+  var body=$('tutorialBody');
+  var title=$('tutorialTitle');
+  if(!body) return;
+  var brand=detectBrand();
+  var blocks=tutorialBlocks();
+  var list=[];
+  if(brand==='apple') list=blocks.apple.slice();
+  else if(brand==='samsung') list=blocks.samsung.slice();
+  else if(brand==='google') list=blocks.google.slice();
+  else if(brand==='motorola') list=blocks.motorola.slice();
+  else {
+    /* manufacturer not recognized → Google + Motorola */
+    list=blocks.google.concat(blocks.motorola);
+  }
+  if(title){
+    var labels={apple:'TUTORIAL: iPHONE SHORTCUTS',samsung:'TUTORIAL: SAMSUNG SIDE KEY',google:'TUTORIAL: PIXEL QUICK TAP',motorola:'TUTORIAL: MOTO GESTURES',other:'TUTORIAL: SHORTCUTS & QUICK ACCESS',android_generic:'TUTORIAL: SHORTCUTS & QUICK ACCESS'};
+    title.textContent=labels[brand]||labels.other;
+  }
+  body.innerHTML=list.map(function(item,i){
+    return '<div><p style="margin:0 0 4px"><b>'+(i+1)+'. '+item.t+'</b></p>'+
+      '<p style="margin:0 0 4px"><b>Setup:</b> '+item.s+'</p>'+
+      '<p style="margin:0"><b>Usage:</b> '+item.u+'</p></div>';
+  }).join('');
+}
 
 function detectPlatform(){
   var ua=navigator.userAgent||'';
@@ -2139,6 +2188,7 @@ function updateDesignStatusUI(){
 
 function initDesignSystem(){
   detectedPlatform=detectPlatform();
+  try{renderTutorial();}catch(e){}
   try{
     console.log('[Shortcut Plus] Platform detected:', detectedPlatform,
       '| UA:', (navigator.userAgent||'').slice(0,80),
@@ -2412,7 +2462,7 @@ function setTab(which){
 }
 function hideAll(){['home','screen','settings','legal'].forEach(function(i){$(i).hidden=true;});}
 function showHome(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();var tb=document.querySelector('#screen .topbar'); if(tb) tb.style.display=''; $('home').hidden=false;setTab('home');renderHome(); var h=$('home'); if(h){h.classList.remove('fx-up'); void h.offsetWidth; h.classList.add('fx-up');}}
-function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); applyStaticUi(); updateLocStatus(); try{updateDesignStatusUI();}catch(e){} var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
+function showSettings(){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('settings').hidden=false;setTab('settings'); applyStaticUi(); updateLocStatus(); try{updateDesignStatusUI();}catch(e){} try{renderTutorial();}catch(e){} var s=$('settings'); if(s){s.classList.remove('fx-up'); void s.offsetWidth; s.classList.add('fx-up');}}
 function showLegal(kind){stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();cur=null;hideAll();$('legal').hidden=false;setTab('settings');renderLegal(kind);}
 function go(id){
   stopDbMeter(true);try{stopLevel();}catch(e){}stopLive();
