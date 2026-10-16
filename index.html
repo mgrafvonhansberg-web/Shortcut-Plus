@@ -1986,15 +1986,6 @@ html[data-design="android"] .tm-pad button{
             <button type="button" class="chip" data-theme-btn="light" aria-pressed="false">Light</button>
           </div>
         </div>
-        <div class="setting-card" id="designCard">
-          <span class="lbl">DESIGN MODE</span>
-          <div class="design-status" id="designStatus">Detecting…</div>
-          <div class="chips" role="group" aria-label="Design mode">
-            <button type="button" class="chip" data-design-btn="auto" aria-pressed="true">Auto</button>
-            <button type="button" class="chip" data-design-btn="ios" aria-pressed="false">iOS</button>
-            <button type="button" class="chip" data-design-btn="android" aria-pressed="false">One UI</button>
-          </div>
-        </div>
         <div class="setting-card">
           <span class="lbl" data-i18n="set.sound">SOUND &amp; HAPTICS</span>
           <div class="chips">
@@ -2571,8 +2562,6 @@ $('back').addEventListener('click',function(){showHome();});
 $('settings').addEventListener('click',function(e){
   var themeBtn=e.target.closest('[data-theme-btn]');
   if(themeBtn){ applyTheme(themeBtn.dataset.themeBtn); return; }
-  var designBtn=e.target.closest('[data-design-btn]');
-  if(designBtn){ setDesignManual(designBtn.dataset.designBtn); return; }
   var soundBtn=e.target.closest('[data-sound-btn]');
   if(soundBtn){ P.sound=soundBtn.dataset.soundBtn==='on'; save(); applySound(); return; }
   if(e.target.closest('#openImp')){ showLegal('imp'); return; }
