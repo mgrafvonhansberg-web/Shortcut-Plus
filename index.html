@@ -1950,6 +1950,7 @@ html[data-design="android"] .tm-pad button{
 }
 footer[hidden], footer.tool-hidden{display:none !important;}
 
+#orientGuard{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center;color:#fff;font-family:"Schibsted Grotesk",system-ui,-apple-system,sans-serif;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(60px) saturate(1.2);backdrop-filter:blur(60px) saturate(1.2)}html.og-on #orientGuard{display:flex}html.og-on .phone-frame{filter:blur(36px);pointer-events:none;user-select:none;-webkit-user-select:none}#orientGuard svg{width:84px;height:84px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#orientGuard rect{transform-box:fill-box;transform-origin:center;animation:ogRot 2.6s ease-in-out infinite}#orientGuard b{font-size:20px;letter-spacing:-.02em}#orientGuard p{font-size:14px;opacity:.85;max-width:280px;line-height:1.4;margin:0}@keyframes ogRot{0%,20%{transform:rotate(-90deg)}60%,100%{transform:rotate(0)}}
 </style>
 </head>
 <body>
@@ -2037,6 +2038,7 @@ footer[hidden], footer.tool-hidden{display:none !important;}
     <button class="f-tab" id="tabSettings" type="button"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</button>
   </footer>
 </div>
+<div id="orientGuard" role="alert" aria-live="assertive"><svg viewBox="0 0 48 48"><rect x="16" y="14" width="16" height="28" rx="4"/><path d="M10 18C12 10 20 6 28 8"/><polyline points="24 4 29 8 24 12"/></svg><b></b><p></p></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <div id="confetti" style="pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:80"></div>
 
@@ -5383,6 +5385,56 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
   window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
 }
 })();
+</script>
+<script>
+/* Shortcut Plus – Hochformat- und Größen-Wächter
+   Handy im Querformat ODER Fenster breiter als iPhone (430 px):
+   App wird stark verschwommen + Hinweis mit Dreh-Icon. */
+(function () {
+  'use strict';
+  var MAX_W = 430; /* iPhone Pro Max Breite */
+  var de = /^de/i.test(navigator.language || '');
+
+    function init() {
+    var el = document.getElementById('orientGuard');
+
+    var title = el.querySelector('b'), text = el.querySelector('p');
+
+    function isLandscape() {
+      try {
+        if (screen.orientation && screen.orientation.type)
+          return screen.orientation.type.indexOf('landscape') === 0;
+      } catch (e) {}
+      return window.matchMedia('(orientation:landscape)').matches;
+    }
+
+    function check() {
+      var phone = Math.min(screen.width, screen.height) <= 500;
+      var block, rotateMsg;
+      if (phone) { block = isLandscape(); rotateMsg = true; }
+      else { block = window.innerWidth > MAX_W; rotateMsg = false; }
+
+      document.documentElement.classList.toggle('og-on', block);
+      if (!block) return;
+      if (rotateMsg) {
+        title.textContent = de ? 'Bitte Gerät drehen' : 'Please rotate your device';
+        text.textContent = de ? 'Shortcut Plus ist nur im Hochformat nutzbar.' : 'Shortcut Plus works in portrait mode only.';
+      } else {
+        title.textContent = de ? 'Nur für Smartphones' : 'Smartphone only';
+        text.textContent = de ? 'Bitte auf einem Handy im Hochformat öffnen (max. iPhone-Breite).' : 'Please open on a phone in portrait mode.';
+      }
+    }
+
+    window.addEventListener('resize', check);
+    window.addEventListener('orientationchange', check);
+    try { screen.orientation.addEventListener('change', check); } catch (e) {}
+    check();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
 </script>
 </body>
 </html>
