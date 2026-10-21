@@ -2356,6 +2356,16 @@ function rnd(n){
 function vibrate(p){try{if(P.sound&&navigator.vibrate) navigator.vibrate(p);}catch(e){}}
 
 /* ---------- Verbesserte Sounds ---------- */
+/* Master-Lautstärke + Limiter für alle Sounds */
+function master(){
+  if(!actx._m){
+    var g=actx.createGain(); g.gain.value=2.6;
+    var c=actx.createDynamicsCompressor();
+    c.threshold.value=-14; c.knee.value=12; c.ratio.value=10; c.attack.value=0.003; c.release.value=0.15;
+    g.connect(c); c.connect(actx.destination); actx._m=g;
+  }
+  return actx._m;
+}
 function playSound(type){
   if(!P.sound) return;
   try{
@@ -2390,8 +2400,19 @@ function playSound(type){
       var bp=actx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1400; bp.Q.value=1.2;
       var hp=actx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=400;
       var g=actx.createGain(); g.gain.value=0.55;
-      click.connect(hp); hp.connect(bp); bp.connect(g); g.connect(actx.destination);
+      click.connect(hp); hp.connect(bp); bp.connect(g); g.connect(master());
       click.start(now); click.stop(now+0.05);
+    }else if(type==='buzz'){
+      // Vibrations-Geräusch (kurzes tiefes Brummen)
+      var bo=actx.createOscillator(), bo2=actx.createOscillator(), bg=actx.createGain(), bl=actx.createBiquadFilter();
+      bo.type='sawtooth'; bo.frequency.value=135; bo2.type='square'; bo2.frequency.value=68;
+      bl.type='lowpass'; bl.frequency.value=700; bl.Q.value=1.2;
+      bg.gain.setValueAtTime(0.0001, now);
+      bg.gain.exponentialRampToValueAtTime(0.5, now+0.006);
+      bg.gain.setValueAtTime(0.5, now+0.045);
+      bg.gain.exponentialRampToValueAtTime(0.0001, now+0.07);
+      bo.connect(bl); bo2.connect(bl); bl.connect(bg); bg.connect(master());
+      bo.start(now); bo2.start(now); bo.stop(now+0.08); bo2.stop(now+0.08);
     }else if(type==='coin'){
       // weiches Wurf-Huschen (Luft + leiser Metallklang)
       var whoosh=actx.createBufferSource();
@@ -2402,17 +2423,17 @@ function playSound(type){
       lp.frequency.exponentialRampToValueAtTime(600, now+0.4);
       var wg=actx.createGain();
       envGain(wg, now, 0.05, 0.1, 0.32, 0.028);
-      whoosh.connect(lp); lp.connect(wg); wg.connect(actx.destination);
+      whoosh.connect(lp); lp.connect(wg); wg.connect(master());
       whoosh.start(now); whoosh.stop(now+0.5);
       // leiser Metall-Schimmer
       var o=actx.createOscillator(), og=actx.createGain();
       o.type='sine'; o.frequency.setValueAtTime(880, now);
       o.frequency.exponentialRampToValueAtTime(420, now+0.35);
       envGain(og, now+0.02, 0.04, 0.06, 0.28, 0.008);
-      o.connect(og); og.connect(actx.destination);
+      o.connect(og); og.connect(master());
       o.start(now); o.stop(now+0.45);
       // sanfter Landungs-Klick
-      setTimeout(function(){ if(!P.sound) return; try{ var AC=window.AudioContext||window.webkitAudioContext; if(!actx&&AC)actx=new AC(); if(!actx)return; if(actx.state==='suspended')actx.resume(); var now=actx.currentTime,n=Math.floor(actx.sampleRate*0.025),buf=actx.createBuffer(1,n,actx.sampleRate),d=buf.getChannelData(0); for(var i=0;i<n;i++){var t=i/actx.sampleRate;d[i]=Math.exp(-t*200)*(Math.random()*2-1)*0.25;} var s=actx.createBufferSource(),g=actx.createGain(); s.buffer=buf; g.gain.value=0.2; s.connect(g); g.connect(actx.destination); s.start(now);}catch(e){} }, 620);
+      setTimeout(function(){ if(!P.sound) return; try{ var AC=window.AudioContext||window.webkitAudioContext; if(!actx&&AC)actx=new AC(); if(!actx)return; if(actx.state==='suspended')actx.resume(); var now=actx.currentTime,n=Math.floor(actx.sampleRate*0.025),buf=actx.createBuffer(1,n,actx.sampleRate),d=buf.getChannelData(0); for(var i=0;i<n;i++){var t=i/actx.sampleRate;d[i]=Math.exp(-t*200)*(Math.random()*2-1)*0.25;} var s=actx.createBufferSource(),g=actx.createGain(); s.buffer=buf; g.gain.value=0.2; s.connect(g); g.connect(master()); s.start(now);}catch(e){} }, 620);
     }else if(type==='trumpet'){
       // moderne kurze Fanfare (weniger Retro, weicher Brass-Charakter)
       var notes=[523.25, 659.25, 783.99, 1046.5]; // C5 E5 G5 C6
@@ -2424,7 +2445,7 @@ function playSound(type){
           var f=actx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=2400; f.Q.value=0.8;
           o1.type='sawtooth'; o2.type='triangle';
           o1.frequency.value=freq; o2.frequency.value=freq*2.01;
-          o1.connect(f); o2.connect(f); f.connect(g); g.connect(actx.destination);
+          o1.connect(f); o2.connect(f); f.connect(g); g.connect(master());
           var peak=i===3?0.09:0.06;
           envGain(g, now+t0, 0.02, len*0.35, len*0.55, peak);
           o1.start(now+t0); o2.start(now+t0);
@@ -2438,7 +2459,7 @@ function playSound(type){
         var o1=actx.createOscillator(), o2=actx.createOscillator(), g=actx.createGain();
         o1.type='square'; o2.type='sine';
         o1.frequency.value=880; o2.frequency.value=1320;
-        o1.connect(g); o2.connect(g); g.connect(actx.destination);
+        o1.connect(g); o2.connect(g); g.connect(master());
         envGain(g, t0, 0.01, 0.12, 0.1, 0.22);
         o1.start(t0); o2.start(t0);
         o1.stop(t0+0.28); o2.stop(t0+0.28);
@@ -2446,6 +2467,13 @@ function playSound(type){
     }
   }catch(e){}
 }
+
+/* Button-Vibration; ohne Vibrationsfunktion: Brumm-Geräusch als Ersatz */
+document.addEventListener('click',function(e){
+  if(!P.sound||!e.target.closest) return;
+  if(!e.target.closest('button,[role=button],a[href],.chip,.tile,.widget,summary,[data-act],[data-sound-btn]')) return;
+  if(navigator.vibrate) vibrate(12); else playSound('buzz');
+},true);
 
 function celebrate(){
   playSound('trumpet');
@@ -5392,7 +5420,6 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
    App wird stark verschwommen + Hinweis mit Dreh-Icon. */
 (function () {
   'use strict';
-  var MAX_W = 430; /* iPhone Pro Max Breite */
   var de = /^de/i.test(navigator.language || '');
 
     function init() {
@@ -5410,19 +5437,14 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
 
     function check() {
       var phone = Math.min(screen.width, screen.height) <= 500;
-      var block, rotateMsg;
-      if (phone) { block = isLandscape(); rotateMsg = true; }
-      else { block = window.innerWidth > MAX_W; rotateMsg = false; }
+      var block;
+      if (phone) block = isLandscape();
+      else block = window.innerWidth > window.innerHeight * 1.15; /* großzügiger Spielraum: erst deutlich breiter als hoch */
 
       document.documentElement.classList.toggle('og-on', block);
       if (!block) return;
-      if (rotateMsg) {
-        title.textContent = de ? 'Bitte Gerät drehen' : 'Please rotate your device';
-        text.textContent = de ? 'Shortcut Plus ist nur im Hochformat nutzbar.' : 'Shortcut Plus works in portrait mode only.';
-      } else {
-        title.textContent = de ? 'Nur für Smartphones' : 'Smartphone only';
-        text.textContent = de ? 'Bitte auf einem Handy im Hochformat öffnen (max. iPhone-Breite).' : 'Please open on a phone in portrait mode.';
-      }
+      title.textContent = de ? 'Bitte Gerät drehen' : 'Please rotate your device';
+      text.textContent = de ? 'Shortcut Plus ist nur im Hochformat nutzbar.' : 'Shortcut Plus works in portrait mode only.';
     }
 
     window.addEventListener('resize', check);
