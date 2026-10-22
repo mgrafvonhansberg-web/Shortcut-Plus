@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-design="ios">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0D0D0F" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM0REIwRkYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDYyRDYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxnPjxwYXRoIGQ9Ik0zNDYgMTkwQzMzNiAxNTIgMzAwIDEzNCAyNTYgMTM0QzIwNiAxMzQgMTcyIDE1OCAxNzIgMTk0QzE3MiAyMzAgMjA0IDI0NCAyNTYgMjU4QzMwOCAyNzIgMzQwIDI4NiAzNDAgMzIyQzM0MCAzNTggMzA2IDM4MCAyNTYgMzgwQzIxMiAzODAgMTc2IDM2MiAxNjYgMzI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjM3MiIgY3k9IjEzMiIgcj0iMjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii45Ii8+PC9nPjwvc3ZnPg==">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -16,28 +16,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Shortcut Plus</title>
 <script>
-/* Early design apply (before paint) */
+/* Single design mode (Apple look) — no OS switch */
 (function(){
   try{
-    var test=localStorage.getItem('designTestMode');
-    var ov=localStorage.getItem('platformOverride');
-    var design=null;
-    if(test==='ios'||test==='android') design=test;
-    else if(ov==='ios'||ov==='android') design=ov;
-    else{
-      var ua=navigator.userAgent||'';
-      var plat=(navigator.userAgentData&&navigator.userAgentData.platform)||navigator.platform||'';
-      var isIPadOS= /iPad|Macintosh/i.test(ua) && navigator.maxTouchPoints>1;
-      var isIOS= /iPhone|iPod/i.test(ua) || (isIPadOS && /iPad/i.test(ua));
-      if(!isIOS && isIPadOS) isIOS=true;
-      if(/iPhone|iPod/i.test(ua)) design='ios';
-      else if(isIPadOS||/iPad/i.test(ua)) design='ios';
-      else design='android';
-    }
-    document.documentElement.setAttribute('data-design', design);
-  }catch(e){
-    document.documentElement.setAttribute('data-design','android');
-  }
+    localStorage.removeItem('designTestMode');
+    localStorage.removeItem('platformOverride');
+  }catch(e){}
+  document.documentElement.setAttribute('data-design','ios');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -58,7 +43,7 @@
   --radius:20px;
 }
 html[data-theme="dark"]{
-  --phone-bg:#000000; --surface:#1C1C1E; --ink:#F5F5F7; --muted:#98989D; --line:#38383A; --field:#2C2C2E;
+  --phone-bg:#0D0D0F; --surface:#1C1C1E; --ink:#F5F5F7; --muted:#98989D; --line:#38383A; --field:#2C2C2E;
   --btn:#0A84FF; --btn-ink:#FFFFFF; --danger:#FF453A; --scrim:rgba(0,0,0,.6);
   --c-1-bg:#450A0A; --c-1-fg:#FCA5A5;
   --c-2-bg:#500724; --c-2-fg:#FBCFE8;
@@ -340,7 +325,7 @@ html[data-theme="dark"] .phone-frame{
     radial-gradient(130% 90% at 8% -8%, var(--samsung-glow), transparent 52%),
     radial-gradient(100% 80% at 96% 0%, var(--samsung-glow-2), transparent 48%),
     radial-gradient(70% 50% at 50% 110%, rgba(40,80,180,.12), transparent 55%),
-    linear-gradient(168deg, #14151a 0%, var(--phone-bg) 42%, #08090c 100%);
+    linear-gradient(168deg, #14151a 0%, var(--phone-bg) 55%, var(--phone-bg) 100%);
 }
 .card,.setting-card{
   background:var(--glass-strong) !important;
@@ -372,7 +357,7 @@ footer{
   -webkit-backdrop-filter:blur(36px) saturate(1.8);
   backdrop-filter:blur(36px) saturate(1.8);
   border-top:1px solid var(--glass-border) !important;
-  box-shadow:0 -6px 28px rgba(0,0,0,.05), 0 1px 0 rgba(255,255,255,.4) inset;
+  box-shadow:0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
 }
 .back,.mini,.btn.ghost{
   background:var(--glass) !important;
@@ -1219,8 +1204,8 @@ footer{
   left:50% !important;
   right:auto !important;
   transform:translateX(-50%);
-  width:calc(100% - 20px) !important;
-  max-width:390px !important;
+  width:auto !important;
+  max-width:min(340px, calc(100% - 24px)) !important;
   bottom:calc(8px + env(safe-area-inset-bottom)) !important;
   padding:8px 10px !important;
   background:var(--glass-strong) !important;
@@ -1231,9 +1216,7 @@ footer{
   /* Full pill: left & right curves meet */
   border-radius:999px !important;
   box-shadow:
-    0 8px 32px rgba(0,0,0,.12),
-    0 1px 0 rgba(255,255,255,.55) inset,
-    0 -1px 0 rgba(0,0,0,.04) inset !important;
+    0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
   gap:4px;
   display:flex !important;
   justify-content:space-around;
@@ -1244,8 +1227,7 @@ html[data-theme="dark"] footer{
   background:var(--glass-strong) !important;
   border-color:var(--glass-border) !important;
   box-shadow:
-    0 10px 36px rgba(0,0,0,.45),
-    0 1px 0 rgba(255,255,255,.1) inset !important;
+    0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
 }
 .f-tab{
   flex:1;
@@ -1445,7 +1427,8 @@ footer{
   left:50% !important;
   right:auto !important;
   transform:translateX(-50%);
-  width:calc(100% - 24px) !important;
+  width:auto !important;
+  max-width:min(340px, calc(100% - 24px)) !important;
   max-width:400px !important;
   bottom:calc(10px + env(safe-area-inset-bottom)) !important;
   padding:10px 12px !important;
@@ -1455,16 +1438,12 @@ footer{
   border:1px solid var(--glass-border) !important;
   border-radius:28px !important; /* Samsung-ish soft capsule, not full pill */
   box-shadow:
-    0 12px 40px rgba(20,40,90,.14),
-    0 2px 8px rgba(0,0,0,.06),
-    0 1px 0 rgba(255,255,255,.6) inset,
-    0 -1px 0 rgba(0,0,0,.04) inset !important;
+    0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
 }
 html[data-theme="dark"] footer{
   border-radius:28px !important;
   box-shadow:
-    0 14px 48px rgba(0,0,0,.55),
-    0 1px 0 rgba(255,255,255,.1) inset !important;
+    0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
 }
 .f-tab{
   border-radius:20px !important;
@@ -1628,7 +1607,7 @@ html[data-design="android"]{
 }
 html[data-design="android"][data-theme="dark"]{
   --btn:#3E91FF;
-  --phone-bg:#000000;
+  --phone-bg:#0D0D0F;
   --surface:#1C1C1E;
   --field:#2C2C2E;
   --line:#3A3A3C;
@@ -1653,7 +1632,7 @@ html[data-design="android"] .phone-frame{
 html[data-theme="dark"][data-design="android"] .phone-frame{
   background:
     radial-gradient(100% 60% at 10% 0%, var(--samsung-glow), transparent 55%),
-    linear-gradient(180deg, #0E0E10 0%, var(--phone-bg) 45%, #000000 100%) !important;
+    linear-gradient(180deg, #0E0E10 0%, var(--phone-bg) 55%, var(--phone-bg) 100%) !important;
 }
 
 /* Flat panels */
@@ -1710,37 +1689,37 @@ html[data-design="android"] .seg-bar{
   box-shadow:none !important;
 }
 html[data-design="android"] .seg-btn{
-  border-radius:999px !important;
+  border-radius:13px !important;
   box-shadow:none !important;
 }
 html[data-design="android"] .f-tab{
   border-radius:999px !important;
 }
 
-/* Footer dock: completely flat One UI — no 3D */
+/* Footer dock Android: compact centered pill, less glass, keep round */
 html[data-design="android"] footer{
-  border-radius:22px !important;
-  background:#FFFFFF !important;
-  -webkit-backdrop-filter:none !important;
-  backdrop-filter:none !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.92) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.2) !important;
+  backdrop-filter:blur(12px) saturate(1.2) !important;
   border:1px solid rgba(0,0,0,.08) !important;
   border-top:1px solid rgba(0,0,0,.08) !important;
-  box-shadow:none !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.08) !important;
   filter:none !important;
-  padding:6px 8px !important;
-  width:calc(100% - 16px) !important;
-  max-width:420px !important;
-  bottom:calc(8px + env(safe-area-inset-bottom)) !important;
-  left:50% !important;
+  padding:4px !important;
+  width:auto !important;
+  max-width:min(340px, calc(100% - 24px)) !important;
+  left:auto !important;
   right:auto !important;
-  transform:translateX(-50%);
+  transform:none !important;
+  bottom:auto !important;
 }
 html[data-theme="dark"][data-design="android"] footer,
 html[data-design="android"][data-theme="dark"] footer{
   background:#1C1C1E !important;
   border:1px solid rgba(255,255,255,.1) !important;
   border-top:1px solid rgba(255,255,255,.1) !important;
-  box-shadow:none !important;
+  box-shadow:0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
   -webkit-backdrop-filter:none !important;
   backdrop-filter:none !important;
   filter:none !important;
@@ -1898,7 +1877,7 @@ html[data-design="android"] footer,
 html[data-design="android"][data-theme="dark"] footer,
 html[data-theme="dark"][data-design="android"] footer{
   box-shadow:none !important;
-  -webkit-box-shadow:none !important;
+  -webkit-box-shadow:0 2px 12px rgba(0,0,0,.08), 0 1px 0 rgba(255,255,255,.4) inset;
   filter:none !important;
   -webkit-backdrop-filter:blur(20px) saturate(1.25) !important;
   backdrop-filter:blur(20px) saturate(1.25) !important;
@@ -1951,6 +1930,523 @@ html[data-design="android"] .tm-pad button{
 footer[hidden], footer.tool-hidden{display:none !important;}
 
 #orientGuard{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center;color:#fff;font-family:"Schibsted Grotesk",system-ui,-apple-system,sans-serif;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(60px) saturate(1.2);backdrop-filter:blur(60px) saturate(1.2)}html.og-on #orientGuard{display:flex}html.og-on .phone-frame{filter:blur(36px);pointer-events:none;user-select:none;-webkit-user-select:none}#orientGuard svg{width:84px;height:84px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#orientGuard rect{transform-box:fill-box;transform-origin:center;animation:ogRot 2.6s ease-in-out infinite}#orientGuard b{font-size:20px;letter-spacing:-.02em}#orientGuard p{font-size:14px;opacity:.85;max-width:280px;line-height:1.4;margin:0}@keyframes ogRot{0%,20%{transform:rotate(-90deg)}60%,100%{transform:rotate(0)}}
+
+/* ---------- Footer: compact pill (hug buttons, readable size) ---------- */
+:root{
+  --edge:12px;
+  --footer-h:58px;
+}
+.app-container{
+  padding-top:max(var(--edge), env(safe-area-inset-top)) !important;
+  padding-left:max(var(--edge), env(safe-area-inset-left)) !important;
+  padding-right:max(var(--edge), env(safe-area-inset-right)) !important;
+  padding-bottom:calc(var(--footer-h) + var(--edge) + var(--edge) + env(safe-area-inset-bottom)) !important;
+}
+footer{
+  left:50% !important;
+  right:auto !important;
+  transform:translateX(-50%) !important;
+  width:auto !important;
+  max-width:min(340px, calc(100% - 2 * var(--edge))) !important;
+  min-width:0 !important;
+  bottom:calc(var(--edge) + env(safe-area-inset-bottom)) !important;
+  height:var(--footer-h) !important;
+  min-height:var(--footer-h) !important;
+  max-height:var(--footer-h) !important;
+  padding:4px !important;
+  gap:4px !important;
+  box-sizing:border-box !important;
+  flex-shrink:0 !important;
+  overflow:hidden !important;
+  align-items:stretch !important;
+  justify-content:center !important;
+  display:inline-flex !important;
+}
+.f-tab{
+  padding:8px 22px !important;
+  min-height:0 !important;
+  height:auto !important;
+  flex:0 0 auto !important;
+  max-width:none !important;
+  width:auto !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:3px !important;
+  box-sizing:border-box !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+}
+.f-tab svg{width:20px !important;height:20px !important;flex-shrink:0}
+.toast{
+  bottom:calc(var(--footer-h) + var(--edge) + var(--edge) + 8px + env(safe-area-inset-bottom)) !important;
+  max-width:calc(100% - 2 * var(--edge)) !important;
+}
+html[data-design="android"] footer,
+html[data-design="ios"] footer{
+  width:auto !important;
+  max-width:min(340px, calc(100% - 2 * var(--edge))) !important;
+  bottom:calc(var(--edge) + env(safe-area-inset-bottom)) !important;
+  height:var(--footer-h) !important;
+  padding:4px !important;
+  display:inline-flex !important;
+}
+html[data-design="android"] .f-tab,
+html[data-design="ios"] .f-tab{
+  flex:0 0 auto !important;
+  max-width:none !important;
+  padding:8px 22px !important;
+  font-size:12px !important;
+}
+
+
+/* No black strip under floating footer — same bg as app, no pure black band */
+html, body, .phone-frame{
+  background-color: var(--phone-bg) !important;
+}
+html[data-theme="dark"] body,
+html[data-theme="dark"] .phone-frame{
+  background-color: var(--phone-bg) !important;
+}
+/* kill any residual full-width footer track under the compact pill */
+footer{
+  background-clip: padding-box !important;
+}
+footer::before,
+footer::after{
+  display:none !important;
+  content:none !important;
+  background:transparent !important;
+}
+
+
+/* Footer final: no black band under bar */
+footer{
+  right:auto !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  bottom:max(6px, env(safe-area-inset-bottom)) !important;
+  box-shadow:0 2px 12px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.45) inset !important;
+  background:rgba(255,255,255,.72) !important;
+  -webkit-backdrop-filter:blur(28px) saturate(1.6) !important;
+  backdrop-filter:blur(28px) saturate(1.6) !important;
+  border:1px solid rgba(255,255,255,.45) !important;
+}
+html[data-theme="dark"] footer,
+html[data-theme="dark"][data-design="android"] footer,
+html[data-design="android"][data-theme="dark"] footer,
+html[data-theme="dark"][data-design="ios"] footer,
+html[data-design="ios"][data-theme="dark"] footer{
+  background:rgba(28,28,30,.78) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  box-shadow:0 2px 12px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.08) inset !important;
+}
+html, body, .phone-frame{
+  background:var(--phone-bg) !important;
+  background-color:var(--phone-bg) !important;
+}
+
+
+/* Transparent full-bleed dock — only the pill is opaque */
+.footer-dock{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  top:auto !important;
+  width:100% !important;
+  max-width:none !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom)) !important;
+  margin:0 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  pointer-events:none !important;
+  z-index:50 !important;
+  transform:none !important;
+  overflow:visible !important;
+}
+.footer-dock footer{
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  top:auto !important;
+  transform:none !important;
+  width:auto !important;
+  max-width:min(340px, 100%) !important;
+  height:var(--footer-h, 58px) !important;
+  min-height:var(--footer-h, 58px) !important;
+  max-height:var(--footer-h, 58px) !important;
+  pointer-events:auto !important;
+  display:inline-flex !important;
+  margin:0 !important;
+}
+.footer-dock[hidden],
+.footer-dock.tool-hidden,
+footer[hidden],
+footer.tool-hidden{
+  display:none !important;
+}
+
+
+/* Force hide footer when tool open (beats display:flex !important) */
+.footer-dock[hidden],
+.footer-dock.tool-hidden,
+html .footer-dock[hidden],
+html .footer-dock.tool-hidden{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  opacity:0 !important;
+}
+footer[hidden],
+footer.tool-hidden,
+html footer[hidden],
+html footer.tool-hidden{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+/* Android: footer like other One UI bars — solid, no glass */
+html[data-design="android"] .footer-dock footer,
+html[data-design="android"] footer{
+  background:#FFFFFF !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  border:1px solid rgba(0,0,0,.08) !important;
+  box-shadow:none !important;
+  filter:none !important;
+  border-radius:22px !important;
+}
+html[data-theme="dark"][data-design="android"] .footer-dock footer,
+html[data-design="android"][data-theme="dark"] .footer-dock footer,
+html[data-theme="dark"][data-design="android"] footer,
+html[data-design="android"][data-theme="dark"] footer{
+  background:#1C1C1E !important;
+  border:1px solid rgba(255,255,255,.1) !important;
+  box-shadow:none !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+}
+html[data-design="android"] .f-tab{
+  border-radius:14px !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+html[data-design="android"] .f-tab.active{
+  background:rgba(3,129,254,.12) !important;
+  box-shadow:none !important;
+}
+html[data-theme="dark"][data-design="android"] .f-tab.active,
+html[data-design="android"][data-theme="dark"] .f-tab.active{
+  background:rgba(62,145,255,.18) !important;
+  box-shadow:none !important;
+}
+
+/* iOS keeps liquid glass (already set earlier) */
+
+
+/* ===== Final polish: footer center + radius, Android flat bars ===== */
+
+/* Footer pill: always centered & rounded */
+.footer-dock{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+.footer-dock[hidden],
+.footer-dock.tool-hidden{
+  display:none !important;
+}
+.footer-dock footer,
+html .footer-dock footer{
+  margin-left:auto !important;
+  margin-right:auto !important;
+  border-radius:999px !important;
+  overflow:hidden !important;
+}
+.footer-dock .f-tab{
+  border-radius:999px !important;
+}
+
+/* Android footer: centered pill, keep full round, less liquid glass */
+html[data-design="android"] .footer-dock footer,
+html[data-design="android"] footer{
+  width:auto !important;
+  max-width:min(340px, calc(100% - 24px)) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  left:auto !important;
+  right:auto !important;
+  transform:none !important;
+  background:rgba(255,255,255,.92) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.15) !important;
+  backdrop-filter:blur(12px) saturate(1.15) !important;
+  border:1px solid rgba(0,0,0,.1) !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.08) !important;
+  filter:none !important;
+  border-radius:999px !important;
+}
+html[data-theme="dark"][data-design="android"] .footer-dock footer,
+html[data-design="android"][data-theme="dark"] .footer-dock footer,
+html[data-theme="dark"][data-design="android"] footer,
+html[data-design="android"][data-theme="dark"] footer{
+  background:rgba(44,44,46,.92) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.3) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.15) !important;
+  backdrop-filter:blur(12px) saturate(1.15) !important;
+  border-radius:999px !important;
+  width:auto !important;
+}
+html[data-design="android"] .f-tab{
+  border-radius:999px !important;
+}
+
+/* Android tool switch: less liquid glass, keep rounded */
+html[data-design="android"] .seg-bar{
+  background:rgba(232,232,237,.95) !important;
+  -webkit-backdrop-filter:blur(10px) saturate(1.1) !important;
+  backdrop-filter:blur(10px) saturate(1.1) !important;
+  border:1px solid rgba(0,0,0,.06) !important;
+  box-shadow:none !important;
+  border-radius:14px !important;
+  padding:3px !important;
+}
+html[data-theme="dark"][data-design="android"] .seg-bar,
+html[data-design="android"][data-theme="dark"] .seg-bar{
+  background:rgba(44,44,46,.95) !important;
+  border:1px solid rgba(255,255,255,.1) !important;
+  box-shadow:none !important;
+  -webkit-backdrop-filter:blur(10px) saturate(1.1) !important;
+  backdrop-filter:blur(10px) saturate(1.1) !important;
+  border-radius:14px !important;
+}
+html[data-design="android"] .seg-btn{
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:11px !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+}
+html[data-design="android"] .seg-btn[aria-selected="true"]{
+  background:#FFFFFF !important;
+  color:var(--ink) !important;
+  box-shadow:0 1px 3px rgba(0,0,0,.08) !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+}
+html[data-theme="dark"][data-design="android"] .seg-btn[aria-selected="true"],
+html[data-design="android"][data-theme="dark"] .seg-btn[aria-selected="true"]{
+  background:#3A3A3C !important;
+  color:#fff !important;
+  box-shadow:none !important;
+}
+
+
+/* Android seg buttons: rounded (not square) */
+html[data-design="android"] .seg-bar{
+  border-radius:16px !important;
+  padding:3px !important;
+}
+html[data-design="android"] .seg-btn{
+  border-radius:13px !important;
+}
+html[data-design="android"] .seg-btn[aria-selected="true"]{
+  border-radius:13px !important;
+}
+
+
+/* ===== Android design language (One UI consistent) ===== */
+html[data-design="android"]{
+  --a-r-sm: 12px;
+  --a-r-md: 16px;
+  --a-r-lg: 20px;
+  --a-r-pill: 999px;
+}
+/* Tool switch bars + buttons: fully rounded */
+html[data-design="android"] .seg-bar{
+  border-radius: var(--a-r-pill) !important;
+  padding: 3px !important;
+  gap: 2px !important;
+}
+html[data-design="android"] .seg-btn,
+html[data-design="android"] .seg-btn[aria-selected="true"]{
+  border-radius: var(--a-r-pill) !important;
+}
+/* Footer tabs pill */
+html[data-design="android"] .footer-dock footer,
+html[data-design="android"] footer{
+  border-radius: var(--a-r-pill) !important;
+  width: auto !important;
+  max-width: min(340px, calc(100% - 24px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+html[data-design="android"] .f-tab{
+  border-radius: var(--a-r-pill) !important;
+}
+/* Shared controls */
+html[data-design="android"] .btn,
+html[data-design="android"] .btn.ghost,
+html[data-design="android"] .btn.danger,
+html[data-design="android"] .chip,
+html[data-design="android"] .back,
+html[data-design="android"] .mini,
+html[data-design="android"] .toast{
+  border-radius: var(--a-r-pill) !important;
+}
+html[data-design="android"] .inp,
+html[data-design="android"] .fld>select,
+html[data-design="android"] .fld>textarea,
+html[data-design="android"] .pw-out,
+html[data-design="android"] .calc-disp,
+html[data-design="android"] .tm,
+html[data-design="android"] .qr-box,
+html[data-design="android"] .gt-langs,
+html[data-design="android"] .gt-box{
+  border-radius: var(--a-r-md) !important;
+}
+html[data-design="android"] .tile,
+html[data-design="android"] .card,
+html[data-design="android"] .setting-card,
+html[data-design="android"] .group{
+  border-radius: var(--a-r-lg) !important;
+}
+html[data-design="android"] .calc-grid button,
+html[data-design="android"] .sw-pad button,
+html[data-design="android"] .tm-pad button{
+  border-radius: var(--a-r-md) !important;
+}
+/* Less liquid glass, keep soft fill */
+html[data-design="android"] .seg-bar,
+html[data-design="android"] .btn.ghost,
+html[data-design="android"] .chip,
+html[data-design="android"] .inp,
+html[data-design="android"] .fld>select,
+html[data-design="android"] .fld>textarea{
+  -webkit-backdrop-filter: blur(10px) saturate(1.1) !important;
+  backdrop-filter: blur(10px) saturate(1.1) !important;
+}
+
+
+/* ===== Apple look (global) + mild footer glass + round calc keys ===== */
+
+/* Calculator keys: round like iOS */
+.calc-grid button,
+html[data-design="ios"] .calc-grid button,
+html[data-design="android"] .calc-grid button{
+  border-radius: 999px !important;
+  min-height: 44px !important;
+  aspect-ratio: 1 / 1;
+}
+.calc-grid{
+  gap: 8px !important;
+}
+html[data-design="android"] .calc-grid button{
+  border-radius: 999px !important;
+}
+
+/* Soften liquid glass app-wide → clean Apple surface */
+.tile, .card, .setting-card, .group, .inp, .fld>select, .fld>textarea,
+.pw-out, .calc-disp, .tm, .qr-box, .gt-langs, .gt-box, .seg-bar,
+.btn.ghost, .chip, .back, .mini{
+  -webkit-backdrop-filter: blur(14px) saturate(1.25) !important;
+  backdrop-filter: blur(14px) saturate(1.25) !important;
+}
+.calc-grid button{
+  -webkit-backdrop-filter: blur(8px) saturate(1.1) !important;
+  backdrop-filter: blur(8px) saturate(1.1) !important;
+  border-radius: 999px !important;
+}
+
+/* Footer: same language as tool seg-bars (no white top highlight) */
+.footer-dock footer,
+footer{
+  background: var(--field) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.25) !important;
+  backdrop-filter: blur(14px) saturate(1.25) !important;
+  border: 1px solid var(--line) !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+html[data-theme="dark"] .footer-dock footer,
+html[data-theme="dark"] footer{
+  background: var(--field) !important;
+  border: 1px solid var(--line) !important;
+  border-top: 1px solid var(--line) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.25) !important;
+  backdrop-filter: blur(14px) saturate(1.25) !important;
+  border-radius: 999px !important;
+}
+/* Active tab like seg-btn selected — no glass rim */
+.footer-dock .f-tab.active,
+footer .f-tab.active{
+  background: var(--surface) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08) !important;
+  border: none !important;
+}
+html[data-theme="dark"] .footer-dock .f-tab.active,
+html[data-theme="dark"] footer .f-tab.active{
+  background: #3A3A3C !important;
+  box-shadow: none !important;
+}
+
+
+/* Keep footer centered compact pill */
+.footer-dock footer,
+footer{
+  width: auto !important;
+  max-width: min(340px, calc(100% - 24px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+
+/* Single design: hide iOS/Android design switch UI if present */
+[data-design-switch],
+#designTestRow,
+#designModeRow,
+.design-test,
+#designStatus,
+#btnDesignIos,
+#btnDesignAndroid{
+  display:none !important;
+}
+
+
+/* Kill white top stroke on footer */
+.footer-dock footer,
+footer,
+html[data-theme="dark"] footer,
+html[data-design="ios"] footer,
+html[data-design="android"] footer{
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+.footer-dock footer::before,
+.footer-dock footer::after,
+footer::before,
+footer::after{
+  display: none !important;
+  content: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
 </style>
 </head>
 <body>
@@ -2033,10 +2529,12 @@ footer[hidden], footer.tool-hidden{display:none !important;}
     </section>
   </div>
 
+  <div class="footer-dock" id="footerDock">
   <footer>
     <button class="f-tab active" id="tabHome" type="button"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
     <button class="f-tab" id="tabSettings" type="button"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</button>
   </footer>
+  </div>
 </div>
 <div id="orientGuard" role="alert" aria-live="assertive"><svg viewBox="0 0 48 48"><rect x="16" y="14" width="16" height="28" rx="4"/><path d="M10 18C12 10 20 6 28 8"/><polyline points="24 4 29 8 24 12"/></svg><b></b><p></p></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -2209,11 +2707,9 @@ function getPlatformOverride(){
   return null;
 }
 function setDesignTest(v){
-  try{
-    if(v==='ios'||v==='android') localStorage.setItem(DESIGN_TEST_KEY, v);
-    else localStorage.removeItem(DESIGN_TEST_KEY);
-  }catch(e){}
+  applyDesign('ios');
 }
+
 function setPlatformOverride(v){
   try{
     if(v==='ios'||v==='android') localStorage.setItem(PLATFORM_OVERRIDE_KEY, v);
@@ -2222,99 +2718,43 @@ function setPlatformOverride(v){
 }
 
 function resolveDesign(){
-  var test=getStoredDesignTest();
-  if(test) return {design:test, source:'test'};
-  var ov=getPlatformOverride();
-  if(ov) return {design:ov, source:'override'};
-  var p=detectedPlatform||detectPlatform();
-  return {design:platformToDesign(p), source:'auto', platform:p};
+  return {design:'ios', source:'fixed', platform:detectedPlatform||'other'};
 }
 
 function applyDesign(design, opts){
-  opts=opts||{};
-  if(design!=='ios'&&design!=='android') design='android';
-  document.documentElement.setAttribute('data-design', design);
-  updateDesignStatusUI();
-  if(opts.toast){
-    var label=design==='ios'?'Design: iOS':'Design: One UI 9';
-    if(opts.source==='override') label=design==='ios'?'Design: iOS':'Design: One UI 9';
-    if(opts.source==='auto') label=design==='ios'?'Design: iOS (Auto)':'Design: One UI 9 (Auto)';
-    if(opts.source==='test') label=design==='ios'?'Design: iOS':'Design: One UI 9 (Test)';
-    try{ toast(label); }catch(e){}
-  }
+  /* single mode: always Apple look */
+  design='ios';
+  try{ document.documentElement.setAttribute('data-design','ios'); }catch(e){}
+  try{ localStorage.removeItem(DESIGN_TEST_KEY); localStorage.removeItem(PLATFORM_OVERRIDE_KEY); }catch(e){}
+  try{ updateDesignStatusUI(); }catch(e){}
 }
 
 function updateDesignStatusUI(){
   var el=$('designStatus');
-  if(!el) return;
-  var r=resolveDesign();
-  var plat=detectedPlatform||detectPlatform();
-  var platLabel={ios:'iOS',ipados:'iPadOS',android:'Android',windows:'Windows',other:'Other'}[plat]||plat;
-  var mode='';
-  if(r.source==='test') mode='Test mode · locked to '+(r.design==='ios'?'iOS':'One UI 9');
-  else if(r.source==='override') mode='Manual · '+(r.design==='ios'?'iOS':'One UI 9');
-  else mode='Auto · platform '+platLabel+' → '+(r.design==='ios'?'iOS':'One UI 9');
-  el.innerHTML='Detected: <b>'+esc(platLabel)+'</b><br>'+esc(mode);
-
-  var autoBtn=document.querySelector('[data-design-btn="auto"]');
-  var iosBtn=document.querySelector('[data-design-btn="ios"]');
-  var andBtn=document.querySelector('[data-design-btn="android"]');
-  var isAuto=r.source==='auto';
-  var isIos=r.design==='ios';
-  if(autoBtn) autoBtn.setAttribute('aria-pressed', isAuto?'true':'false');
-  if(iosBtn) iosBtn.setAttribute('aria-pressed', (!isAuto && isIos)?'true':'false');
-  if(andBtn) andBtn.setAttribute('aria-pressed', (!isAuto && !isIos)?'true':'false');
+  if(el) el.innerHTML='Design: <b>Apple</b> (single mode)';
+  /* hide any design switch buttons */
+  document.querySelectorAll('[data-design-btn], #designTestRow, #designModeRow, .design-test').forEach(function(n){
+    try{ n.style.display='none'; }catch(e){}
+  });
 }
 
 function initDesignSystem(){
   detectedPlatform=detectPlatform();
   try{renderTutorial();}catch(e){}
-  try{
-    console.log('[Shortcut Plus] Platform detected:', detectedPlatform,
-      '| UA:', (navigator.userAgent||'').slice(0,80),
-      '| platform:', navigator.platform,
-      '| maxTouchPoints:', navigator.maxTouchPoints);
-  }catch(e){}
-  var r=resolveDesign();
-  applyDesign(r.design, {toast:false, source:r.source});
+  try{ document.documentElement.setAttribute('data-design','ios'); }catch(e){}
+  try{ localStorage.removeItem(DESIGN_TEST_KEY); localStorage.removeItem(PLATFORM_OVERRIDE_KEY); }catch(e){}
+  applyDesign('ios', {toast:false, source:'fixed'});
 }
 
 function toggleDesignTestMode(){
-  var cur=getStoredDesignTest();
-  var next;
-  if(!cur){
-    // Enter test mode: switch to the opposite of current visual design
-    var now=document.documentElement.getAttribute('data-design')||'android';
-    next=now==='ios'?'android':'ios';
-    setDesignTest(next);
-    applyDesign(next, {toast:true, source:'test'});
-  }else{
-    // Exit test mode → back to override or auto
-    setDesignTest(null);
-    var r=resolveDesign();
-    var src=r.source==='auto'?'auto':'override';
-    applyDesign(r.design, {toast:false, source:src});
-    try{ toast(src==='auto'?'Design: Auto':'Design: '+(r.design==='ios'?'iOS':'One UI 9')); }catch(e){}
-  }
+  /* disabled — single design only */
+  try{ document.documentElement.setAttribute('data-design','ios'); }catch(e){}
 }
 
 function setDesignManual(mode){
-  // mode: auto | ios | android
-  setDesignTest(null); // leave test mode when using settings
-  if(mode==='auto'){
-    setPlatformOverride(null);
-    var r=resolveDesign();
-    applyDesign(r.design, {toast:true, source:'auto'});
-  }else if(mode==='ios'||mode==='android'){
-    setPlatformOverride(mode);
-    applyDesign(mode, {toast:true, source:'override'});
-  }
-  updateDesignStatusUI();
+  applyDesign('ios');
 }
 
-
-
-/* ---------- Helfer ---------- */
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
@@ -2571,9 +3011,22 @@ function setTab(which){
 function hideAll(){['home','screen','settings','legal'].forEach(function(i){$(i).hidden=true;});}
 function setFooterVisible(on){
   var f=document.querySelector('footer');
-  if(!f) return;
-  f.hidden=!on;
-  f.style.display=on?'':'none';
+  var dock=document.getElementById('footerDock')||document.querySelector('.footer-dock');
+  if(f){
+    f.hidden=!on;
+    if(on) f.classList.remove('tool-hidden');
+    else f.classList.add('tool-hidden');
+  }
+  if(dock){
+    dock.hidden=!on;
+    if(on){
+      dock.classList.remove('tool-hidden');
+      dock.removeAttribute('hidden');
+    }else{
+      dock.classList.add('tool-hidden');
+      dock.setAttribute('hidden','');
+    }
+  }
   var ac=document.querySelector('.app-container');
   if(ac){
     if(on) ac.classList.remove('tool-open');
@@ -2802,14 +3255,6 @@ function calcPress(v){
   }
   if(v==='='){
     if(!calcExpr) return;
-    /* Secret design test code */
-    var digs=String(calcExpr).replace(/[^\d]/g,'');
-    if(digs==='040311' || String(calcExpr).replace(/\s/g,'')==='040311'){
-      try{ toggleDesignTestMode(); }catch(e){}
-      calcExpr=''; calcHist=''; calcEq=false;
-      calcRender();
-      return;
-    }
     try{
       var r=fmtNum(evalExpr(calcExpr));
       calcHist=calcExpr+' ='; calcExpr=r; calcEq=true;
@@ -5028,12 +5473,16 @@ function removeBackgroundSimple(){
       if(typeof removeBackground!=='function') throw new Error('Module API missing');
       // Feed original-resolution source as canvas/blob for quality
       var c=document.createElement('canvas');
-      c.width=src.naturalWidth||src.width; c.height=src.naturalHeight||src.height;
-      c.getContext('2d').drawImage(src,0,0);
+      var sw=src.naturalWidth||src.width, sh=src.naturalHeight||src.height;
+      var maxSide=720, sc=Math.min(1, maxSide/Math.max(sw,sh));
+      c.width=Math.max(1,Math.round(sw*sc)); c.height=Math.max(1,Math.round(sh*sc));
+      c.getContext('2d').drawImage(src,0,0,c.width,c.height);
       return new Promise(function(resolve,reject){
         c.toBlob(function(blob){
           if(!blob){ reject(new Error('blob')); return; }
           Promise.resolve(removeBackground(blob, {
+            model: 'isnet_quint8',
+            output: { format: 'image/png', quality: 0.8 },
             progress: function(key, current, total){
               if(total && $('imgBgBtn')){
                 var pct = Math.round((current/total)*100);
@@ -5041,7 +5490,7 @@ function removeBackgroundSimple(){
               }
             }
           })).then(resolve).catch(reject);
-        }, 'image/png');
+        }, 'image/jpeg', 0.85);
       });
     }).then(function(result){
       var outBlob = result instanceof Blob ? result : (result && result.blob ? result.blob : null);
@@ -5125,51 +5574,143 @@ function downloadImageEdit(){
 }
 
 /* ---------- Always-on voice commands ---------- */
-var voiceRec=null, voiceActive=false, voiceLoop=false, voiceRestartTimer=null, voicePaused=false;
-function voicePhraseTable(){
-  return {
-    rechner:['calculator','rechner','taschenrechner','calc','calculateur','calculadora','calcolatrice','kalkulator','hesap makinesi','rekenmachine','калькулятор','计算器','計算機','계산기','آلة حاسبة','कैलकुलेटर','kalkylator','kalkulačka','αριθμομηχανή','számológép','калькулятор','máy tính','เครื่องคิดเลข','מחשבון','lommeregner','laskin','калкулатор','skaičiuotuvas','kalkulators','kalkulaator'],
-    zeit:['time','zeit','uhr','heure','tiempo','tempo','czas','zaman','tijd','время','时间','時間','시간','وقت','समय','tid','čas','ώρα','idő','timp','час','thời gian','waktu','เวลา','זמן','aika'],
-    stopwatch:['stopwatch','stoppuhr','chronometer','cronómetro','cronometro','stoper','kronometre','секундомер','秒表','ストップウォッチ'],
-    timer:['timer','minuterie','temporizador','temporizzatore','minutnik','zamanlayıcı','таймер','计时器','タイマー'],
-    date:['date','datum','fecha','data','tarih','дата','日期','日付','날짜'],
-    uebersetzer:['translate','translator','übersetzer','traduire','traducir','tradurre','tłumacz','çevir','vertalen','перевод','翻译','翻訳','번역','ترجمة','अनुवाद','översätt','překlad','μετάφραση','fordító','traducere','перекладач','dịch','terjemahan','แปล','תרגום'],
-    live:['live interpreter','live','dolmetscher','interprète','intérprete','interprete','canlı'],
-    finanzen:['finance','finanzen','percent','tax','currency','finances','finanzas','finanze','finanse','finans','financiën','финансы','财务'],
-    tools:['codes','qr','barcode','qr code','code-barres','código de barras','codice a barre','barkod','strichcode'],
-    qr:['qr','qr code','code qr'],
-    barcode:['barcode','code-barres','código de barras','barkod','strichcode'],
-    zufall:['random','zufall','wheel','glücksrad','coin','münze','münzwurf','aléatoire','aleatorio','casuale','losowy','rastgele','willekeurig','случайный','随机','ランダム'],
-    coin:['coin','coin flip','münzwurf','münze','pièce','moneda','moneta','toss'],
-    rad:['wheel','glücksrad','spin','roue','ruleta','ruota','koło','çark'],
-    dbmeter:['sensors','sensor','db','sound','level','compass','kompass','boussole','brújula','bussola','pusula','kompas','компас','指南针','コンパス','나침반','lautstärke','wasserwaage','spirit level','db meter'],
-    sound:['sound level','db meter','lautstärke','sonomètre'],
-    level:['spirit level','wasserwaage','niveau','nivel','livella'],
-    compass:['compass','kompass','boussole','brújula','bussola','pusula','kompas','компас','指南针','コンパス','나침반'],
-    bilder:['image','photo','bild','bildbearbeitung','image edit','photo edit','filtre','filter','recadrer','zuschneiden','background','hintergrund','imagen','immagine','obraz','görüntü','afbeelding','изображение','图片','画像','이미지']
-  };
+var voiceRec=null, voiceActive=false, voiceLoop=false, voiceRestartTimer=null, voicePaused=false, voiceArmed=false, voiceArmedTimer=null;
+function voiceIntentDocs(){
+  // Descriptive intents: names + what the tool *does* (DE/EN + common other langs)
+  return [
+    {id:'coin', texts:[
+      'münzwurf','münze','münze werfen','kopf oder zahl','coin flip','toss coin','flip a coin',
+      'pièce','pile ou face','moneda','cara o cruz','moneta','testa o croce'
+    ]},
+    {id:'rad', texts:[
+      'glücksrad','rad drehen','rad','wheel','spin the wheel','roue','ruleta','ruota','çark',
+      'zufall rad','entscheidungsrad','namen rad'
+    ]},
+    {id:'zufall', texts:[
+      'zufall','random','aléatoire','aleatorio','casuale','losowy','rastgele','случайный',
+      'etwas zufälliges','entscheiden lassen'
+    ]},
+    {id:'stopwatch', texts:[
+      'stoppuhr','stopwatch','chronometer','zeit stoppen','zeitnahme','runde messen',
+      'cronómetro','cronometro','stoper','секундомер','秒表'
+    ]},
+    {id:'timer', texts:[
+      'timer','minuterie','wecker','countdown','minuten einstellen','zeit einstellen',
+      'temporizador','temporizzatore','minutnik','таймер','计时器','kurzzeitwecker'
+    ]},
+    {id:'date', texts:[
+      'datum','date','datumsrechner','tage berechnen','wie viele tage','zeitraum',
+      'fecha','data','tarih','дата','日期','kalender rechner'
+    ]},
+    {id:'zeit', texts:[
+      'zeit','time','uhr','heure','tiempo','tempo','czas','zaman','время','时间',
+      'zeit tools','zeit werkzeuge'
+    ]},
+    {id:'live', texts:[
+      'live dolmetscher','live interpreter','live übersetzen','simultan','dolmetschen',
+      'gespräch übersetzen','zwei sprachen sprechen','interprète live'
+    ]},
+    {id:'uebersetzer', texts:[
+      'übersetzer','translate','translator','übersetzen','text übersetzen','traduire','traducir',
+      'tradurre','tłumacz','çevir','vertalen','перевод','翻译','翻訳','번역','ترجمة',
+      'sprache ändern','in eine andere sprache'
+    ]},
+    {id:'qr', texts:[
+      'qr','qr code','qr-code','code qr','qr generieren','qr erstellen'
+    ]},
+    {id:'barcode', texts:[
+      'barcode','strichcode','code-barres','código de barras','barkod','ean','code 128'
+    ]},
+    {id:'tools', texts:[
+      'codes','barcode und qr','code tools'
+    ]},
+    {id:'finanzen', texts:[
+      'finanzen','finance','prozent','steuer','trinkgeld','rechnung teilen','währung',
+      'umrechnen geld','currency','percent','tax','split bill','wechselkurs',
+      'finances','finanzas','finans','финансы'
+    ]},
+    {id:'sound', texts:[
+      'lautstärke','db','dezibel','sound level','geräusch','wie laut','lärm messen',
+      'db meter','sonomètre','volumen messen'
+    ]},
+    {id:'level', texts:[
+      'wasserwaage','spirit level','waage halten','gerade','horizontal messen',
+      'niveau','nivel','livella','neigung'
+    ]},
+    {id:'compass', texts:[
+      'kompass','compass','richtung','norden','wo ist norden','heading','himmelsrichtung',
+      'boussole','brújula','bussola','pusula','компас','指南针','コンパス','나침반'
+    ]},
+    {id:'dbmeter', texts:[
+      'sensoren','sensors','sensor','db meter','messgeräte'
+    ]},
+    {id:'bilder', texts:[
+      'bild','foto','photo','image','bildbearbeitung','photo edit','image edit',
+      'filter','zuschneiden','crop','hintergrund','background','hintergrund entfernen',
+      'hintergrund weg','freistellen','freisteller','remove background','bild bearbeiten',
+      'foto bearbeiten','ausschnitt','sepia','schwarzweiß'
+    ]},
+    {id:'rechner', texts:[
+      'rechner','calculator','taschenrechner','rechnen','calc','calculateur','calculadora',
+      'calcolatrice','kalkulator','калькулятор','计算器','計算機','계산기','plus minus',
+      'mathe','berechnen'
+    ]}
+  ];
 }
 function normalizeVoice(t){
   try{ return String(t||'').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
-  catch(e){ return String(t||'').toLowerCase().replace(/[^a-z0-9\u00c0-\u024f\s]/gi,' ').replace(/\s+/g,' ').trim(); }
+  catch(e){ return String(t||'').toLowerCase().replace(/[^a-z0-9äöüßàáâãåæçèéêëìíîïñòóôõøùúûüýÿ\s]/gi,' ').replace(/\s+/g,' ').trim(); }
+}
+function voiceTokens(t){
+  return normalizeVoice(t).split(/\s+/).filter(function(w){
+    return w.length>1 && !/^(the|a|an|der|die|das|den|dem|ein|eine|und|oder|for|to|zum|zur|bitte|mal|doch|mir|mein|meine|open|starte|zeige|öffne|go|show|start|please)$/.test(w);
+  });
 }
 function matchVoiceCommand(text){
-  var n=normalizeVoice(text); if(!n) return null;
-  var table=voicePhraseTable();
-  var order=['coin','rad','stopwatch','timer','date','live','qr','barcode','sound','level','compass','rechner','zeit','uebersetzer','finanzen','tools','zufall','dbmeter','bilder'];
-  var best=null, bestLen=0;
-  for(var i=0;i<order.length;i++){
-    var key=order[i], phrases=table[key]||[];
-    for(var j=0;j<phrases.length;j++){
-      var p=normalizeVoice(phrases[j]); if(!p) continue;
-      if(n===p || n.indexOf(p)>=0 || p.indexOf(n)>=0){ if(p.length>=bestLen){ bestLen=p.length; best=key; } }
+  var n=normalizeVoice(text); if(!n||n.length<2) return null;
+  var docs=voiceIntentDocs();
+  var spokenTok=voiceTokens(n);
+  var best=null, bestScore=0;
+
+  for(var i=0;i<docs.length;i++){
+    var d=docs[i], score=0;
+    for(var j=0;j<d.texts.length;j++){
+      var p=normalizeVoice(d.texts[j]);
+      if(!p) continue;
+      // exact / contains
+      if(n===p) score=Math.max(score, 100+p.length);
+      else if(n.indexOf(p)>=0) score=Math.max(score, 80+p.length);
+      else if(p.indexOf(n)>=0 && n.length>=3) score=Math.max(score, 60+n.length);
+      // token overlap (descriptive speech)
+      var pt=voiceTokens(p);
+      if(spokenTok.length && pt.length){
+        var hit=0, seen={};
+        for(var a=0;a<spokenTok.length;a++){
+          for(var b=0;b<pt.length;b++){
+            if(spokenTok[a]===pt[b] || (spokenTok[a].length>3 && pt[b].indexOf(spokenTok[a])===0) || (pt[b].length>3 && spokenTok[a].indexOf(pt[b])===0)){
+              if(!seen[pt[b]]){ seen[pt[b]]=1; hit++; }
+            }
+          }
+        }
+        if(hit){
+          var cov = hit / Math.max(pt.length, 1);
+          var sc = 40 + hit*18 + cov*30;
+          if(sc>score) score=sc;
+        }
+      }
+    }
+    if(score>bestScore){ bestScore=score; best=d.id; }
+  }
+
+  // strip command verbs and retry once
+  if(bestScore<45){
+    var stripped=n.replace(/^(open|start|go to|show|please|öffne|starte|zeige|bitte|mach|mache|kannst du|ich brauche|ich will|i need|i want|abrir|iniciar|mostrar|ouvrir|démarrer|afficher|apri|avvia|mostra)\s+/,'');
+    if(stripped!==n && stripped.length>2){
+      var again=matchVoiceCommand(stripped);
+      if(again) return again;
     }
   }
-  if(!best){
-    var stripped=n.replace(/^(open|start|go to|show|please|öffne|starte|zeige|bitte|abrir|iniciar|mostrar|ouvrir|démarrer|afficher|apri|avvia|mostra)\s+/,'');
-    if(stripped!==n) return matchVoiceCommand(stripped);
-  }
-  return best;
+  return bestScore>=45 ? best : null;
 }
 function executeVoiceCommand(key){
   if(!key) return;
@@ -5194,7 +5735,7 @@ function executeVoiceCommand(key){
     compass:function(){ go('dbmeter'); setTimeout(function(){ renderDbMeter('compass'); }, 40); },
     bilder:function(){ go('bilder'); }
   };
-  if(map[key]){ map[key](); toast('Opening…'); }
+  if(map[key]){ map[key](); toast('→ '+key); }
 }
 function voiceShouldListen(){
   if(voicePaused) return false;
@@ -5220,6 +5761,17 @@ function scheduleVoiceRestart(ms){
     if(voiceLoop && voiceShouldListen()) startVoiceListenOnce();
   }, ms||600);
 }
+
+function armVoiceSession(){
+  voiceArmed=true;
+  if(voiceArmedTimer){ clearTimeout(voiceArmedTimer); voiceArmedTimer=null; }
+  voiceArmedTimer=setTimeout(function(){ disarmVoiceSession(); }, 8000);
+  try{ toast('Shortcut · listening…'); }catch(e){}
+}
+function disarmVoiceSession(){
+  voiceArmed=false;
+  if(voiceArmedTimer){ clearTimeout(voiceArmedTimer); voiceArmedTimer=null; }
+}
 function startVoiceListenOnce(){
   if(!voiceLoop || voiceActive || !voiceShouldListen()) return;
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -5238,10 +5790,32 @@ function startVoiceListenOnce(){
     var alts=[];
     try{ for(var i=0;i<ev.results[0].length;i++) alts.push(ev.results[0][i].transcript||''); }catch(e){}
     if(!alts.length){ try{ alts.push((ev.results[0]&&ev.results[0][0]&&ev.results[0][0].transcript)||''); }catch(e){} }
-    var hit=null;
-    for(var a=0;a<alts.length;a++){ hit=matchVoiceCommand(alts[a]); if(hit) break; }
-    if(hit){ executeVoiceCommand(hit); scheduleVoiceRestart(900); }
-    else scheduleVoiceRestart(400);
+    var heard='';
+    for(var a=0;a<alts.length;a++){ if(alts[a]){ heard=String(alts[a]); break; } }
+    var n=normalizeVoice(heard);
+    // Wake word: "shortcut" (and close variants)
+    var wake = /\bshortcut\b|\bshortcuts\b|\bshort cut\b|\bschortcut\b|\bschort cut\b/.test(n);
+    if(wake){
+      armVoiceSession();
+      // Also try command in same utterance after wake word
+      var after = n.replace(/.*\b(shortcut|shortcuts|short cut|schortcut)\b/,'').trim();
+      if(after.length>=2){
+        var hit0=matchVoiceCommand(after);
+        if(hit0){ executeVoiceCommand(hit0); disarmVoiceSession(); scheduleVoiceRestart(900); return; }
+      }
+      scheduleVoiceRestart(400);
+      return;
+    }
+    // Only execute tools while armed
+    if(voiceArmed){
+      var hit=null;
+      for(var a=0;a<alts.length;a++){ hit=matchVoiceCommand(alts[a]); if(hit) break; }
+      if(hit){ executeVoiceCommand(hit); disarmVoiceSession(); scheduleVoiceRestart(900); return; }
+      scheduleVoiceRestart(350);
+      return;
+    }
+    // Not armed, no wake → ignore
+    scheduleVoiceRestart(300);
   };
   rec.onerror=function(ev){
     voiceActive=false;
@@ -5538,7 +6112,7 @@ function renderLegal(kind){
     h+='<h3>Controller</h3>'+contact+
       '<h3>Local storage</h3><p>Settings, timers, inputs and exchange-rate cache are stored exclusively locally in the browser (localStorage) on your device. There is no account, no tracking and no advertising cookies. Under Settings → Data you can delete everything.</p>'+
       '<h3>External services</h3><p>When you open the app and use certain features, connections to third parties are established and your IP address is transmitted as a technical necessity:</p>'+
-      '<p>• <b>Google Fonts</b> (fonts.googleapis.com): loading fonts on start.<br>• <b>MyMemory</b> (api.mymemory.translated.net): translator – the entered text and language pair are sent.<br>• <b>QR Server</b> (api.qrserver.com): QR code – the entered text is sent.<br>• <b>Frankfurter</b> (api.frankfurter.app): exchange rates – only the currency pair is requested.<br>• <b>Barcode</b> is generated offline on your device (Code 128, Code 39, EAN-13) – nothing is sent.<br>• <b>Image background removal</b> (@imgly via jsDelivr CDN): AI model is downloaded to your device; the photo is processed locally in the browser (not uploaded). If the CDN is blocked, a fallback online service may be tried.</p>'+
+      '<p>• <b>Google Fonts</b> (fonts.googleapis.com): loading fonts on start.<br>• <b>MyMemory</b> (api.mymemory.translated.net): translator – the entered text and language pair are sent.<br>• <b>QR Server</b> (api.qrserver.com): QR code – the entered text is sent.<br>• <b>Frankfurter</b> (api.frankfurter.app): exchange rates – only the currency pair is requested.<br>• <b>Barcode</b> is generated offline on your device (Code 128, Code 39, EAN-13) – nothing is sent.<br>• <b>Image background removal</b> (@imgly via jsDelivr CDN): AI model is downloaded to your device; the photo is processed locally in the browser (not uploaded). If the CDN is blocked, a fallback online service may be tried.<br>• <b>Voice commands</b>: on-device speech recognition only (no cloud AI key). Activated by saying “Shortcut”.</p>'+
       '<p>Legal basis is Art. 6(1)(f) GDPR (providing the requested function). Services are contacted only when used or when the page loads.</p>'+
       '<h3>Your rights</h3><p>You have the right of access, rectification, erasure, restriction of processing, data portability and objection, as well as the right to lodge a complaint with a data protection supervisory authority (Art. 15 to 21, 77 GDPR).</p>';
   }
@@ -5860,7 +6434,16 @@ bindSwipe(document.querySelector('footer'),function(delta){
   switchFooter(delta);
 });
 
-load(); initDesignSystem(); applyTheme(P.theme); applySound();
+load(); initDesignSystem();
+
+/* keep single design locked */
+setInterval(function(){
+  try{
+    if(document.documentElement.getAttribute('data-design')!=='ios')
+      document.documentElement.setAttribute('data-design','ios');
+  }catch(e){}
+}, 2000);
+ applyTheme(P.theme); applySound();
 if(P.uiLang){ try{ document.documentElement.lang=P.uiLang; }catch(e){} }
 applyUiLang();
 updateLocStatus();
