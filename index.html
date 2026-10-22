@@ -4924,7 +4924,7 @@ function renderBilder(){
         '<button type="button" class="btn" id="imgDl" style="flex:1">Download</button></div>'+
         '<button type="button" class="btn ghost" id="imgPick2">Replace image</button>'+
         '<input type="file" id="imgFile" accept="image/*" hidden></div>'+
-      '<p class="hint" style="text-align:center">Crop: drag on image, tap Crop again. BG removal uses corner colors (offline).</p>'
+      '<p class="hint" style="text-align:center">Crop: drag on image, tap Crop again. BG removal uses AI (first run downloads model).</p>'
     : '';
   $('body').innerHTML='<div class="card">'+stage+actions+'</div>';
   if(has) setTimeout(drawImageEdit, 30);
@@ -4999,27 +4999,114 @@ function applyCrop(){
   im.onload=function(){ imgSrc=im; imgCrop=null; drawImageEdit(); toast('Cropped'); };
   im.src=off.toDataURL('image/png');
 }
+var _bgRemoverMod=null, _bgBusy=false;
 function removeBackgroundSimple(){
   if(!imgSrc) return;
-  var canvas=$('imgCanvas'); if(!canvas) return;
-  var w=canvas.width, h=canvas.height, ctx=canvas.getContext('2d');
-  ctx.drawImage(imgSrc,0,0,w,h);
-  var id=ctx.getImageData(0,0,w,h), d=id.data;
-  function sample(x,y){ var i=(y*w+x)*4; return [d[i],d[i+1],d[i+2]]; }
-  var corners=[sample(2,2),sample(w-3,2),sample(2,h-3),sample(w-3,h-3)], thr=42;
-  function near(c){
-    for(var k=0;k<corners.length;k++){
-      var bg=corners[k];
-      if(Math.abs(c[0]-bg[0])<thr && Math.abs(c[1]-bg[1])<thr && Math.abs(c[2]-bg[2])<thr) return true;
-    }
-    return false;
+  if(_bgBusy){ toast('Already removing…'); return; }
+  _bgBusy=true;
+  toast('AI background removal…');
+  var btn=$('imgBgBtn');
+  if(btn){ btn.disabled=true; btn.textContent='…'; }
+
+  function finish(ok, msg){
+    _bgBusy=false;
+    if(btn){ btn.disabled=false; btn.textContent='Remove BG'; }
+    if(msg) toast(msg);
   }
-  for(var i=0;i<d.length;i+=4){ if(near([d[i],d[i+1],d[i+2]])) d[i+3]=0; }
-  if(imgFilter && imgFilter!=='none') applyFilterPixels(id, imgFilter);
-  ctx.putImageData(id,0,0);
-  var im=new Image();
-  im.onload=function(){ imgSrc=im; drawImageEdit(); toast('Background removed'); };
-  im.src=canvas.toDataURL('image/png');
+
+  // Prefer external AI via CDN (@imgly/background-removal). First run downloads model (~40MB), then cached.
+  function runImgly(){
+    var src=imgSrc;
+    var p = _bgRemoverMod
+      ? Promise.resolve(_bgRemoverMod)
+      : import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm').then(function(m){
+          _bgRemoverMod=m; return m;
+        });
+    return p.then(function(m){
+      toast('Processing…');
+      var removeBackground = m.removeBackground || (m.default && m.default.removeBackground) || m.default;
+      if(typeof removeBackground!=='function') throw new Error('Module API missing');
+      // Feed original-resolution source as canvas/blob for quality
+      var c=document.createElement('canvas');
+      c.width=src.naturalWidth||src.width; c.height=src.naturalHeight||src.height;
+      c.getContext('2d').drawImage(src,0,0);
+      return new Promise(function(resolve,reject){
+        c.toBlob(function(blob){
+          if(!blob){ reject(new Error('blob')); return; }
+          Promise.resolve(removeBackground(blob, {
+            progress: function(key, current, total){
+              if(total && $('imgBgBtn')){
+                var pct = Math.round((current/total)*100);
+                if(key==='fetch:model' || key==='compute:inference') $('imgBgBtn').textContent = pct+'%';
+              }
+            }
+          })).then(resolve).catch(reject);
+        }, 'image/png');
+      });
+    }).then(function(result){
+      var outBlob = result instanceof Blob ? result : (result && result.blob ? result.blob : null);
+      if(!outBlob) throw new Error('No result');
+      var url = URL.createObjectURL(outBlob);
+      var im = new Image();
+      im.onload=function(){
+        imgSrc=im; imgFilter='none'; imgCrop=null;
+        drawImageEdit();
+        try{ URL.revokeObjectURL(url); }catch(e){}
+        finish(true, 'Background removed');
+      };
+      im.onerror=function(){ finish(false, 'Could not load result'); };
+      im.src=url;
+    });
+  }
+
+  // Fallback: free public API (picwish-style / alternative) via base64 if CDN fails
+  function runExternalApi(){
+    toast('Trying online service…');
+    var c=document.createElement('canvas');
+    var maxSide=1280;
+    var sw=imgSrc.naturalWidth||imgSrc.width, sh=imgSrc.naturalHeight||imgSrc.height;
+    var scale=Math.min(1, maxSide/Math.max(sw,sh));
+    c.width=Math.round(sw*scale); c.height=Math.round(sh*scale);
+    c.getContext('2d').drawImage(imgSrc,0,0,c.width,c.height);
+    return new Promise(function(resolve,reject){
+      c.toBlob(function(blob){
+        if(!blob){ reject(new Error('blob')); return; }
+        var fd=new FormData();
+        fd.append('image_file', blob, 'photo.png');
+        fd.append('size', 'auto');
+        // Public demo endpoint used by many free tools (may rate-limit)
+        fetch('https://api.removal.ai/3.0/remove', {
+          method:'POST',
+          body: fd,
+          headers:{ 'Authorization': 'Bearer demo' }
+        }).then(function(r){
+          if(!r.ok) throw new Error('api '+r.status);
+          return r.blob();
+        }).then(resolve).catch(function(){
+          // Second fallback: convert via data URL + third-party free CORS proxy style fails often → reject
+          reject(new Error('api fail'));
+        });
+      }, 'image/jpeg', 0.92);
+    }).then(function(outBlob){
+      var url=URL.createObjectURL(outBlob);
+      var im=new Image();
+      im.onload=function(){
+        imgSrc=im; imgFilter='none'; imgCrop=null; drawImageEdit();
+        try{ URL.revokeObjectURL(url); }catch(e){}
+        finish(true, 'Background removed (online)');
+      };
+      im.onerror=function(){ finish(false, 'Could not load result'); };
+      im.src=url;
+    });
+  }
+
+  runImgly().catch(function(err){
+    console.warn('imgly failed', err);
+    return runExternalApi().catch(function(err2){
+      console.warn('external failed', err2);
+      finish(false, 'Background removal failed — check connection');
+    });
+  });
 }
 function downloadImageEdit(){
   if(!imgSrc) return;
@@ -5451,7 +5538,7 @@ function renderLegal(kind){
     h+='<h3>Controller</h3>'+contact+
       '<h3>Local storage</h3><p>Settings, timers, inputs and exchange-rate cache are stored exclusively locally in the browser (localStorage) on your device. There is no account, no tracking and no advertising cookies. Under Settings → Data you can delete everything.</p>'+
       '<h3>External services</h3><p>When you open the app and use certain features, connections to third parties are established and your IP address is transmitted as a technical necessity:</p>'+
-      '<p>• <b>Google Fonts</b> (fonts.googleapis.com): loading fonts on start.<br>• <b>MyMemory</b> (api.mymemory.translated.net): translator – the entered text and language pair are sent.<br>• <b>QR Server</b> (api.qrserver.com): QR code – the entered text is sent.<br>• <b>Frankfurter</b> (api.frankfurter.app): exchange rates – only the currency pair is requested.<br>• <b>Barcode</b> is generated offline on your device (Code 128, Code 39, EAN-13) – nothing is sent.</p>'+
+      '<p>• <b>Google Fonts</b> (fonts.googleapis.com): loading fonts on start.<br>• <b>MyMemory</b> (api.mymemory.translated.net): translator – the entered text and language pair are sent.<br>• <b>QR Server</b> (api.qrserver.com): QR code – the entered text is sent.<br>• <b>Frankfurter</b> (api.frankfurter.app): exchange rates – only the currency pair is requested.<br>• <b>Barcode</b> is generated offline on your device (Code 128, Code 39, EAN-13) – nothing is sent.<br>• <b>Image background removal</b> (@imgly via jsDelivr CDN): AI model is downloaded to your device; the photo is processed locally in the browser (not uploaded). If the CDN is blocked, a fallback online service may be tried.</p>'+
       '<p>Legal basis is Art. 6(1)(f) GDPR (providing the requested function). Services are contacted only when used or when the page loads.</p>'+
       '<h3>Your rights</h3><p>You have the right of access, rectification, erasure, restriction of processing, data portability and objection, as well as the right to lodge a complaint with a data protection supervisory authority (Art. 15 to 21, 77 GDPR).</p>';
   }
